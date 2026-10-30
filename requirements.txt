@@ -1,0 +1,8 @@
+numpy
+scipy
+scikit-learn
+pythainlp
+gensim
+datasets
+streamlit
+pytest
