@@ -31,7 +31,9 @@
    ```bash
    git switch main
    git pull
-   git branch -d feat/7-flyvec-fit
+   git branch -D feat/7-flyvec-fit
    ```
+
+   ต้องใช้ `-D` เพราะ squash merge สร้าง commit ใหม่บน `main` git จึงมองว่า branch ในเครื่องยังไม่ถูก merge และ `-d` จะไม่ยอมลบ ลบเฉพาะหลังจาก PR merge แล้วเท่านั้น
 
    repo นี้ตั้ง `fetch.prune true` ไว้ใน `.git/config` ของเครื่องนี้แล้ว ถ้า clone ใหม่ให้รัน `git config fetch.prune true`
