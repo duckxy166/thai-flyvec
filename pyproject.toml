@@ -1,3 +1,9 @@
+[project]
+name = "thai-flyvec"
+version = "0.1.0"
+description = "Sparse binary word embeddings for Thai, inspired by the fruit fly brain"
+requires-python = ">=3.11"
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
