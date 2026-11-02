@@ -62,6 +62,8 @@ Skeleton — ฟังก์ชันทุกตัวยังเป็น `No
 
 แผนงานแบ่งเป็น [milestones](https://github.com/duckxy166/thai-flyvec/milestones) M0–M7 ตามขั้นใน workflow ทุกงานทำผ่าน issue → branch → PR ดู [CONTRIBUTING.md](CONTRIBUTING.md)
 
+การตัดสินใจเชิงออกแบบที่กระทบผลทดลองอยู่ใน [docs/decisions.md](docs/decisions.md)
+
 ## เอกสารอ้างอิง
 
 1. Liang, Y., Ryali, C. K., Hoover, B., Grinberg, L., Navlakha, S., Zaki, M. J., & Krotov, D. (2021). [Can a Fruit Fly Learn Word Embeddings?](https://arxiv.org/abs/2101.06887) ICLR 2021. โค้ดและโมเดล: [FlyVec](https://pypi.org/project/flyvec)
