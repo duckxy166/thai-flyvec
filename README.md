@@ -51,11 +51,16 @@ thai-flyvec/
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
+pytest
 ```
+
+ต้องใช้ Python 3.11 ขึ้นไป
 
 ## สถานะ
 
 Skeleton — ฟังก์ชันทุกตัวยังเป็น `NotImplementedError` พร้อม TODO ตาม workflow
+
+แผนงานแบ่งเป็น [milestones](https://github.com/duckxy166/thai-flyvec/milestones) M0–M7 ตามขั้นใน workflow ทุกงานทำผ่าน issue → branch → PR ดู [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## เอกสารอ้างอิง
 
