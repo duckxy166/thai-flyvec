@@ -9,3 +9,6 @@ data/*
 !data/README.md
 models/*
 !models/.gitkeep
+
+# per-setting outputs of parallel runs, merged into results/raw_results.csv
+results/runs/
