@@ -16,13 +16,14 @@
 
 | ขั้น | งาน | ไฟล์ |
 |---|---|---|
-| 1 | เก็บและทำความสะอาด Thai Wikipedia (regex, normalize) | `src/thai_flyvec/preprocess.py` |
-| 2 | ตัดคำ (PyThaiNLP newmm), ตัดประโยค, คลังศัพท์ 20,000 คำ | `src/thai_flyvec/preprocess.py` |
+| 1 | เก็บและทำความสะอาด Thai Wikipedia (regex, normalize) | `scripts/download_data.py`, `src/thai_flyvec/preprocess.py` |
+| 2 | ตัดคำ (PyThaiNLP newmm), ตัดประโยค, คลังศัพท์ 20,000 คำ | `scripts/preprocess_corpus.py`, `src/thai_flyvec/preprocess.py` |
 | 3 | สร้าง input แบบบริบท + คำเป้าหมาย (หน้าต่าง w คำ) | `src/thai_flyvec/inputs.py` |
-| 4 | เทรน FlyVec ด้วย NumPy (K = 400, k = 4, 8, 16, 32, 64) | `src/thai_flyvec/flyvec.py` |
-| 5 | Baseline: word2vec, fastText (gensim, 300 มิติ) + word2vec ไบนารี | `src/thai_flyvec/baselines.py` |
-| 6 | ประเมินผล | `src/thai_flyvec/evaluate.py` |
-| 7 | Demo Streamlit | `app/streamlit_app.py` |
+| 4 | เทรน FlyVec ด้วย NumPy (K = 400, k = 4, 8, 16, 32, 64) | `scripts/train_flyvec.py`, `src/thai_flyvec/flyvec.py` |
+| 5 | Baseline: word2vec, fastText (gensim, 300 มิติ) + word2vec ไบนารี | `scripts/train_baselines.py`, `src/thai_flyvec/baselines.py` |
+| 6 | ประเมินผล | `scripts/run_experiments.py`, `src/thai_flyvec/evaluate.py` |
+| 7 | ตารางและกราฟผลลัพธ์ | `scripts/summarize_results.py`, `src/thai_flyvec/report.py`, `notebooks/results.ipynb` |
+| 8 | Demo Streamlit | `app/streamlit_app.py` |
 
 ### การประเมินผล
 
@@ -37,10 +38,12 @@
 ```
 thai-flyvec/
 ├── app/streamlit_app.py      # demo
-├── data/                     # ข้อมูลดิบ/ที่ประมวลแล้ว (ไม่ commit)
+├── data/                     # ข้อมูลดิบ/ที่ประมวลแล้ว (ไม่ commit) ดู data/README.md
+├── docs/decisions.md         # การตัดสินใจเชิงออกแบบ
 ├── models/                   # โมเดลที่เทรนแล้ว (ไม่ commit)
-├── notebooks/                # สมุดทดลอง
-├── results/                  # ตารางและกราฟผลลัพธ์
+├── notebooks/results.ipynb   # สรุปผลตอบคำถามวิจัย
+├── results/                  # ผลดิบ (CSV), ตาราง และกราฟ
+├── scripts/                  # คำสั่งรันแต่ละขั้น
 ├── src/thai_flyvec/          # โค้ดหลัก
 └── tests/
 ```
@@ -56,9 +59,24 @@ pytest
 
 ต้องใช้ Python 3.11 ขึ้นไป
 
+## รันทั้ง pipeline
+
+```bash
+python scripts/download_data.py          # Wikipedia, ชุดทดสอบ, wisesight → data/
+python scripts/preprocess_corpus.py      # ~10 ล้านโทเคน → data/processed/
+python scripts/train_flyvec.py           # (ไม่บังคับ) เทรน 1 รอบ แล้วดูคำใกล้เคียงของคำทดสอบ 10 คำ
+python scripts/run_experiments.py        # w = 5, 11, 15 × seed 0, 1, 2 → models/, results/*.csv
+python scripts/summarize_results.py      # ตาราง results/summary.md และกราฟ results/figures/
+streamlit run app/streamlit_app.py       # demo
+```
+
+ทุกสคริปต์มี `--help` เวลาโดยประมาณบน CPU 4 คอร์: ตัดคำ ~5 นาที, FlyVec ~20 นาทีต่อรอบ (3 epoch) รวมการทดลองทั้งหมดหลายชั่วโมง ใช้ `run_experiments.py --reuse` เพื่อใช้โมเดลที่เทรนไว้แล้ว และ `--w 11 --seeds 0` เพื่อรันเฉพาะบางค่า
+
 ## สถานะ
 
-Skeleton — ฟังก์ชันทุกตัวยังเป็น `NotImplementedError` พร้อม TODO ตาม workflow
+- โค้ดครบทุกขั้นพร้อมเทสต์ (`pytest`) และทดสอบ pipeline ทั้งสายบนคลังข้อความขนาดเล็กแล้ว
+- ยังไม่ได้รันการทดลองบนคลังข้อความจริง ผลลัพธ์และรายงานจะตามมา
+- ก่อนรันการทดลองหลัก ให้ลอง learning rate ของ FlyVec ตามที่ระบุใน [docs/decisions.md](docs/decisions.md) D10
 
 แผนงานแบ่งเป็น [milestones](https://github.com/duckxy166/thai-flyvec/milestones) M0–M7 ตามขั้นใน workflow ทุกงานทำผ่าน issue → branch → PR ดู [CONTRIBUTING.md](CONTRIBUTING.md)
 
