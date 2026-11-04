@@ -1,0 +1,9 @@
+{
+  "platform": "Linux-6.18.44-fc-v233-x86_64-with-glibc2.39",
+  "processor": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cpu_count": 4,
+  "python": "3.13.18",
+  "numpy": "2.5.3",
+  "gensim": "4.4.0",
+  "memory_gb": 15.7
+}

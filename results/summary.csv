@@ -1,0 +1,14 @@
+model,k,TH-WordSim-353 ρ,TH-SimLex-999 ρ,wisesight accuracy,wisesight macro-F1
+FlyVec,4,0.384,0.301,0.593,0.400
+FlyVec,8,0.346,0.299,0.623,0.411
+FlyVec,16,0.321,0.310,0.620,0.423
+FlyVec,32,0.340,0.312,0.631,0.431
+FlyVec,64,0.395,0.320,0.624,0.432
+word2vec binary,4,0.220,0.295,0.611,0.393
+word2vec binary,8,0.389,0.390,0.618,0.417
+word2vec binary,16,0.438,0.461,0.630,0.431
+word2vec binary,32,0.463,0.464,0.618,0.413
+word2vec binary,64,0.562,0.505,0.623,0.430
+word2vec,,0.588,0.513,0.633,0.422
+fastText,,0.654,0.546,0.625,0.417
+fastText + subword OOV,,0.654,0.546,0.624,0.417
