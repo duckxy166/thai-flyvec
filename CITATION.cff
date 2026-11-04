@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "หากนำโค้ดหรือผลการทดลองนี้ไปใช้ โปรดอ้างอิงตามข้อมูลด้านล่าง"
+title: "Thai FlyVec: Sparse Binary Word Embeddings for Thai Inspired by the Fruit Fly Brain"
+type: software
+authors:
+  - given-names: "สหรัฐ"
+    family-names: "อุดมวัฒน์ทวี"
+repository-code: "https://github.com/duckxy166/thai-flyvec"
+license: MIT
+version: 0.1.0
+date-released: 2026-11-04
+keywords:
+  - FlyVec
+  - word embeddings
+  - Thai
+  - natural language processing
+references:
+  - type: conference-paper
+    title: "Can a Fruit Fly Learn Word Embeddings?"
+    authors:
+      - family-names: Liang
+        given-names: Yuchen
+      - family-names: Ryali
+        given-names: Chaitanya K.
+      - family-names: Hoover
+        given-names: Benjamin
+      - family-names: Grinberg
+        given-names: Leopold
+      - family-names: Navlakha
+        given-names: Saket
+      - family-names: Zaki
+        given-names: Mohammed J.
+      - family-names: Krotov
+        given-names: Dmitry
+    collection-title: "International Conference on Learning Representations (ICLR)"
+    year: 2021
+    url: "https://arxiv.org/abs/2101.06887"

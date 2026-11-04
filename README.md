@@ -1,18 +1,101 @@
-# แมลงวันอ่านภาษาไทยได้ไหม? (thai-flyvec)
+# แมลงวันอ่านภาษาไทยได้ไหม? (Thai FlyVec)
+
+[![CI](https://github.com/duckxy166/thai-flyvec/actions/workflows/ci.yml/badge.svg)](https://github.com/duckxy166/thai-flyvec/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)
+
+![ภาพรวมของ Thai FlyVec: ข้อความภาษาไทยถูกตัดคำ สร้างหน้าต่างบริบท 40,000 มิติ ส่งเข้าเซลล์ Kenyon 400 เซลล์ แล้วได้รหัสไบนารี 400 บิตของแต่ละคำ](docs/images/hero.png)
 
 **Can a Fruit Fly Read Thai? Sparse Binary Word Embeddings for Thai Inspired by the Fruit Fly Brain**
 
-โครงงานวิชา คพ.374 การประมวลภาษาธรรมชาติ (CS374) ภาค 1/2569
+Thai FlyVec เป็นโครงงานโอเพนซอร์สที่นำ FlyVec (Liang et al., ICLR 2021) มาเทรนกับภาษาไทยเป็นครั้งแรก FlyVec แทนแต่ละคำด้วยรหัสไบนารีขนาด 400 บิต ซึ่งมีบิตที่เป็น 1 เพียง k บิต แทนเวกเตอร์ทศนิยม 300 มิติแบบ word2vec จึงใช้หน่วยความจำน้อยกว่ามาก และวัดความคล้ายของคำได้ด้วยการนับบิตที่ซ้อนกัน
 
-นำ FlyVec (Liang et al., ICLR 2021) มาเทรนกับภาษาไทย แล้วเทียบกับ word2vec และ fastText บนคลังข้อความ คลังศัพท์ และชุดทดสอบเดียวกัน
+โครงงานนี้เปรียบเทียบ FlyVec กับ word2vec และ fastText โดยใช้คลังข้อความ ผลการตัดคำ คลังศัพท์ และชุดทดสอบชุดเดียวกันทั้งหมด เพื่อให้การเปรียบเทียบเป็นธรรม
+
+จัดทำเป็นโครงงานรายวิชา คพ.374 การประมวลภาษาธรรมชาติ (CS374) ภาคการศึกษาที่ 1/2569
+
+## สารบัญ
+
+- [หลักการทำงาน](#หลักการทำงาน)
+- [คำถามวิจัย](#คำถามวิจัย)
+- [ผลการทดลองเบื้องต้น](#ผลการทดลองเบื้องต้น)
+- [การติดตั้ง](#การติดตั้ง)
+- [การใช้งาน](#การใช้งาน)
+- [การประเมินผล](#การประเมินผล)
+- [โครงสร้าง repository](#โครงสร้าง-repository)
+- [ข้อมูลและสัญญาอนุญาตของข้อมูล](#ข้อมูลและสัญญาอนุญาตของข้อมูล)
+- [การมีส่วนร่วม](#การมีส่วนร่วม)
+- [การอ้างอิง](#การอ้างอิง)
+- [สัญญาอนุญาต](#สัญญาอนุญาต)
+
+## หลักการทำงาน
+
+FlyVec เลียนแบบวงจรรับกลิ่นของแมลงวันผลไม้ ซึ่งแปลงกลิ่นแต่ละกลิ่นให้เป็นรหัสที่มีเซลล์ทำงานเพียงไม่กี่เซลล์ กลิ่นที่คล้ายกันจะได้รหัสที่คล้ายกัน โครงงานนี้ใช้หลักการเดียวกันกับข้อความภาษาไทย 4 ขั้นตอน ดังนี้
+
+1. **เตรียมข้อความ** ล้าง markup ของ Wikipedia ตัดประโยค และตัดคำด้วย PyThaiNLP (newmm) จากนั้นเลือกคำที่พบบ่อยที่สุด 20,000 คำเป็นคลังศัพท์
+2. **สร้างหน้าต่างบริบท** ทุกตำแหน่งในประโยคจะสร้างหน้าต่างขนาด w คำ คำตรงกลางเป็นคำเป้าหมาย คำรอบข้างเป็นบริบท แต่ละหน้าต่างแทนด้วยเวกเตอร์ 0/1 ขนาด 40,000 มิติ (บริบท 20,000 มิติ และคำเป้าหมาย 20,000 มิติ)
+3. **เรียนรู้แบบผู้ชนะได้ทั้งหมด (winner-take-all)** เซลล์ Kenyon 400 เซลล์รับ input เดียวกัน เฉพาะเซลล์ที่ถูกกระตุ้นสูงสุดจะถูกปรับน้ำหนักเข้าหา input นั้น โดยถ่วงด้วยส่วนกลับของความถี่คำ วิธีนี้ไม่ใช้ backpropagation
+4. **สร้างรหัสของคำ** ป้อนเฉพาะส่วนของคำเป้าหมาย แล้วกำหนดให้ k เซลล์ที่ถูกกระตุ้นสูงสุดเป็น 1 ได้รหัสไบนารีขนาด 400 บิต ค่า k เปลี่ยนได้โดยไม่ต้องเทรนใหม่
+
+การตัดสินใจเชิงออกแบบที่มีผลต่อการทดลองทั้งหมดบันทึกไว้ใน [docs/decisions.md](docs/decisions.md)
 
 ## คำถามวิจัย
 
-1. FlyVec ที่เทรนจากคลังข้อความไทย ได้คะแนนความคล้ายคลึงของคำใกล้เคียง word2vec และ fastText แค่ไหน
-2. เมื่อใช้จำแนกความรู้สึกข้อความไทย ความแม่นยำลดลงเท่าไร เทียบกับหน่วยความจำและเวลาเทรนที่ประหยัดได้
-3. ความยาว hash (k) เท่าไรเหมาะกับภาษาไทย
+1. FlyVec ที่เทรนจากคลังข้อความภาษาไทย ได้คะแนนความคล้ายคลึงของคำใกล้เคียง word2vec และ fastText เพียงใด
+2. เมื่อนำไปใช้จำแนกความรู้สึกของข้อความภาษาไทย ความแม่นยำลดลงเท่าใด เมื่อเทียบกับหน่วยความจำและเวลาเทรนที่ประหยัดได้
+3. ความยาว hash (k) ค่าใดเหมาะสมกับภาษาไทย
 
-## Workflow
+## ผลการทดลองเบื้องต้น
+
+ผลด้านล่างมาจากการทดลองรอบแรกบนคลังข้อความจริง ใช้หน้าต่าง w = 11, seed เดียว และ learning rate 1.0 ซึ่งยังไม่ได้ปรับตามที่ระบุใน [docs/decisions.md](docs/decisions.md) D10 จึงยังไม่ใช่ข้อสรุปสุดท้าย
+
+| โมเดล | ρ TH-SimLex-999 | ρ TH-WordSim-353 | macro-F1 wisesight | ขนาดตอนใช้งาน | เวลาเทรน |
+|---|---:|---:|---:|---:|---:|
+| FlyVec (k = 64) | 0.320 | 0.395 | 0.432 | 0.95 MB | 53.5 นาที |
+| word2vec ไบนารี (k = 64) | 0.505 | 0.562 | 0.430 | 0.72 MB | 1.1 นาที |
+| word2vec (300 มิติ) | 0.513 | 0.588 | 0.422 | 23.6 MB | 1.1 นาที |
+| fastText (300 มิติ) | 0.546 | 0.654 | 0.417 | 252.5 MB | 1.7 นาที |
+
+<img src="results/figures/vs_k_th-wordsim-353.png" alt="ค่า Spearman ρ บน TH-WordSim-353 เทียบกับความยาว hash k ของ FlyVec และ word2vec แบบไบนารี โดยมี word2vec และ fastText 300 มิติเป็นเส้นอ้างอิง" width="520">
+
+ข้อสังเกตจากรอบนี้
+
+- **ความคล้ายของคำ** FlyVec ยังได้คะแนนต่ำกว่า word2vec, fastText และ word2vec แบบไบนารีที่ k ≥ 8 อย่างไรก็ตาม คำใกล้เคียงที่ได้เริ่มสอดคล้องกับความหมาย เช่น "ฟุตบอล" ใกล้กับ "แชมป์" "เล่น" และ "ชนะ"
+- **การจำแนกความรู้สึก** ทุกโมเดลได้ macro-F1 ใกล้เคียงกัน (0.39–0.43) ความแตกต่างน้อยเกินกว่าจะสรุปได้จาก seed เดียว
+- **ทรัพยากร** รหัสของ FlyVec เล็กกว่า word2vec ราว 24 เท่า แต่ใช้เวลาเทรนนานกว่า เนื่องจาก FlyVec เขียนด้วย NumPy และทำงานบน CPU คอร์เดียว ขณะที่ gensim ใช้ 4 คอร์ เวลาเทรนจึงยังเปรียบเทียบกันโดยตรงไม่ได้
+
+ตารางผลครบทุกค่า k อยู่ใน [results/summary.md](results/summary.md) และบันทึกการทดลองอยู่ใน [docs/progress.md](docs/progress.md)
+
+## การติดตั้ง
+
+ต้องใช้ Python 3.11 ขึ้นไป และเครื่องต้องเข้าถึง `huggingface.co` และ `raw.githubusercontent.com` ได้เพื่อดาวน์โหลดข้อมูล
+
+```bash
+git clone https://github.com/duckxy166/thai-flyvec.git
+cd thai-flyvec
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+pytest -q
+```
+
+## การใช้งาน
+
+รันทั้ง pipeline ตามลำดับต่อไปนี้ ทุกสคริปต์มีตัวเลือก `--help`
+
+```bash
+python scripts/download_data.py          # ดาวน์โหลด Wikipedia, ชุดทดสอบ และ wisesight ไปที่ data/
+python scripts/preprocess_corpus.py      # ล้างข้อความ ตัดคำ ~10 ล้านโทเคน → data/processed/
+python scripts/train_flyvec.py           # (ไม่บังคับ) เทรน FlyVec 1 รอบ แล้วแสดงคำใกล้เคียงของคำทดสอบ
+python scripts/run_experiments.py        # w = 5, 11, 15 × seed 0, 1, 2 → models/, results/*.csv
+python scripts/summarize_results.py      # ตาราง results/summary.md และกราฟ results/figures/
+streamlit run app/streamlit_app.py       # demo: พิมพ์คำ แล้วดูคำใกล้เคียงของ FlyVec เทียบ word2vec
+```
+
+เวลาโดยประมาณบน CPU 4 คอร์: ตัดคำราว 1 นาที, FlyVec ราว 54 นาทีต่อการตั้งค่า (3 epoch), word2vec และ fastText ไม่เกิน 2 นาที การทดลองครบทุกการตั้งค่าใช้เวลาหลายชั่วโมง
+
+- รันเฉพาะบางค่า: `python scripts/run_experiments.py --w 11 --seeds 0`
+- ใช้โมเดลที่เทรนไว้แล้ว: เพิ่ม `--reuse`
 
 | ขั้น | งาน | ไฟล์ |
 |---|---|---|
@@ -20,67 +103,70 @@
 | 2 | ตัดคำ (PyThaiNLP newmm), ตัดประโยค, คลังศัพท์ 20,000 คำ | `scripts/preprocess_corpus.py`, `src/thai_flyvec/preprocess.py` |
 | 3 | สร้าง input แบบบริบท + คำเป้าหมาย (หน้าต่าง w คำ) | `src/thai_flyvec/inputs.py` |
 | 4 | เทรน FlyVec ด้วย NumPy (K = 400, k = 4, 8, 16, 32, 64) | `scripts/train_flyvec.py`, `src/thai_flyvec/flyvec.py` |
-| 5 | Baseline: word2vec, fastText (gensim, 300 มิติ) + word2vec ไบนารี | `scripts/train_baselines.py`, `src/thai_flyvec/baselines.py` |
+| 5 | Baseline: word2vec, fastText (gensim, 300 มิติ) และ word2vec แบบไบนารี | `scripts/train_baselines.py`, `src/thai_flyvec/baselines.py` |
 | 6 | ประเมินผล | `scripts/run_experiments.py`, `src/thai_flyvec/evaluate.py` |
 | 7 | ตารางและกราฟผลลัพธ์ | `scripts/summarize_results.py`, `src/thai_flyvec/report.py`, `notebooks/results.ipynb` |
 | 8 | Demo Streamlit | `app/streamlit_app.py` |
 
-### การประเมินผล
+## การประเมินผล
 
 | ด้านที่ประเมิน | ชุดข้อมูล | ตัวชี้วัด |
 |---|---|---|
-| ความคล้ายคลึงของคำ | TH-WordSim-353, TH-SimLex-999 | Spearman ρ และสัดส่วนคำ OOV |
-| จำแนกความรู้สึก | wisesight_sentiment (4 คลาส) | accuracy และ macro-F1 (logistic regression บนเวกเตอร์ประโยค) |
+| ความคล้ายคลึงของคำ | TH-WordSim-353, TH-SimLex-999 | Spearman ρ และสัดส่วนคู่คำที่อยู่นอกคลังศัพท์ |
+| การจำแนกความรู้สึก | wisesight_sentiment (4 คลาส) | accuracy และ macro-F1 (logistic regression บนค่าเฉลี่ยเวกเตอร์คำ) |
 | ทรัพยากร | คลังข้อความเดียวกัน | เวลาเทรน (นาที) และขนาดโมเดล (MB) |
 
-## โครงสร้าง
+## โครงสร้าง repository
 
 ```
 thai-flyvec/
 ├── app/streamlit_app.py      # demo
-├── data/                     # ข้อมูลดิบ/ที่ประมวลแล้ว (ไม่ commit) ดู data/README.md
-├── docs/decisions.md         # การตัดสินใจเชิงออกแบบ
-├── models/                   # โมเดลที่เทรนแล้ว (ไม่ commit)
-├── notebooks/results.ipynb   # สรุปผลตอบคำถามวิจัย
-├── results/                  # ผลดิบ (CSV), ตาราง และกราฟ
-├── scripts/                  # คำสั่งรันแต่ละขั้น
+├── data/                     # ข้อมูลดิบและที่ประมวลแล้ว (ไม่เก็บใน git) ดู data/README.md
+├── docs/                     # การตัดสินใจเชิงออกแบบ บันทึกความคืบหน้า และภาพประกอบ
+├── models/                   # โมเดลที่เทรนแล้ว (ไม่เก็บใน git)
+├── notebooks/results.ipynb   # สรุปผลเพื่อตอบคำถามวิจัย
+├── results/                  # ผลดิบ (CSV) ตาราง และกราฟ
+├── scripts/                  # คำสั่งสำหรับรันแต่ละขั้น
 ├── src/thai_flyvec/          # โค้ดหลัก
-└── tests/
+└── tests/                    # ชุดทดสอบ (pytest)
 ```
 
-## Setup
+## ข้อมูลและสัญญาอนุญาตของข้อมูล
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-pytest
+repository นี้ไม่ได้เผยแพร่ข้อมูลดิบ สคริปต์ `scripts/download_data.py` ดาวน์โหลดข้อมูลจากแหล่งต้นทางโดยตรง ผู้ใช้ต้องปฏิบัติตามสัญญาอนุญาตของข้อมูลแต่ละชุด
+
+| ชุดข้อมูล | ใช้สำหรับ | แหล่งที่มา | สัญญาอนุญาต |
+|---|---|---|---|
+| Thai Wikipedia (`20231101.th`) | คลังข้อความสำหรับเทรน | [wikimedia/wikipedia](https://huggingface.co/datasets/wikimedia/wikipedia) | CC BY-SA 3.0 และ GFDL |
+| wisesight_sentiment | การจำแนกความรู้สึก | [pythainlp/wisesight_sentiment](https://huggingface.co/datasets/pythainlp/wisesight_sentiment) | CC0 1.0 |
+| TH-WordSim-353, TH-SimLex-999 | ความคล้ายคลึงของคำ | [gwohlgen/thai_word_similarity](https://github.com/gwohlgen/thai_word_similarity) | ต้นทางไม่ได้ระบุสัญญาอนุญาต โปรดอ้างอิง Netisopakul et al. (2019) |
+
+รายละเอียดไฟล์ข้อมูลแต่ละไฟล์อยู่ใน [data/README.md](data/README.md)
+
+## การมีส่วนร่วม
+
+ยินดีรับ issue และ pull request ทั้งการรายงานข้อผิดพลาด การเสนอการทดลองเพิ่มเติม และการปรับปรุงเอกสาร โปรดอ่าน [CONTRIBUTING.md](CONTRIBUTING.md) ก่อนส่ง pull request และตรวจสอบว่า `pytest` ผ่านทั้งหมด
+
+## การอ้างอิง
+
+หากนำโค้ดหรือผลการทดลองไปใช้ โปรดอ้างอิงตามไฟล์ [CITATION.cff](CITATION.cff) (GitHub แสดงปุ่ม "Cite this repository" ให้อัตโนมัติ) และอ้างอิงงานต้นฉบับของ FlyVec ด้วย
+
+```bibtex
+@software{thai_flyvec_2026,
+  author = {สหรัฐ อุดมวัฒน์ทวี},
+  title  = {Thai FlyVec: Sparse Binary Word Embeddings for Thai Inspired by the Fruit Fly Brain},
+  year   = {2026},
+  url    = {https://github.com/duckxy166/thai-flyvec}
+}
 ```
 
-ต้องใช้ Python 3.11 ขึ้นไป
+## สัญญาอนุญาต
 
-## รันทั้ง pipeline
+โค้ดใน repository นี้เผยแพร่ภายใต้สัญญาอนุญาต [MIT](LICENSE) ส่วนข้อมูลที่ดาวน์โหลดจากแหล่งต้นทางอยู่ภายใต้สัญญาอนุญาตของแต่ละแหล่ง ตามตารางในหัวข้อ[ข้อมูลและสัญญาอนุญาตของข้อมูล](#ข้อมูลและสัญญาอนุญาตของข้อมูล)
 
-```bash
-python scripts/download_data.py          # Wikipedia, ชุดทดสอบ, wisesight → data/
-python scripts/preprocess_corpus.py      # ~10 ล้านโทเคน → data/processed/
-python scripts/train_flyvec.py           # (ไม่บังคับ) เทรน 1 รอบ แล้วดูคำใกล้เคียงของคำทดสอบ 10 คำ
-python scripts/run_experiments.py        # w = 5, 11, 15 × seed 0, 1, 2 → models/, results/*.csv
-python scripts/summarize_results.py      # ตาราง results/summary.md และกราฟ results/figures/
-streamlit run app/streamlit_app.py       # demo
-```
+## ผู้จัดทำ
 
-ทุกสคริปต์มี `--help` เวลาโดยประมาณบน CPU 4 คอร์: ตัดคำ ~5 นาที, FlyVec ~20 นาทีต่อรอบ (3 epoch) รวมการทดลองทั้งหมดหลายชั่วโมง ใช้ `run_experiments.py --reuse` เพื่อใช้โมเดลที่เทรนไว้แล้ว และ `--w 11 --seeds 0` เพื่อรันเฉพาะบางค่า
-
-## สถานะ
-
-- โค้ดครบทุกขั้นพร้อมเทสต์ (`pytest`) และทดสอบ pipeline ทั้งสายบนคลังข้อความขนาดเล็กแล้ว
-- ยังไม่ได้รันการทดลองบนคลังข้อความจริง ผลลัพธ์และรายงานจะตามมา
-- ก่อนรันการทดลองหลัก ให้ลอง learning rate ของ FlyVec ตามที่ระบุใน [docs/decisions.md](docs/decisions.md) D10
-
-แผนงานแบ่งเป็น [milestones](https://github.com/duckxy166/thai-flyvec/milestones) M0–M7 ตามขั้นใน workflow ทุกงานทำผ่าน issue → branch → PR ดู [CONTRIBUTING.md](CONTRIBUTING.md)
-
-การตัดสินใจเชิงออกแบบที่กระทบผลทดลองอยู่ใน [docs/decisions.md](docs/decisions.md)
+สหรัฐ อุดมวัฒน์ทวี (6709650680) รายวิชา คพ.374 การประมวลภาษาธรรมชาติ ภาคการศึกษาที่ 1/2569
 
 ## เอกสารอ้างอิง
 
@@ -89,3 +175,4 @@ streamlit run app/streamlit_app.py       # demo
 3. Netisopakul, P., Wohlgenannt, G., Pulich, A., & Hlaing, Z. Z. (2021). [Improving the state-of-the-art in Thai semantic similarity using distributional semantics and ontological information](https://doaj.org/article/a05d1995d8644219bf3b43bde4dd7461). PLoS ONE, 16(2).
 4. Suriyawongkul, A., Chuangsuwanich, E., Chormai, P., & Polpanumas, C. (2019). [PyThaiNLP/wisesight-sentiment](https://huggingface.co/datasets/pythainlp/wisesight_sentiment).
 5. Dasgupta, S., Stevens, C. F., & Navlakha, S. (2017). A neural algorithm for a fundamental computing problem. Science, 358(6364), 793–796.
+6. Krotov, D., & Hopfield, J. J. (2019). Unsupervised learning by competing hidden units. PNAS, 116(16), 7723–7731.

@@ -1,0 +1,3 @@
+task,fasttext_subword,word2vec
+th-simlex-999,0.0,0.2562562562562562
+th-wordsim-353,0.0,0.3994334277620396
