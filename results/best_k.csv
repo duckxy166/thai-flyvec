@@ -1,0 +1,9 @@
+model,w,k,mean,score
+flyvec,11,64,0.3951783203282621,TH-WordSim-353 ρ
+word2vec_binary,11,64,0.562290444171379,TH-WordSim-353 ρ
+flyvec,11,64,0.3195782022755535,TH-SimLex-999 ρ
+word2vec_binary,11,64,0.5054752035699261,TH-SimLex-999 ρ
+flyvec,11,32,0.6312242605765631,wisesight accuracy
+word2vec_binary,11,16,0.6297266941220516,wisesight accuracy
+flyvec,11,64,0.4317707530268675,wisesight macro-F1
+word2vec_binary,11,16,0.4307007109224988,wisesight macro-F1
