@@ -23,9 +23,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-import pandas as pd  # noqa: E402
+import pandas as pd
 
-from thai_flyvec import report, use_utf8_output  # noqa: E402
+from thai_flyvec import report, use_utf8_output
 
 MODELS = ("flyvec", "word2vec")
 RUN_DIR = re.compile(r"lr(?P<lr>[0-9.]+)_s(?P<seed>\d+)$")
@@ -48,7 +48,9 @@ def load_runs(runs_dir: Path, w: int) -> pd.DataFrame:
 def mean_sd(df: pd.DataFrame, by: list[str]) -> pd.DataFrame:
     cols = [c for c in report.SCORES.values() if c in df.columns]
     grouped = df.groupby(by)
-    out = grouped[cols].agg(lambda s: f"{s.mean():.3f} ± {s.std():.3f}" if len(s) > 1 else f"{s.mean():.3f}")
+    out = grouped[cols].agg(
+        lambda s: f"{s.mean():.3f} ± {s.std():.3f}" if len(s) > 1 else f"{s.mean():.3f}"
+    )
     return out.assign(seeds=grouped.size()).reset_index()
 
 
@@ -62,7 +64,7 @@ def flyvec_meta(models_root: Path, w: int) -> pd.DataFrame:
                 "seed": meta["seed"],
                 "lr_in_meta": meta["lr"],
                 "train_minutes": round(meta["train_minutes"], 1),
-                "energy": [round(e) for e in meta["energy"]],
+                "energy": " → ".join(f"{e:,.0f}" for e in meta["energy"]),
             }
         )
     return pd.DataFrame(rows)
@@ -70,7 +72,9 @@ def flyvec_meta(models_root: Path, w: int) -> pd.DataFrame:
 
 def main() -> None:
     use_utf8_output()
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--runs-dir", type=Path, default=ROOT / "results" / "runs")
     parser.add_argument("--models-dir", type=Path, default=ROOT / "models")
     parser.add_argument("--published", type=Path, default=ROOT / "results")
@@ -80,7 +84,9 @@ def main() -> None:
     runs = load_runs(args.runs_dir, args.w)
     published, _ = report.load(args.published)
     published = report.scores(published)
-    published = published[published.model.isin(MODELS) & (published.w == args.w)].assign(lr="1.0 (published)")
+    published = published[
+        published.model.isin(MODELS) & (published.w == args.w)
+    ].assign(lr="1.0 (published)")
 
     print(f"## mean ± SD over seeds, w = {args.w}\n")
     table = mean_sd(pd.concat([runs, published]), ["model", "k", "lr"])
@@ -98,7 +104,14 @@ def main() -> None:
     if len(meta):
         print(report.to_markdown(meta.sort_values(["lr", "seed"])))
         print()
-        print(report.to_markdown(meta.groupby("lr").train_minutes.agg(["mean", "std"]).round(1).reset_index()))
+        print(
+            report.to_markdown(
+                meta.groupby("lr")
+                .train_minutes.agg(["mean", "std"])
+                .round(1)
+                .reset_index()
+            )
+        )
 
 
 if __name__ == "__main__":
