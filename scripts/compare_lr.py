@@ -62,7 +62,7 @@ def flyvec_meta(models_root: Path, w: int) -> pd.DataFrame:
                 "seed": meta["seed"],
                 "lr_in_meta": meta["lr"],
                 "train_minutes": round(meta["train_minutes"], 1),
-                "energy": [round(e) for e in meta["energy"]],
+                "energy": " → ".join(f"{e:,.0f}" for e in meta["energy"]),
             }
         )
     return pd.DataFrame(rows)
