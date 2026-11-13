@@ -49,4 +49,4 @@
 
    ต้องใช้ `-D` เพราะ squash merge สร้าง commit ใหม่บน `main` git จึงมองว่า branch ในเครื่องยังไม่ถูก merge และ `-d` จะไม่ยอมลบ ลบเฉพาะหลังจาก PR merge แล้วเท่านั้น
 
-   repo นี้ตั้ง `fetch.prune true` ไว้ใน `.git/config` ของเครื่องนี้แล้ว ถ้า clone ใหม่ให้รัน `git config fetch.prune true`
+   แนะนำให้รัน `git config fetch.prune true` หนึ่งครั้งหลัง clone เพื่อให้ `git pull` ลบ remote-tracking branch ที่ถูกลบบน GitHub แล้วออกให้อัตโนมัติ

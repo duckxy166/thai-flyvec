@@ -19,4 +19,4 @@ python scripts/preprocess_corpus.py        # ล้าง ตัดคำ แล
 | `processed/stats.json` | จำนวนประโยค โทเคน และสัดส่วนโทเคน OOV | `preprocess_corpus.py` |
 | `processed/wisesight_tokens.json` | wisesight ที่ตัดคำแล้ว (cache) | `run_experiments.py` |
 
-ต้องเข้าถึง `huggingface.co` และ `raw.githubusercontent.com` ได้
+ต้องเข้าถึง `huggingface.co`, CDN ของ Hugging Face (`*.hf.co`) และ `raw.githubusercontent.com` ได้
