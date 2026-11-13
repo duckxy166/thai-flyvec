@@ -28,10 +28,11 @@ import pandas as pd  # noqa: E402
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
-from thai_flyvec import report  # noqa: E402
+from thai_flyvec import report, use_utf8_output  # noqa: E402
 
 
 def main() -> None:
+    use_utf8_output()
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--results-dir", type=Path, default=ROOT / "results")
     parser.add_argument("--w", type=int, default=11, help="window length for the main table and figures")
@@ -47,6 +48,8 @@ def main() -> None:
     all_w = report.summary_table(raw)
     (out / "summary.md").write_text(
         f"# Results (w = {args.w}, mean ± SD over seeds)\n\n"
+        "ρ is on the pairs every model knows (D7), except the fastText + subword OOV row, "
+        "which is on all pairs.\n\n"
         + report.to_markdown(table)
         + "\n\n# All window sizes\n\n"
         + report.to_markdown(all_w)
