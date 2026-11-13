@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "thai-flyvec"
 version = "0.1.0"
@@ -7,9 +11,26 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "สหรัฐ อุดมวัฒน์ทวี" }]
 requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26,<3",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+    "pandas>=2.1",
+    "matplotlib>=3.8",
+    "pythainlp>=5.0",
+    "gensim>=4.3.3",
+    "datasets>=2.19",
+    "streamlit>=1.35",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
 
 [project.urls]
 Repository = "https://github.com/duckxy166/thai-flyvec"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

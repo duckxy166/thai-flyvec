@@ -18,7 +18,9 @@ A part whose files already exist is skipped; pass `--force` to fetch it again.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
+import os
 import urllib.request
 from pathlib import Path
 
@@ -34,6 +36,23 @@ SENTIMENT_PARQUET = (
 )
 
 
+@contextlib.contextmanager
+def atomic_paths(*paths: Path):
+    """Yield temporary `.part` paths for `paths`; move them into place only if the block succeeds.
+
+    The skip check of each download looks for the final files, so a download
+    that stops halfway must never leave one behind.
+    """
+    parts = [p.with_name(p.name + ".part") for p in paths]
+    try:
+        yield parts
+        for part, path in zip(parts, paths):
+            os.replace(part, path)
+    finally:
+        for part in parts:
+            part.unlink(missing_ok=True)
+
+
 def download_wiki(data_dir: Path, max_chars: int, seed: int, force: bool) -> None:
     out = data_dir / "raw" / "thwiki_subset.jsonl"
     titles = data_dir / "raw" / "thwiki_articles.txt"
@@ -45,15 +64,16 @@ def download_wiki(data_dir: Path, max_chars: int, seed: int, force: bool) -> Non
     articles = load_dataset(WIKI_DATASET, WIKI_CONFIG, split="train").shuffle(seed=seed)
     out.parent.mkdir(parents=True, exist_ok=True)
     n_chars = n_articles = 0
-    with open(out, "w", encoding="utf-8") as f, open(titles, "w", encoding="utf-8") as t:
-        for article in articles:
-            row = {"id": article["id"], "title": article["title"], "text": article["text"]}
-            f.write(json.dumps(row, ensure_ascii=False) + "\n")
-            t.write(f"{article['id']}\t{article['title']}\n")
-            n_chars += len(article["text"])
-            n_articles += 1
-            if n_chars >= max_chars:
-                break
+    with atomic_paths(out, titles) as (out_part, titles_part):
+        with open(out_part, "w", encoding="utf-8") as f, open(titles_part, "w", encoding="utf-8") as t:
+            for article in articles:
+                row = {"id": article["id"], "title": article["title"], "text": article["text"]}
+                f.write(json.dumps(row, ensure_ascii=False) + "\n")
+                t.write(f"{article['id']}\t{article['title']}\n")
+                n_chars += len(article["text"])
+                n_articles += 1
+                if n_chars >= max_chars:
+                    break
     print(f"wiki: {n_articles:,} articles, {n_chars:,} characters -> {out}")
 
 
@@ -65,7 +85,8 @@ def download_eval(data_dir: Path, force: bool) -> None:
         if path.exists() and not force:
             print(f"skip eval: {path} exists")
             continue
-        urllib.request.urlretrieve(SIMILARITY_URL.format(name), path)
+        with atomic_paths(path) as (part,):
+            urllib.request.urlretrieve(SIMILARITY_URL.format(name), part)
         print(f"eval: {path}")
 
 
@@ -88,11 +109,14 @@ def download_sentiment(data_dir: Path, force: bool) -> None:
         return
     dataset = _load_sentiment()
     out_dir.mkdir(parents=True, exist_ok=True)
-    for split in splits:
-        with open(out_dir / f"{split}.jsonl", "w", encoding="utf-8") as f:
-            for row in dataset[split]:
-                f.write(json.dumps({"texts": row["texts"], "category": row["category"]}, ensure_ascii=False) + "\n")
-        print(f"sentiment: {len(dataset[split]):,} {split} -> {out_dir / f'{split}.jsonl'}")
+    paths = [out_dir / f"{split}.jsonl" for split in splits]
+    with atomic_paths(*paths) as parts:  # all three splits or none
+        for split, part in zip(splits, parts):
+            with open(part, "w", encoding="utf-8") as f:
+                for row in dataset[split]:
+                    f.write(json.dumps({"texts": row["texts"], "category": row["category"]}, ensure_ascii=False) + "\n")
+    for split, path in zip(splits, paths):
+        print(f"sentiment: {len(dataset[split]):,} {split} -> {path}")
 
 
 def main() -> None:
