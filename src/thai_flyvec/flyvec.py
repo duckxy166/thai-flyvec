@@ -36,6 +36,117 @@ HASH_LENGTHS = (4, 8, 16, 32, 64)
 log = logging.getLogger(__name__)
 
 
+class _ScaledColumns:
+    """The weights during training, kept as W = V * s (V float32, one scale s per cell).
+
+    The update of a mini-batch is dense, `-D_k W_ik` for every winning cell k,
+    plus sparse terms at the active inputs. Applying it to all of W touched the
+    whole (2 * vocab_size, n_cells) matrix several times per batch, which took
+    most of the training time. Here the dense part only changes `s`, and V only
+    changes at the active inputs, so a batch costs about the same as gathering
+    its rows. The update is the same as before up to float rounding.
+
+    Two quantities need the whole matrix and are kept up to date instead:
+    the squared norm of every column of V (for the energy, recomputed exactly
+    once per epoch) and, for the largest |update| that the step is divided by,
+    the largest |V| of every column and its row.
+    """
+
+    # Fold s back into V when it drifts this far, so V stays in a safe float32 range.
+    S_MIN, S_MAX = 1e-6, 1e6
+
+    def __init__(self, wt: np.ndarray):
+        self.v = wt  # (n_inputs, n_cells), float32, C order
+        self.n_cells = wt.shape[1]
+        self.s = np.ones(self.n_cells)
+        self.sq_norms = np.zeros(self.n_cells)
+        self.col_max = np.zeros(self.n_cells)  # max_i |V_ik|
+        self.max_row = np.zeros(self.n_cells, dtype=np.int64)
+        self.stale = np.ones(self.n_cells, dtype=bool)  # col_max / max_row need a recompute
+        self.refresh_norms()
+
+    def weights(self) -> np.ndarray:
+        return (self.v * self.s).astype(np.float32)
+
+    def refresh_norms(self) -> None:
+        self.sq_norms = np.einsum("ik,ik->k", self.v, self.v, dtype=np.float64)
+
+    def _refresh_column(self, k: int) -> None:
+        column = np.abs(self.v[:, k])
+        self.max_row[k] = int(np.argmax(column))
+        self.col_max[k] = float(column[self.max_row[k]])
+        self.stale[k] = False
+
+    def step(self, cols, active, x, lr) -> float:
+        """Apply one mini-batch; returns its (negative) contribution to the energy."""
+        v, s, n_cells = self.v, self.s, self.n_cells
+        rows = v[cols]  # (B, w, n_cells)
+        winner = (np.einsum("bw,bwk->bk", active.astype(np.float32), rows) * s).argmax(axis=1)
+        win_act = np.einsum("bw,bw->b", x, rows[np.arange(len(cols)), :, winner]) * s[winner]
+        norms = np.abs(s) * np.sqrt(self.sq_norms)
+        energy = -float(np.sum(win_act / norms[winner]))
+
+        # The update is U = -D_k W_ik everywhere in a winning column k, plus the
+        # summed inputs S at the active (row, k) pairs ("support").
+        decay = np.bincount(winner, weights=win_act, minlength=n_cells)
+        keys = cols[active].astype(np.int64) * n_cells + np.repeat(winner, cols.shape[1])[active.ravel()]
+        keys, inverse = np.unique(keys, return_inverse=True)
+        added = np.bincount(inverse, weights=x[active])
+        sup_rows, sup_cols = np.divmod(keys, n_cells)
+        w_sup = v[sup_rows, sup_cols] * s[sup_cols]  # W at the support, before the step
+        u_sup = added - decay[sup_cols] * w_sup
+
+        # Largest |U|: the support values, or |D_k s_k| times the largest |V| of
+        # column k outside the support. The tracked column max is exact unless
+        # its row is in the support; then that column is read directly.
+        winners = np.unique(winner)
+        for k in winners[self.stale[winners]]:
+            self._refresh_column(int(k))
+        largest = float(np.abs(u_sup).max())
+        bound = np.abs(decay[winners] * s[winners]) * self.col_max[winners]
+        in_support = np.isin(self.max_row[winners] * n_cells + winners, keys)
+        for i in np.argsort(-bound, kind="stable"):
+            if bound[i] <= largest:
+                break
+            if not in_support[i]:
+                largest = float(bound[i])
+                break
+            k = int(winners[i])
+            outside = np.ones(len(v), dtype=bool)
+            outside[sup_rows[sup_cols == k]] = False
+            if outside.any():
+                exact = float(np.abs(v[outside, k]).max()) * abs(decay[k] * s[k])
+                largest = max(largest, exact)
+        coef = lr / max(largest, 1e-30)
+
+        # W <- W + coef * U: scale the winning columns, then set the support.
+        old_sq = v[sup_rows, sup_cols].astype(np.float64) ** 2
+        s[winners] *= 1 - coef * decay[winners]
+        fold = winners[(np.abs(s[winners]) < self.S_MIN) | (np.abs(s[winners]) > self.S_MAX)]
+        for k in fold:
+            v[:, k] = v[:, k] * s[k]
+            s[k] = 1.0
+        new_v = (w_sup + coef * u_sup) / s[sup_cols]
+        v[sup_rows, sup_cols] = new_v
+
+        # Keep the column norms and maxima up to date.
+        self.sq_norms += np.bincount(sup_cols, weights=new_v.astype(np.float32).astype(np.float64) ** 2 - old_sq,
+                                     minlength=n_cells)  # fmt: skip
+        new_abs = np.abs(v[sup_rows, sup_cols]).astype(np.float64)
+        sup_max = np.zeros(n_cells)
+        np.maximum.at(sup_max, sup_cols, new_abs)
+        took_over = winners[sup_max[winners] >= self.col_max[winners]]
+        lost_max = winners[in_support & ~np.isin(winners, took_over)]
+        self.stale[lost_max] = True
+        is_new_max = (new_abs == sup_max[sup_cols]) & np.isin(sup_cols, took_over)
+        self.max_row[sup_cols[is_new_max]] = sup_rows[is_new_max]
+        self.col_max[took_over] = sup_max[took_over]
+        for k in fold:
+            self.sq_norms[k] = float(np.dot(v[:, k].astype(np.float64), v[:, k]))
+            self._refresh_column(int(k))
+        return energy
+
+
 class FlyVec:
     def __init__(self, vocab_size: int, n_cells: int = K_CELLS, seed: int = 0):
         self.vocab_size = vocab_size
@@ -76,8 +187,7 @@ class FlyVec:
             w0 /= np.linalg.norm(w0, axis=0, keepdims=True)
             self.weights = w0.T
         # Train on the transpose so the rows gathered per window are contiguous.
-        wt = np.ascontiguousarray(self.weights.T)
-        update = np.empty_like(wt)
+        state = _ScaledColumns(np.array(self.weights.T, dtype=np.float32, order="C"))
 
         n = len(inputs)
         n_batches = -(-n // batch_size)
@@ -85,6 +195,7 @@ class FlyVec:
         step = 0
         for epoch in range(len(self.history), len(self.history) + epochs):
             start, energy = time.perf_counter(), 0.0
+            state.refresh_norms()
             order = rng.permutation(n)
             for b in range(n_batches):
                 batch = order[b * batch_size : (b + 1) * batch_size]
@@ -92,27 +203,13 @@ class FlyVec:
                 active = cols >= 0
                 cols = np.where(active, cols, 0)
                 x = np.where(active, inv_p[cols], 0).astype(np.float32)  # (B, w)
-
-                rows = wt[cols]  # (B, w, n_cells)
-                winner = np.einsum("bw,bwk->bk", active.astype(np.float32), rows).argmax(axis=1)
-                win_act = np.einsum("bw,bw->b", x, rows[np.arange(len(batch)), :, winner])
-                norms = np.sqrt(np.einsum("ik,ik->k", wt, wt))
-                energy -= float(np.sum(win_act / norms[winner]))
-
-                # sum over the winner's inputs of v/p - <W, v/p> W, in place to
-                # avoid temporaries the size of W
-                decay = np.bincount(winner, weights=win_act, minlength=self.n_cells).astype(np.float32)
-                np.multiply(wt, -decay, out=update)
-                np.add.at(update, (cols[active], np.repeat(winner, cols.shape[1])[active.ravel()]), x[active])
-                scale = max(float(update.max()), -float(update.min()), 1e-30)
-                update *= lr * (1 - step / total_steps) / scale
-                wt += update
+                energy += state.step(cols, active, x, lr * (1 - step / total_steps))
                 step += 1
             self.history.append(
                 {"epoch": epoch, "energy": energy / max(n, 1), "seconds": time.perf_counter() - start}
             )
             log.info("epoch %d  energy %.4g  %.1fs", epoch, energy / max(n, 1), self.history[-1]["seconds"])
-        self.weights = wt.T
+        self.weights = state.weights().T
         return self
 
     # --- hashing ----------------------------------------------------------------
