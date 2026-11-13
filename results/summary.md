@@ -1,5 +1,7 @@
 # Results (w = 11, mean ± SD over seeds)
 
+ρ is on the pairs every model knows (D7), except the fastText + subword OOV row, which is on all pairs.
+
 | model | k | TH-WordSim-353 ρ | TH-SimLex-999 ρ | wisesight accuracy | wisesight macro-F1 |
 |---|---|---|---|---|---|
 | FlyVec | 4 | 0.395 ± 0.068 | 0.289 ± 0.022 | 0.600 ± 0.009 | 0.396 ± 0.004 |
@@ -14,7 +16,7 @@
 | word2vec binary | 64 | 0.531 ± 0.036 | 0.484 ± 0.025 | 0.625 ± 0.005 | 0.425 ± 0.014 |
 | word2vec |  | 0.590 ± 0.006 | 0.513 ± 0.001 | 0.628 ± 0.004 | 0.426 ± 0.007 |
 | fastText |  | 0.651 ± 0.005 | 0.546 ± 0.001 | 0.623 ± 0.002 | 0.422 ± 0.005 |
-| fastText + subword OOV |  | 0.651 ± 0.005 | 0.546 ± 0.001 | 0.626 ± 0.003 | 0.421 ± 0.004 |
+| fastText + subword OOV (all pairs) |  | 0.579 ± 0.005 | 0.533 ± 0.002 | 0.626 ± 0.003 | 0.421 ± 0.004 |
 
 # All window sizes
 
@@ -56,6 +58,6 @@
 | fastText |  | 5 | 0.606 ± 0.011 | 0.517 ± 0.005 | 0.624 ± 0.006 | 0.426 ± 0.008 |
 | fastText |  | 11 | 0.651 ± 0.005 | 0.546 ± 0.001 | 0.623 ± 0.002 | 0.422 ± 0.005 |
 | fastText |  | 15 | 0.656 ± 0.002 | 0.557 ± 0.003 | 0.624 ± 0.002 | 0.414 ± 0.005 |
-| fastText + subword OOV |  | 5 | 0.606 ± 0.011 | 0.517 ± 0.005 | 0.627 ± 0.005 | 0.429 ± 0.006 |
-| fastText + subword OOV |  | 11 | 0.651 ± 0.005 | 0.546 ± 0.001 | 0.626 ± 0.003 | 0.421 ± 0.004 |
-| fastText + subword OOV |  | 15 | 0.656 ± 0.002 | 0.557 ± 0.003 | 0.628 ± 0.003 | 0.426 ± 0.002 |
+| fastText + subword OOV (all pairs) |  | 5 | 0.525 ± 0.003 | 0.510 ± 0.003 | 0.627 ± 0.005 | 0.429 ± 0.006 |
+| fastText + subword OOV (all pairs) |  | 11 | 0.579 ± 0.005 | 0.533 ± 0.002 | 0.626 ± 0.003 | 0.421 ± 0.004 |
+| fastText + subword OOV (all pairs) |  | 15 | 0.591 ± 0.003 | 0.543 ± 0.003 | 0.628 ± 0.003 | 0.426 ± 0.002 |

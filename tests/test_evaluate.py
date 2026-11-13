@@ -105,7 +105,9 @@ def test_load_wisesight(tmp_path):
     raw.mkdir()
     for split in ("train", "validation", "test"):
         rows = [{"texts": "อาหารอร่อยมากกก", "category": 0}, {"texts": "บริการแย่", "category": 2}]
-        (raw / f"{split}.jsonl").write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows))
+        (raw / f"{split}.jsonl").write_text(
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in rows), encoding="utf-8"
+        )
     cache = tmp_path / "cache.json"
     splits = load_wisesight(raw, cache)
     assert splits["test"] == ([["อาหาร", "อร่อย", "มาก"], ["บริการ", "แย่"]], [0, 2])

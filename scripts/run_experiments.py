@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 import pandas as pd  # noqa: E402
 
-from thai_flyvec import pipeline  # noqa: E402
+from thai_flyvec import pipeline, use_utf8_output  # noqa: E402
 from thai_flyvec.evaluate import (  # noqa: E402
     known_pairs,
     load_similarity_pairs,
@@ -101,6 +101,7 @@ def evaluate_setting(corpus, models_dir, w, seed, similarity, wisesight) -> list
 
 
 def main() -> None:
+    use_utf8_output()
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
     parser.add_argument("--models-dir", type=Path, default=ROOT / "models")

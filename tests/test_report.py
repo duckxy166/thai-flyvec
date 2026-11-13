@@ -24,7 +24,8 @@ def raw():
                 for task in ("th-wordsim-353", "th-simlex-999"):
                     pair_sets = ["common", "all"] if model == "fasttext_subword" else ["common"]
                     for pairs in pair_sets:
-                        rho = quality + rng.normal(0, 0.01)
+                        # subword vectors for OOV words score lower on all pairs
+                        rho = quality + rng.normal(0, 0.01) - (0.1 if pairs == "all" else 0)
                         oov = 0.05 if pairs == "all" else 0.3
                         rows += [
                             base | {"task": task, "pairs": pairs, "metric": "rho", "value": rho},
@@ -68,6 +69,16 @@ def test_summary_table(raw):
     row = table[(table.model == "FlyVec") & (table.k == "8")].iloc[0]
     assert row["wisesight accuracy"].startswith("0.600 ± ")
     assert "w" in report.summary_table(raw).columns
+
+
+def test_summary_table_subword_row_uses_all_pairs(raw):
+    table = report.summary_table(raw, w=11).set_index("model")
+    fasttext = float(table.loc["fastText", "TH-SimLex-999 ρ"].split()[0])
+    subword = float(table.loc[report.MODEL_LABELS["fasttext_subword"], "TH-SimLex-999 ρ"].split()[0])
+    assert fasttext == pytest.approx(0.4, abs=0.02)
+    assert subword == pytest.approx(0.3, abs=0.02)
+    # sentiment has one pair set, so the row keeps its own score
+    assert table.loc[report.MODEL_LABELS["fasttext_subword"], "wisesight accuracy"].startswith("0.700")
 
 
 def test_best_k(raw):
