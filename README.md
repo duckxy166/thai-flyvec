@@ -75,9 +75,11 @@ git clone https://github.com/duckxy166/thai-flyvec.git
 cd thai-flyvec
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements.txt    # เท่ากับ pip install -e ".[dev]" (dependencies อยู่ใน pyproject.toml)
 pytest -q
 ```
+
+ถ้าต้องการเวอร์ชันของ library ที่ตรึงไว้เพื่อให้ติดตั้งซ้ำได้ ให้ใช้ `pip install -r requirements-lock.txt` แล้ว `pip install -e . --no-deps` ไฟล์นี้สร้างด้วย `uv pip compile pyproject.toml --extra dev --universal --python-version 3.11` และทดสอบแล้วว่า `pytest` ผ่านบน Python 3.11 (Windows) ส่วนผลใน `results/` ได้จาก Python 3.13 บนเครื่องที่ระบุใน `results/machine.json` ซึ่งไม่ได้บันทึกเวอร์ชันของ library ทั้งหมดไว้ จึงสร้าง environment เดิมคืนทุกเวอร์ชันไม่ได้ แต่ตัวเลขจะใกล้เคียงกันภายในส่วนเบี่ยงเบนระหว่าง seed
 
 ## การใช้งาน
 
