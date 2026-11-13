@@ -12,3 +12,4 @@ models/*
 
 # per-setting outputs of parallel runs, merged into results/raw_results.csv
 results/runs/
+*.egg-info/
