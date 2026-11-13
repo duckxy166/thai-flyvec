@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from thai_flyvec import pipeline  # noqa: E402
+from thai_flyvec import pipeline, use_utf8_output  # noqa: E402
 from thai_flyvec.preprocess import Corpus  # noqa: E402
 
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -23,6 +23,7 @@ from train_flyvec import print_neighbours  # noqa: E402
 
 
 def main() -> None:
+    use_utf8_output()
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--corpus", type=Path, default=ROOT / "data" / "processed")
     parser.add_argument("--models-dir", type=Path, default=ROOT / "models")

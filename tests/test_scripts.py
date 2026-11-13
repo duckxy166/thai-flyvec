@@ -2,6 +2,8 @@
 
 import importlib.util
 import json
+import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -53,9 +55,9 @@ def data_dir(tmp_path_factory):
 
 
 def test_preprocess_stops_at_token_budget(data_dir):
-    stats = json.loads((data_dir / "processed" / "stats.json").read_text())
+    stats = json.loads((data_dir / "processed" / "stats.json").read_text(encoding="utf-8"))
     assert 300 <= stats["n_tokens"] < 400
-    assert stats["n_articles"] == len((data_dir / "processed" / "articles_used.txt").read_text().splitlines())
+    assert stats["n_articles"] == len((data_dir / "processed" / "articles_used.txt").read_text(encoding="utf-8").splitlines())
     assert stats["n_articles"] < 60
 
 
@@ -85,6 +87,19 @@ def test_experiments_and_summary(data_dir, tmp_path):
         "--epochs", "1", "--reuse", "--skip-sentiment")  # fmt: skip
     again = pd.read_csv(tmp_path / "again" / "raw_results.csv")
     assert "wisesight" not in set(again.task)
+
+
+def test_thai_output_survives_a_non_utf8_pipe(data_dir, tmp_path):
+    """Redirected output on Windows uses the ANSI code page; the scripts must still print Thai."""
+    result = subprocess.run(
+        [sys.executable, str(SCRIPTS / "train_flyvec.py"), "--corpus", str(data_dir / "processed"),
+         "--models-dir", str(tmp_path / "models"), "--epochs", "1", "--cells", "40", "--k", "4",
+         "--words", "แมว"],  # fmt: skip
+        capture_output=True,
+        env=os.environ | {"PYTHONIOENCODING": "ascii"},
+    )
+    assert result.returncode == 0, result.stderr.decode("utf-8", "replace")
+    assert "แมว: " in result.stdout.decode("utf-8")
 
 
 def test_train_scripts(data_dir, tmp_path, capsys):

@@ -16,7 +16,7 @@ MODEL_LABELS = {
     "word2vec_binary": "word2vec binary",
     "word2vec": "word2vec",
     "fasttext": "fastText",
-    "fasttext_subword": "fastText + subword OOV",
+    "fasttext_subword": "fastText + subword OOV (all pairs)",
 }
 SCORES = {
     ("th-wordsim-353", "rho"): "TH-WordSim-353 ρ",
@@ -48,8 +48,9 @@ def scores(raw: pd.DataFrame, pairs: str = "common") -> pd.DataFrame:
     """One row per (model, k, w, seed) and one column per score in SCORES.
 
     Similarity uses the pair set `pairs` ("common": the pairs every model
-    knows, D7). The fastText + subword row has no "common" rows of its own
-    beyond those, so it is reported with `pairs="all"` by `summary_table`.
+    knows, D7; "all": every pair, which only fastText + subword has). On
+    "common" the fastText + subword row equals the fastText row, so
+    `summary_table` reports it with `pairs="all"`.
     """
     raw = _key(raw)
     keep = raw[[(t, m) in SCORES for t, m in zip(raw.task, raw.metric)]]
@@ -66,8 +67,14 @@ def _key(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def summary_table(raw: pd.DataFrame, w: int | None = None) -> pd.DataFrame:
-    """Mean ± SD over seeds of every score, per model and k (and w unless fixed)."""
-    table = scores(raw)
+    """Mean ± SD over seeds of every score, per model and k (and w unless fixed).
+
+    Similarity is on the pairs every model knows, except the fastText + subword
+    row, which is on all pairs: it shows how far subwords get on OOV words (D6).
+    """
+    table, on_all = scores(raw), scores(raw, pairs="all")
+    subword = "fasttext_subword"
+    table = pd.concat([table[table.model != subword], on_all[on_all.model == subword]])
     if w is not None:
         table = table[table.w == w]
     by = ["model", "k"] if w is not None else ["model", "k", "w"]
