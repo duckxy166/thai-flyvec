@@ -77,6 +77,81 @@ def test_same_seed_same_model():
     assert not np.array_equal(a.weights, c.weights)
 
 
+def reference_fit(inputs, word_freq, vocab_size, n_cells, seed, epochs, lr, batch_size):
+    """The original dense implementation of FlyVec.fit, kept to check the fast one against."""
+    from thai_flyvec.inputs import active_columns
+
+    word_freq = np.asarray(word_freq, dtype=np.float64)
+    p = np.maximum(word_freq / word_freq.sum(), np.finfo(np.float64).tiny)
+    inv_p = np.tile(1.0 / p, 2).astype(np.float32)
+    rng = np.random.default_rng(seed)
+    w0 = rng.standard_normal((2 * vocab_size, n_cells), dtype=np.float32)
+    wt = w0 / np.linalg.norm(w0, axis=0, keepdims=True)
+    update = np.empty_like(wt)
+    n = len(inputs)
+    n_batches = -(-n // batch_size)
+    total_steps = max(epochs * n_batches, 1)
+    step, energies = 0, []
+    for _ in range(epochs):
+        energy = 0.0
+        order = rng.permutation(n)
+        for b in range(n_batches):
+            batch = order[b * batch_size : (b + 1) * batch_size]
+            cols = active_columns(inputs[batch], vocab_size)
+            active = cols >= 0
+            cols = np.where(active, cols, 0)
+            x = np.where(active, inv_p[cols], 0).astype(np.float32)
+            rows = wt[cols]
+            winner = np.einsum("bw,bwk->bk", active.astype(np.float32), rows).argmax(axis=1)
+            win_act = np.einsum("bw,bw->b", x, rows[np.arange(len(batch)), :, winner])
+            norms = np.sqrt(np.einsum("ik,ik->k", wt, wt))
+            energy -= float(np.sum(win_act / norms[winner]))
+            decay = np.bincount(winner, weights=win_act, minlength=n_cells).astype(np.float32)
+            np.multiply(wt, -decay, out=update)
+            np.add.at(update, (cols[active], np.repeat(winner, cols.shape[1])[active.ravel()]), x[active])
+            scale = max(float(update.max()), -float(update.min()), 1e-30)
+            update *= lr * (1 - step / total_steps) / scale
+            wt += update
+            step += 1
+        energies.append(energy / n)
+    return wt.T, energies
+
+
+@pytest.mark.parametrize(
+    ("lr", "n_sentences", "epochs"),
+    [
+        (0.3, 300, 3),
+        (1.0, 300, 3),
+        # At lr = 3 training is chaotic: changing a single float32 rounding in the
+        # dense reference itself makes it drift apart after ~20 steps. Check the
+        # first steps only.
+        (3.0, 40, 1),
+    ],
+)
+def test_fit_matches_the_dense_reference(lr, n_sentences, epochs):
+    """Same update as the original implementation, up to float rounding."""
+    windows, counts = two_topic_corpus(n_sentences=n_sentences)
+    args = dict(vocab_size=20, n_cells=12, seed=1, epochs=epochs, lr=lr, batch_size=32)
+    want, want_energy = reference_fit(windows, counts, **args)
+    got = FlyVec(20, n_cells=12, seed=1).fit(windows, counts, epochs=epochs, lr=lr, batch_size=32)
+    np.testing.assert_allclose(got.weights, want, rtol=1e-3, atol=1e-4 * np.abs(want).max())
+    np.testing.assert_allclose([h["energy"] for h in got.history], want_energy, rtol=1e-4)
+
+
+def test_fit_matches_the_reference_on_a_zipf_corpus():
+    """Many cells, a skewed vocabulary and rows that win often, as in the real corpus."""
+    rng = np.random.default_rng(0)
+    vocab = 200
+    p = 1 / np.arange(1, vocab + 1)
+    sentences = [rng.choice(vocab, size=12, p=p / p.sum()) for _ in range(400)]
+    windows = window_vectors(sentences, w=5)
+    counts = np.bincount(np.concatenate(sentences), minlength=vocab)
+    want, want_energy = reference_fit(windows, counts, vocab, n_cells=50, seed=2, epochs=2, lr=1.0, batch_size=128)
+    got = FlyVec(vocab, n_cells=50, seed=2).fit(windows, counts, epochs=2, lr=1.0, batch_size=128)
+    np.testing.assert_allclose(got.weights, want, rtol=1e-3, atol=1e-4 * np.abs(want).max())
+    np.testing.assert_allclose([h["energy"] for h in got.history], want_energy, rtol=1e-4)
+
+
 def test_save_load_roundtrip(trained, tmp_path):
     path = trained.save(tmp_path / "models" / "flyvec")
     assert path.suffix == ".npz"
