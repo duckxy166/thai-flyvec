@@ -2,6 +2,16 @@
 
 บันทึกผลทดลองระหว่างทาง ทั้งที่ยังไม่ใช่ผลหลักของรายงาน เพื่อไม่ให้หายไปกับ environment ชั่วคราว
 
+## 2569-11-13 ปรับ learning rate ของ FlyVec (#33)
+
+ลอง lr 0.3, 1.0, 3.0 ที่ w = 11 × seed 0, 1, 2 (9 รอบ) บน `main` หลัง #36 ใน environment บนคลาวด์ (Linux, 4 คอร์, Python 3.13) คลังข้อความที่สร้างใหม่ตรงกับเดิม (22,475 บทความ, 10,000,129 โทเคน) และ `pytest` ผ่าน 72 ข้อ
+
+- เทรน word2vec และ fastText ครั้งเดียวต่อ seed ไว้ที่ `models/base` (`train_baselines.py --models-dir models/base`) แล้ว hard link ไปที่ `models/lrLR` ก่อนรัน `run_experiments.py --w 11 --seeds S --lr LR --reuse --models-dir models/lrLR --results-dir results/runs/lrLR_sS` `--reuse` จึงข้าม baseline และเทรนเฉพาะ FlyVec baseline ทุก lr เป็นชุดเดียวกัน
+- รันพร้อมกันครั้งละ 4 รอบ (`OPENBLAS_NUM_THREADS=1`) ใช้เวลารวมราว 20 นาที (baseline อีกราว 9 นาที) ไม่มี error FlyVec เทรน 4.8–7.6 นาทีต่อรอบ
+- lr 1.0 seed 0 ได้ energy −6,914 → −7,607 → −8,188 เท่ากับรอบที่เริ่มบนเครื่อง Windows ก่อนหน้า (ซึ่งหยุดกลางคันเพราะเครื่องช้า) และใกล้กับ `results/` เดิม (−6,911 → −7,607 → −8,205)
+- สรุป: **lr 0.3 ดีที่สุด** ρ เฉลี่ยบน k: WordSim 0.405 ± 0.015 / 0.357 ± 0.011 / 0.295 ± 0.023 และ SimLex 0.360 ± 0.008 / 0.321 ± 0.020 / 0.282 ± 0.018 สำหรับ lr 0.3 / 1.0 / 3.0 wisesight ไม่ต่างกัน ตารางเต็มและข้อสังเกตอยู่ใน D10 สร้างซ้ำได้ด้วย `python scripts/compare_lr.py`
+- ยังไม่ได้รันการทดลองหลักใหม่ที่ lr 0.3 ผลใน `results/` จึงยังเป็นของ lr 1.0
+
 ## 2569-11-04 การทดลองครบทุก w และ seed
 
 รัน w = 5, 11, 15 × seed 0, 1, 2 (9 การตั้งค่า) ด้วย lr 1.0 การตั้งค่า w = 11, seed 0 คือรอบแรกด้านล่าง อีก 8 การตั้งค่ารันพร้อมกันครั้งละ 4 การตั้งค่าบนเครื่อง 4 คอร์ (`run_experiments.py --w W --seeds S --results-dir results/runs/wW_sS` แล้วรวมเป็น `results/raw_results.csv` และ `results/resources.csv`) ใช้เวลารวมราว 4 ชั่วโมง 40 นาที
