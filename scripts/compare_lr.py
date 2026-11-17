@@ -7,7 +7,7 @@ Reads one run per (lr, seed) from `results/runs/lr<LR>_s<SEED>/raw_results.csv`
 FlyVec metadata `models/lr<LR>/flyvec_w<W>_s<SEED>.json`, then prints
 
 - mean ± SD over seeds of every score, per model / k / lr, next to the
-  published lr = 1.0 rows in `results/raw_results.csv`
+  published lr = 1.0 rows in `results/archive/lr1.0/raw_results.csv`
 - the FlyVec mean over k for each lr
 - train time and energy per epoch of each FlyVec run
 """
@@ -73,7 +73,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--runs-dir", type=Path, default=ROOT / "results" / "runs")
     parser.add_argument("--models-dir", type=Path, default=ROOT / "models")
-    parser.add_argument("--published", type=Path, default=ROOT / "results")
+    parser.add_argument("--published", type=Path, default=ROOT / "results" / "archive" / "lr1.0")
     parser.add_argument("--w", type=int, default=11)
     args = parser.parse_args()
 
