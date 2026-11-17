@@ -100,6 +100,7 @@ streamlit run app/streamlit_app.py       # demo: พิมพ์คำ แล้
 
 - รันเฉพาะบางค่า: `python scripts/run_experiments.py --w 11 --seeds 0`
 - ใช้โมเดลที่เทรนไว้แล้ว: เพิ่ม `--reuse`
+- เปลี่ยน learning rate ของ FlyVec: `--lr` (ค่าเริ่มต้น 0.3 ตาม D10)
 - demo: `app/streamlit_app.py` รันในเครื่องได้กับโมเดลที่เทรนเอง
 
 | ขั้น | งาน | ไฟล์ |
@@ -130,7 +131,7 @@ thai-flyvec/
 ├── docs/                     # การตัดสินใจเชิงออกแบบ บันทึกความคืบหน้า และภาพประกอบ
 ├── models/                   # โมเดลที่เทรนแล้ว (ไม่เก็บใน git)
 ├── notebooks/results.ipynb   # สรุปผลเพื่อตอบคำถามวิจัย
-├── results/                  # ผลดิบ (CSV) ตาราง และกราฟ
+├── results/                  # ผลดิบ (CSV) ตาราง และกราฟ (ผลเดิมที่ lr 1.0 อยู่ใน results/archive/)
 ├── scripts/                  # คำสั่งสำหรับรันแต่ละขั้น
 ├── src/thai_flyvec/          # โค้ดหลัก
 └── tests/                    # ชุดทดสอบ (pytest)
