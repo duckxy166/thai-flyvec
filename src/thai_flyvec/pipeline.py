@@ -53,7 +53,7 @@ def train_flyvec(
     seed: int = 0,
     epochs: int = 3,
     n_cells: int = K_CELLS,
-    lr: float = 1.0,
+    lr: float = 0.3,
     batch_size: int = 1024,
 ) -> dict:
     """Train FlyVec on the corpus and save it. Building the windows is timed too."""

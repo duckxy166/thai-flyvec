@@ -40,7 +40,7 @@ def main() -> None:
     parser.add_argument("--w", type=int, default=11, help="window length")
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--lr", type=float, default=1.0)
+    parser.add_argument("--lr", type=float, default=0.3, help="FlyVec learning rate (D10)")
     parser.add_argument("--batch-size", type=int, default=1024)
     parser.add_argument("--k", type=int, default=32, help="hash length for the neighbour check")
     parser.add_argument("--words", nargs="*", default=list(pipeline.TEST_WORDS))

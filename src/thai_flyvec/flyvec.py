@@ -162,7 +162,7 @@ class FlyVec:
         inputs,
         word_freq,
         epochs: int = 3,
-        lr: float = 1.0,
+        lr: float = 0.3,
         batch_size: int = 1024,
     ) -> FlyVec:
         """Winner-take-all update toward each input, weighted by inverse word frequency.

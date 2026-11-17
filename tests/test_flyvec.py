@@ -19,7 +19,9 @@ def two_topic_corpus(seed=0, n_sentences=2000, length=8):
 @pytest.fixture(scope="module")
 def trained():
     windows, counts = two_topic_corpus()
-    return FlyVec(20, n_cells=40, seed=0).fit(windows, counts, epochs=10, batch_size=64)
+    # lr 1.0, not the default 0.3 tuned on the real corpus (D10): this toy
+    # corpus is tiny, and a smaller step does not separate the topics in 10 epochs
+    return FlyVec(20, n_cells=40, seed=0).fit(windows, counts, epochs=10, lr=1.0, batch_size=64)
 
 
 def test_weights_shape(trained):
