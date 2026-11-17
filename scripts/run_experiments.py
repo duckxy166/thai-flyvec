@@ -109,7 +109,7 @@ def main() -> None:
     parser.add_argument("--w", type=int, nargs="+", default=list(W_VALUES))
     parser.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
     parser.add_argument("--epochs", type=int, default=3, help="same for every model (D6)")
-    parser.add_argument("--lr", type=float, default=1.0, help="FlyVec learning rate")
+    parser.add_argument("--lr", type=float, default=0.3, help="FlyVec learning rate (D10)")
     parser.add_argument("--batch-size", type=int, default=1024, help="FlyVec mini-batch")
     parser.add_argument("--workers", type=int, default=4, help="gensim worker threads")
     parser.add_argument("--reuse", action="store_true", help="reuse models already in models/")
