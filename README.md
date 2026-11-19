@@ -23,7 +23,7 @@ Thai FlyVec เป็นโครงงานโอเพนซอร์สท�
 | [คุยกับแมลงวัน](https://duckxy166.github.io/thai-flyvec/docs/demo/) | พิมพ์ข้อความ แล้วดูคำที่เซลล์ของแมลงวันนึกถึง และประโยคที่ต่อคำทีละคำ |
 | [เทียบคำ FlyVec กับ word2vec](https://duckxy166.github.io/thai-flyvec/docs/demo/words.html) | พิมพ์คำ แล้วดูคำใกล้เคียงของสองโมเดล และหลอดไฟ 400 เซลล์ |
 | [แมลงวันอ่าน 10 ล้าน กับ 71 ล้านโทเคน](https://duckxy166.github.io/thai-flyvec/docs/demo/compare.html) | เทียบแมลงวันที่อ่าน Wikipedia ไทยต่างกัน 7 เท่า ทั้งคะแนนสอบและคำใกล้เคียง |
-| [สไลด์นำเสนอ](https://duckxy166.github.io/thai-flyvec/docs/slides/) | สไลด์ 16 หน้าที่ใช้นำเสนอโครงงาน กดลูกศรหรือปัดเพื่อเปลี่ยนหน้า กด N เพื่อดูโน้ตผู้พูด |
+| [สไลด์นำเสนอ](https://duckxy166.github.io/thai-flyvec/docs/slides/) | สไลด์ 17 หน้าที่ใช้นำเสนอโครงงาน กดลูกศรหรือปัดเพื่อเปลี่ยนหน้า กด N เพื่อดูโน้ตผู้พูด |
 
 รายละเอียดและข้อจำกัดของแต่ละหน้าอยู่ใน [`docs/demo/README.md`](docs/demo/README.md)
 

@@ -843,6 +843,59 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 ถาม: ทดสอบยังไงว่าโค้ดถูก
 ตอบ: มีชุดเทสต์ pytest รันบน GitHub Actions ทุกครั้งที่แก้โค้ด เช่น ตรวจว่าแบบ sparse กับแบบเต็มให้ผลเท่ากัน</aside>
 </section>
+<section id="tech-code" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:110px 140px 160px;display:flex;flex-direction:column;gap:22px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">หัวใจของโค้ด (ย่อ)</h2>
+<h3 style="font-size:32px;font-weight:700;line-height:1.3;color:#222222">1. เรียนจากหนึ่งหน้าต่าง</h3>
+<p style="font-family:'Courier New', ui-monospace, monospace;font-size:28px;line-height:1.55;white-space:pre;color:#222222;background:#F6F4EE;border:2px solid #222222;border-radius:14px;padding:18px 26px"><span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif"># v = หน้าต่างคำแบบ 0/1 ยาว 40,000 ช่อง   W = น้ำหนัก 400 เซลล์</span><br>act = W @ v                <span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif"># ทุกเซลล์ตอบสนองแค่ไหน</span><br>win = act.argmax()         <span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif"># ผู้ชนะ 1 ตัว</span><br>x = v / p                  <span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif"># คำที่เจอบ่อย น้ำหนักน้อยลง</span><br>W[win] += lr * (x - (W[win] @ x) * W[win])  <span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif"># ขยับผู้ชนะเข้าหาประโยค</span></p>
+<div style="display:flex;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:14px"><h3 style="font-size:32px;font-weight:700;line-height:1.3;color:#222222">2. สร้างรหัสของคำ</h3><p style="font-family:'Courier New', ui-monospace, monospace;font-size:28px;line-height:1.55;white-space:pre;color:#222222;background:#F6F4EE;border:2px solid #222222;border-radius:14px;padding:18px 26px">act = W[:, V + word]       <span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif"># เปิดเฉพาะคำเป้าหมาย</span><br>code[argsort(-act)[:k]] = 1<span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif">  # k เซลล์ที่สว่างสุด = 1</span></p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px"><h3 style="font-size:32px;font-weight:700;line-height:1.3;color:#222222">3. วัดความคล้าย</h3><p style="font-family:'Courier New', ui-monospace, monospace;font-size:28px;line-height:1.55;white-space:pre;color:#222222;background:#F6F4EE;border:2px solid #222222;border-radius:14px;padding:18px 26px"><span style="color:#7A6F5C;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif"># นับหลอดที่ติดตรงกัน</span><br>overlap = (code_a &amp; code_b).sum()</p></div>
+</div>
+<p style="font-size:24px;line-height:1.5;color:#6A665C">ย่อจาก src/thai_flyvec/flyvec.py · ของจริงทำทีละ 1,024 หน้าต่าง เก็บแบบ sparse และ learning rate ลดลงจนเป็น 0</p>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1690px;top:150px;width:84px;height:98px;transform:rotate(-30deg)">
+<defs>
+<filter id="b-code" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-code" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-code" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-code" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-code)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-code)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-code)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-code)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-code)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">9</p>
+<aside>หัวใจของโค้ดจริงๆ มีแค่ไม่กี่บรรทัดครับ ผมย่อมาให้ดู
+
+ข้อ 1 คือที่เล่าไปตอนแมลงวันเรียน [ชี้บรรทัด act] เอาหน้าต่างคำมาคูณกับน้ำหนัก ได้ว่าเซลล์ทั้ง 400 ตัวตอบสนองแค่ไหน [ชี้ argmax] เลือกตัวที่แรงที่สุดเป็นผู้ชนะ [ชี้ v / p] หารด้วยความถี่ คำอย่าง "ที่" "และ" เลยมีน้ำหนักน้อย [ชี้บรรทัดสุดท้าย] แล้วขยับน้ำหนักของผู้ชนะเข้าหาประโยคนี้ ไม่มี backpropagation ไม่มีเฉลย มีแค่นี้จริงๆ ครับ
+
+ข้อ 2 สร้างรหัสของคำ เปิดเฉพาะคำเป้าหมาย ดูว่าเซลล์ไหนสว่าง แล้วเลือก k ตัวที่สว่างที่สุดให้เป็น 1 ที่เหลือเป็น 0
+
+ข้อ 3 วัดความคล้าย ก็แค่ AND สองรหัสแล้วนับ ว่าหลอดติดตรงกันกี่ดวง
+
+ของจริงยาวกว่านี้ เพราะทำทีละ 1,024 หน้าต่างพร้อมกัน แล้วเก็บแบบประหยัดหน่วยความจำ แต่หลักการเหมือนบนสไลด์ทุกอย่าง และมีเทสต์เช็กว่าแบบเร็วกับแบบตรงไปตรงมาให้ผลเท่ากัน
+
+——— ถ้าอาจารย์ถาม ———
+ถาม: W[win] @ x ที่ลบออกคืออะไร
+ตอบ: เป็นตัวดึงไม่ให้น้ำหนักโตไปเรื่อยๆ ทำให้น้ำหนักของแต่ละเซลล์ยาวประมาณ 1 เสมอ (weight normalization) ตามสมการของงานต้นฉบับ
+
+ถาม: ทำไมเลือกผู้ชนะจาก W @ v แต่ปรับด้วย v / p
+ตอบ: ตามงานต้นฉบับ: การแข่งใช้สัญญาณดิบ ส่วนการเรียนถ่วงด้วยความถี่ เพื่อไม่ให้คำที่เจอบ่อยครอบงำ
+
+ถาม: ทำไมสร้างรหัสเปิดแค่ครึ่งคำเป้าหมาย
+ตอบ: เพราะอยากได้รหัสของตัวคำเอง ไม่ขึ้นกับประโยค ถ้าเปิดครึ่งบริบทด้วยจะได้รหัสที่เปลี่ยนตามประโยค ซึ่งงานต้นฉบับทำ แต่เรายังไม่ได้ทำ</aside>
+</section>
 <section id="tech-eval" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">การประเมินผล</h2>
 <div style="display:flex;gap:48px;align-items:start">
@@ -929,7 +982,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">9</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">10</p>
 <aside>แล้วเราจะรู้ได้ยังไงครับว่าแมลงวันเข้าใจจริง เราก็ต้องสอบครับ [ชี้แว่นขยาย]
 
 ข้อสอบแรกครับ มีคนไทยให้คะแนนคู่คำไว้แล้ว ว่าแมวกับหมาคล้ายกันแค่ไหน เราก็เอาคำตอบของแมลงวันมาเทียบกับของคน ดูว่าแมลงวันเรียงลำดับได้ตรงแค่ไหน ใช้ค่า Spearman ครับ ยิ่งใกล้ 1 ก็ยิ่งตรง
@@ -1042,7 +1095,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">10</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">11</p>
 <aside>ก่อนดูผล ขอเช็กงานก่อนครับ [ชี้คลิปบอร์ด]
 
 งานหลักครบแล้ว โค้ดครบทุกขั้น ให้แมลงวันอ่าน Wikipedia จริง รันทดลอง 9 ชุด และเขียนรายงานแล้ว
@@ -1137,7 +1190,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">11</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">12</p>
 <aside>learning rate คือแมลงวันปรับตัวแรงแค่ไหนต่อ 1 ประโยค [ชี้ขวดทดลอง] ตั้งแรงไปก็ลืมของเก่าครับ ตั้งเบาไปก็เรียนช้า
 
 ตอนแรกผมลองกับข้อมูลชุดเล็ก ได้ว่า 1.0 ดีที่สุด แต่พอลองกับ Wikipedia จริง ผลกลับกัน 0.3 ดีกว่าทุกรอบ เราก็เลยใช้ค่านี้กันครับ
@@ -1243,7 +1296,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">12</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">13</p>
 <aside>มาถึงผลจริงครับ [ชี้แมลงวันบนแท่งเตี้ย] ขอเริ่มจากข่าวไม่ดีก่อน
 
 ข้อสอบความหมายของคำเนี่ย แมลงวันได้ประมาณ 3 ใน 4 ของ word2vec ยังแพ้อยู่ครับ แมลงวันเลยต้องสู้ต่อ แต่ไม่ได้มั่วนะครับ คำใกล้เคียงของมันสมเหตุสมผล เช่นฟุตบอลใกล้กับ สโมสร ทีม ลีก
@@ -1306,7 +1359,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">13</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">14</p>
 <aside>แล้วเปิดหลอดไฟกี่ดวงดี [ชี้กราฟ] เส้นสีน้ำเงินคือแมลงวัน เส้นสีส้มคือ word2vec ครับ ที่บีบให้เปิดหลอดเท่ากัน
 
 ฝั่งซ้ายครับ ตอนเปิดแค่ 4 กับ 8 ดวงเนี่ย แมลงวันชนะ แปลว่าวิธีเรียนแบบแมลงวันช่วยได้จริงครับ แต่ช่วยเฉพาะตอนรหัสสั้น
@@ -1413,7 +1466,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">14</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">15</p>
 <aside>ระหว่างทางผมแอบไปลองโมเดลรุ่นใหญ่อย่าง Transformer มาเป็นจุดอ้างอิงด้วย
 
 MiniLM ครับใช้ได้ดี ประโยคเรื่องทำนา 2 ประโยค มันรู้ว่าคล้ายกัน
@@ -1518,7 +1571,7 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">15</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">16</p>
 <aside>ทำโปรเจกต์เรื่องแมลง ก็ต้องเจอบั๊กครับ [ชี้สเปรย์] แต่ต้องระวังฉีดผิดตัว
 
 ส่วนใหญ่เป็นเรื่องเครื่องมือ เช่น ดาวน์โหลด PyTorch ไม่ได้ เลยหาทางติดตั้งจากที่อื่น fastText ใหญ่จนเครื่องแทบไม่ไหว เลยต้องลดขนาดลง
@@ -1563,7 +1616,7 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">16</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">17</p>
 <aside>ก่อนจบ ขอพูดตรงๆ ว่างานนี้มีข้อจำกัดอะไร ตัวเลขทั้งหมดที่เล่ามา ควรอ่านคู่กับหน้านี้
 
 หนึ่ง learning rate เลือกด้วยข้อสอบชุดเดียวกับที่รายงาน แมลงวันอาจได้คะแนนสูงเกินจริงนิดหน่อย
