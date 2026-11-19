@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แมลงวันอ่านภาษาไทยได้ไหม? · สไลด์นำเสนอ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap">
+<style>
+html, body { margin: 0; height: 100%; background: #1d1c19; overflow: hidden; font-family: 'Mali', 'Noto Sans Thai', Tahoma, sans-serif }
+#stage { position: absolute; inset: 0 0 56px 0; display: flex; align-items: center; justify-content: center }
+#deck { position: relative; width: 1920px; height: 1080px; transform-origin: center center; flex: none }
+#deck > section { position: absolute; inset: 0; width: 1920px; height: 1080px; box-sizing: border-box; overflow: hidden }
+#deck > section:not(.on) { display: none !important }
+#deck section h1, #deck section h2, #deck section h3, #deck section p, #deck section ul, #deck section ol { margin: 0 }
+#deck section ul, #deck section ol { padding-left: 1.3em }
+#deck section aside { display: none }
+#deck section table { border-collapse: collapse }
+#bar { position: absolute; left: 0; right: 0; bottom: 0; height: 56px; display: flex; align-items: center; justify-content: center; gap: 12px; color: #ece8dd; font-size: 16px }
+#bar button { font: inherit; color: inherit; background: #2f2d28; border: 1px solid #4a473f; border-radius: 8px; padding: 6px 14px; cursor: pointer }
+#bar button:hover { background: #3b3832 }
+#bar button:focus-visible { outline: 2px solid #ffd13f; outline-offset: 2px }
+#count { min-width: 64px; text-align: center; font-variant-numeric: tabular-nums }
+#notes { position: absolute; left: 0; right: 0; bottom: 56px; max-height: 38%; overflow: auto; background: #f6f4ee; color: #222; padding: 16px 24px; font-size: 18px; line-height: 1.7; white-space: pre-wrap; box-shadow: 0 -4px 16px rgba(0,0,0,.3) }
+#notes[hidden] { display: none }
+</style>
+</head>
+<body>
+<div id="stage"><div id="deck">
+<section id="cover" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px;display:flex;flex-direction:row;align-items:center;gap:40px">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<h1 style="font-size:84px;font-weight:700;line-height:1.25;color:#222222">แมลงวันอ่าน ภาษาไทยได้ไหม?</h1>
+<p style="font-size:34px;line-height:1.4">Thai FlyVec: Sparse Binary Word Embeddings for Thai</p>
+<p style="font-size:30px;line-height:1.5;color:#555555">CS374 การประมวลภาษาธรรมชาติ ภาค 1/2569<br>นำเสนอโครงงาน 19 พฤศจิกายน 2569</p>
+<p style="font-size:34px;font-weight:600;color:#222222">สหรัฐ อุดมวัฒน์ทวี 6709650680</p>
+</div>
+<div style="position:relative;width:600px;height:500px">
+<svg aria-label="แมลงวันการ์ตูนโบกมือ พูดว่าสวัสดี" width="600" height="500" viewBox="0 0 600 500" style="width:600px;height:500px">
+<path d="M16 486C40 446 116 474 112 430C108 392 52 404 70 372C82 352 104 356 116 364" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 13"/>
+<path d="M318 64C330 30 420 18 500 24C566 30 594 66 586 108C578 152 536 176 470 180L452 181L422 238L428 179C350 172 306 112 318 64Z" fill="#FFFFFF" stroke="#222222" stroke-width="5" stroke-linejoin="round"/>
+<path d="M548 250Q552 276 578 280Q552 284 548 310Q544 284 518 280Q544 276 548 250Z" fill="#FFD13F" stroke="#222222" stroke-width="4" stroke-linejoin="round"/>
+<path d="M510 344Q513 359 528 362Q513 365 510 380Q507 365 492 362Q507 359 510 344Z" fill="#FFD13F" stroke="#222222" stroke-width="3.5" stroke-linejoin="round"/>
+<g transform="translate(70 180) scale(1.3)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M206 134C213 143 226 143 233 134" fill="none"/>
+<path d="M238 144C256 146 266 132 272 114" fill="none"/>
+<circle cx="274" cy="108" r="8" fill="#FFFFFF"/>
+<path d="M288 92L298 84M292 110L304 108M286 126L296 132" fill="none" stroke-width="3"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:330px;top:58px;width:240px;font-family:'Sriracha', 'Mali', cursive;font-size:64px;line-height:1.2;color:#222222;text-align:center">สวัสดี!</p>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1010px;top:150px;width:84px;height:98px;transform:rotate(-25deg)">
+<defs>
+<filter id="b-cover" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-cover" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-cover" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-cover" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-cover)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-cover)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-cover)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-cover)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-cover)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<aside>สวัสดีอาจารย์และเพื่อนๆ ทุกคน [ชี้แมลงวันในภาพ] อย่างที่แมลงวันตัวนี้ทักไปแล้ว สวัสดี
+
+สหรัฐ อุดมวัฒน์ทวี รหัส 6709650680 วันนี้จะมานำเสนอโครงงาน "แมลงวันอ่านภาษาไทยได้ไหม?"
+
+ฟังชื่อแล้วอาจดูแปลก แต่เริ่มจากเรื่องจริงครับ สมองแมลงวันผลไม้มีเซลล์ประสาทแค่ราวแสนเซลล์ น้อยกว่าสมองคนเป็นล้านเท่า แต่มันแยกกลิ่นได้เก่งมาก กลิ่นกล้วยกับกลิ่นมะม่วงมันรู้ว่าคล้ายกัน กลิ่นน้ำมันรถมันรู้ว่าต่างกัน
+
+[แรงบันดาลใจของตัวเอง 1 ประโยค เลือกที่ตรงกับความจริง เช่น: สนใจว่า AI เลียนแบบสมองสิ่งมีชีวิตได้แค่ไหน / โมเดลภาษาใหญ่ขึ้นเรื่อยๆ อยากรู้ว่ามีวิธีที่เล็กกว่านี้ไหม / งาน NLP ส่วนใหญ่ทำกับภาษาอังกฤษ อยากรู้ว่าใช้กับภาษาไทยได้ไหม]
+
+ในปี 2021 มีนักวิจัยเอาวงจรรับกลิ่นนี้มาใช้กับคำภาษาอังกฤษ เรียกว่า FlyVec แล้วพบว่ามันเรียนรู้ความหมายของคำได้ แต่ยังไม่มีใครลองกับภาษาไทย วันนี้จะมาเล่าว่าเราลองแล้วได้ผลยังไง
+
+จะเล่าเป็น 4 ส่วน: โจทย์ว่าทำไมต้องทำ, เนื้อหา NLP ว่า FlyVec ทำงานยังไง, ส่วน technical ว่าเขียนอะไรไปบ้าง, และสุดท้ายคือผลการทดลอง ข้อจำกัด และข้อสรุป</aside>
+</section>
+<section id="why" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ที่มาของโครงงาน</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column">
+<ul style="font-size:30px;line-height:1.7">
+<li>word2vec / fastText: เวกเตอร์ทศนิยม 300 มิติ (คำละ 1,200 ไบต์)</li>
+<li>FlyVec: รหัสไบนารี 400 บิต มีเลข 1 แค่ k ตัว (คำละ 50 ไบต์)</li>
+<li>ได้แนวคิดมาจากวงจรรับกลิ่นในสมองแมลงวันผลไม้</li>
+<li>งานต้นฉบับ (Liang et al., ICLR 2021) ทดลองกับภาษาอังกฤษเท่านั้น</li>
+<li>ยังไม่มีใครลองกับภาษาไทย ซึ่งต้องตัดคำก่อน</li>
+</ul>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="ลังไม้หนัก 1,200 ไบต์ทับแมลงวันอีกตัว ส่วนแมลงวันบินถือกระเป๋าเล็ก 50 ไบต์" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M60 128L52 110M122 122V102M184 126L194 108" stroke-width="3.5"/>
+<path d="M200 356C222 344 248 352 248 368C230 376 214 372 200 364Z" fill="#FFFFFF"/>
+<path d="M36 360L22 368L14 366M42 364L32 378L22 380"/>
+<path d="M24 152L214 144L220 360L30 368Z" fill="#FFFFFF" stroke-width="5"/>
+<path d="M44 176C76 170 104 182 140 174M60 196C96 190 130 200 184 192M64 334C100 328 132 338 196 330" fill="none" stroke-width="2"/>
+<path d="M27 222L216 214M29 294L218 288" stroke-width="3.5"/>
+<path d="M232 340L244 330M240 350L254 346" stroke-width="3"/>
+<path d="M396 176V188"/>
+<path d="M384 196C384 182 408 182 408 196"/>
+<path d="M370 194H420V228H370Z" fill="#FFFFFF"/>
+<path d="M376 206L386 196M378 220L400 198M392 224L414 202M406 226L418 214" fill="none" stroke-width="2"/>
+</g>
+<g fill="#222222"><circle cx="40" cy="166" r="4"/><circle cx="200" cy="160" r="4"/><circle cx="44" cy="350" r="4"/><circle cx="204" cy="344" r="4"/></g>
+<g transform="translate(250 40) scale(0.72)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M206 134C213 143 226 143 233 134" fill="none"/>
+<path d="M22 70L6 66M24 92L8 96" fill="none" stroke-width="3"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:30px;top:232px;width:184px;font-family:'Sriracha', 'Mali', cursive;font-size:34px;line-height:1.2;color:#222222;text-align:center">1,200 ไบต์</p>
+<p style="position:absolute;left:330px;top:236px;width:130px;font-family:'Sriracha', 'Mali', cursive;font-size:30px;line-height:1.2;color:#222222;text-align:center">50 ไบต์</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1690px;top:140px;width:84px;height:98px;transform:rotate(35deg)">
+<defs>
+<filter id="b-why" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-why" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-why" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-why" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-why)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-why)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-why)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-why)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-why)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">2</p>
+<aside>เริ่มจากปัญหาก่อน word embedding ที่ใช้กันทั่วไปอย่าง word2vec หรือ fastText เก็บแต่ละคำเป็นเวกเตอร์ทศนิยม 300 มิติ ตกคำละ 1,200 ไบต์ [ชี้ลังไม้] ก็คือลังใบนี้ หนักจนทับแมลงวันอีกตัวไปแล้ว
+
+FlyVec ใช้วิธีต่างออกไป แต่ละคำเป็นรหัสไบนารี 400 บิต มีเลข 1 แค่ k ตัว ที่เหลือเป็น 0 ทั้งหมด เก็บแค่คำละ 50 ไบต์ [ชี้กระเป๋าเล็ก] เบากว่ากันเยอะ และวัดความคล้ายได้ด้วยการนับว่าบิตที่เป็น 1 ซ้อนกันกี่ตัว ไม่ต้องคูณทศนิยม
+
+ไอเดียนี้มาจากงานของ Liang และคณะ ที่ ICLR 2021 ซึ่งเลียนแบบวงจรรับกลิ่นในสมองแมลงวัน แต่เขาทดลองกับภาษาอังกฤษอย่างเดียว ยังไม่มีใครลองกับภาษาไทย ซึ่งยากกว่าตรงที่ไม่มีช่องว่างระหว่างคำ ต้องตัดคำก่อนทุกครั้ง</aside>
+</section>
+<section id="questions" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">คำถามวิจัย</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column">
+<ol style="font-size:30px;line-height:1.7">
+<li>FlyVec ได้ Spearman ρ บน TH-WordSim-353 และ TH-SimLex-999 ใกล้ word2vec / fastText แค่ไหน</li>
+<li>เมื่อใช้จำแนกความรู้สึก (wisesight) ความแม่นยำลดลงเท่าไร เทียบกับหน่วยความจำและเวลาเทรนที่ประหยัดได้</li>
+<li>ความยาว hash k เท่าไร (4, 8, 16, 32, 64) เหมาะกับภาษาไทย</li>
+</ol>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="แมลงวันเกาหัวงง มีเครื่องหมายคำถามลอยอยู่" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g transform="translate(30 130) scale(1.15)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M206 136C211 131 216 139 221 134C226 129 231 137 236 133" fill="none"/>
+<path d="M240 146C262 136 266 104 250 84" fill="none"/>
+<circle cx="248" cy="80" r="8" fill="#FFFFFF"/>
+<path d="M262 64L272 56M270 78L282 74M252 52L256 40" fill="none" stroke-width="3"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:330px;top:0px;width:110px;font-family:'Sriracha', 'Mali', cursive;font-size:130px;line-height:1.2;color:#222222;text-align:center">?</p>
+<p style="position:absolute;left:240px;top:40px;width:80px;font-family:'Sriracha', 'Mali', cursive;font-size:90px;line-height:1.2;color:#222222;text-align:center">?</p>
+<p style="position:absolute;left:380px;top:200px;width:70px;font-family:'Sriracha', 'Mali', cursive;font-size:70px;line-height:1.2;color:#222222;text-align:center">?</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1000px;top:840px;width:84px;height:98px;transform:rotate(160deg)">
+<defs>
+<filter id="b-questions" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-questions" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-questions" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-questions" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-questions)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-questions)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-questions)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-questions)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-questions)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">3</p>
+<aside>[แมลงวันในภาพกำลังงง] เลยตั้งคำถามวิจัยไว้ 3 ข้อ
+
+ข้อแรก วัดความหมายของคำตรงๆ: FlyVec ได้คะแนนความคล้ายของคำบนชุดทดสอบภาษาไทย TH-WordSim-353 และ TH-SimLex-999 ใกล้ word2vec กับ fastText แค่ไหน
+
+ข้อสอง วัดในงานจริง: ถ้าเอาไปจำแนกความรู้สึกข้อความ ความแม่นยำลดลงเท่าไร แลกกับหน่วยความจำและเวลาเทรนที่ประหยัดได้คุ้มไหม
+
+ข้อสาม ความยาว hash k ควรเป็นเท่าไรสำหรับภาษาไทย</aside>
+</section>
+<section id="nlp-fly" style="display:flex; flex-direction:column; gap:36px; padding:120px 140px 160px; background:#ffffff">
+  <h2 style="font-family:Mali, Tahoma, sans-serif; font-size:60px; font-weight:700; line-height:1.25; color:#222222">FlyVec ทำงานอย่างไร</h2>
+  <div style="display:flex; flex-direction:row; gap:48px; align-items:start">
+    <div style="display:flex; flex-direction:column; gap:24px; flex:1">
+      <p style="font-family:Mali, Tahoma, sans-serif; font-size:30px; line-height:1.6; color:#222222">input (40,000 มิติ) → Kenyon cells (400 เซลล์) → เลือก top-k → hash 400 บิต</p>
+      <ul style="font-family:Mali, Tahoma, sans-serif; font-size:30px; line-height:1.7; color:#222222">
+        <li>input: ครึ่งแรกคือคำบริบท 20,000 มิติ ครึ่งหลังคือคำเป้าหมาย 20,000 มิติ (0/1)</li>
+        <li>Kenyon cell แต่ละเซลล์มีน้ำหนักต่อ input ทุกตัว</li>
+        <li>APL neuron ยับยั้ง ให้เหลือเฉพาะ k เซลล์ที่ถูกกระตุ้นมากที่สุด</li>
+        <li>คำที่อยู่ในบริบทคล้ายกัน จะได้บิตที่เป็น 1 ซ้อนกันมาก</li>
+      </ul>
+    </div>
+    <div style="position:relative; width:460px; height:400px; display:flex; flex-direction:column">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 400" aria-label="สมองแมลงวันมีเซลล์ 12 ดวง ติดไฟแค่ 3 ดวง มีแมลงวันตัวเล็กมองอยู่" style="width:460px; height:400px">
+<path d="M84 206C62 156 104 106 156 116C176 74 248 70 278 104C330 86 382 124 372 174C404 206 384 266 332 268C322 308 262 318 230 292C200 318 138 312 128 272C86 272 64 240 84 206Z" fill="#FFFFFF" stroke="#222222" stroke-width="5" stroke-linejoin="round"/>
+<path d="M106 204C118 194 110 180 122 170M354 212C342 200 352 188 340 176M196 298C208 290 220 296 228 286M262 100C272 112 286 108 296 116M150 126C160 134 170 128 178 136" fill="none" stroke="#222222" stroke-width="2.2" stroke-linecap="round"/>
+<g stroke="#222222" stroke-width="3.5" fill="#FFFFFF">
+<circle cx="146" cy="158" r="13"/><circle cx="246" cy="160" r="13"/><circle cx="298" cy="154" r="13"/>
+<circle cx="146" cy="204" r="13" fill="#FFFFFF"/><circle cx="198" cy="206" r="13"/><circle cx="248" cy="202" r="13"/>
+<circle cx="200" cy="250" r="13"/><circle cx="250" cy="248" r="13"/><circle cx="300" cy="246" r="13"/>
+<circle cx="196" cy="158" r="13" fill="#FFD13F"/><circle cx="300" cy="202" r="13" fill="#FFD13F"/><circle cx="148" cy="250" r="13" fill="#FFD13F"/>
+</g>
+<g stroke="#222222" stroke-width="3" stroke-linecap="round" fill="none">
+<path d="M196 138V130M196 178V186M176 158H168M216 158H224"/>
+<path d="M300 182V174M300 222V230M280 202H272M320 202H328"/>
+<path d="M148 230V222M148 270V278M128 250H120M168 250H176"/>
+</g>
+<g transform="translate(462 4) scale(-0.42 0.42)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M210 136C216 144 228 144 232 134" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+      <p style="position:absolute; top:336px; left:20px; width:420px; font-family:Sriracha, 'Brush Script MT', serif; font-size:30px; line-height:1.2; text-align:center; color:#222222">สมองแมลงวัน ติดไฟแค่ k ดวง</p>
+    </div>
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" aria-label="แมลงวันเกาะอยู่บนสไลด์" style="position:absolute; top:128px; left:900px; width:84px; height:98px; transform:rotate(-70deg)">
+<defs>
+<filter id="b-nlpfly" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-nlpfly" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-nlpfly" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-nlpfly" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-nlpfly)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-nlpfly)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-nlpfly)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-nlpfly)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-nlpfly)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+  <p style="position:absolute; right:140px; bottom:64px; width:120px; font-family:Mali, Tahoma, sans-serif; font-size:24px; text-align:right; color:#777777">4</p>
+  <aside>ทีนี้มาดูว่า FlyVec ทำงานยังไง ในสมองแมลงวัน เวลาได้กลิ่น เซลล์รับกลิ่นจะส่งสัญญาณไปยังเซลล์ชื่อ Kenyon cell จำนวนมาก แล้วมีเซลล์อีกตัวชื่อ APL คอยยับยั้ง ให้เหลือเฉพาะเซลล์ที่ถูกกระตุ้นแรงที่สุดไม่กี่ตัว ผลคือกลิ่นที่คล้ายกันจะไปปลุกเซลล์ชุดคล้ายกัน FlyVec เอาหลักเดียวกันมาใช้กับคำ แทนกลิ่นด้วยข้อความ input มี 40,000 มิติ ครึ่งแรกคือคำบริบทรอบๆ ครึ่งหลังคือคำเป้าหมาย ส่งเข้า Kenyon cells 400 เซลล์ แล้วเลือกเฉพาะ k เซลล์ที่ถูกกระตุ้นมากที่สุดให้เป็น 1 [ชี้สมองในภาพ] ก็คือสมองแมลงวันที่ติดไฟแค่ k ดวง ผลที่ได้คือคำที่มักอยู่ในบริบทคล้ายกัน จะได้บิตที่เป็น 1 ซ้อนกันเยอะ</aside>
+</section>
+<section id="nlp-rule" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">input และกฎการเรียนรู้</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:30px;line-height:1.6">ตัวอย่างหน้าต่าง w = 5: แมว ชอบ [กิน] ปลา ทู<br>บริบท = {แมว, ชอบ, ปลา, ทู} &#160; เป้าหมาย = กิน</p>
+<ol style="font-size:30px;line-height:1.7">
+<li>เลือกเซลล์ผู้ชนะ: μ* = argmax &lt;W_μ, v&gt;</li>
+<li>ปรับน้ำหนักผู้ชนะ: ΔW = v/p − &lt;W, v/p&gt; W &#160;(p = ความถี่คำ)</li>
+<li>hash ของคำ: เปิดเฉพาะครึ่งเป้าหมาย แล้วให้ top-k เซลล์เป็น 1</li>
+</ol>
+<p style="font-size:30px;line-height:1.6">เปลี่ยน k ได้โดยไม่ต้องเทรนใหม่</p>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="แมลงวันยืนชูมือบนถ้วยรางวัล" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M152 168C108 166 108 232 168 238M308 168C352 166 352 232 292 238" fill="none"/>
+<path d="M216 276L212 318H248L244 276Z" fill="#FFD13F"/>
+<path d="M176 318H284L290 352H170Z" fill="#FFFFFF"/>
+<path d="M184 346L194 324M200 346L210 324M216 346L226 324M232 346L242 324M248 346L258 324M264 346L274 324" fill="none" stroke-width="2.2"/>
+<path d="M150 150H310C310 232 280 272 230 278C180 272 150 232 150 150Z" fill="#FFD13F"/>
+<path d="M230 184L237 199L254 201L241 212L245 229L230 220L215 229L219 212L206 201L223 199Z" fill="#FFFFFF" stroke-width="3.5"/>
+<path d="M170 172C170 200 178 220 190 234" fill="none" stroke="#FFFFFF" stroke-width="6"/>
+<path d="M286 162L298 174M282 178L300 196M276 196L298 218M266 216L288 238M254 236L272 254" fill="none" stroke-width="2.2"/>
+</g>
+<g stroke="#222222" stroke-width="3.5" stroke-linejoin="round" fill="#FFD13F">
+<path d="M64 80Q67 96 82 99Q67 102 64 118Q61 102 46 99Q61 96 64 80Z"/>
+<path d="M398 112Q401 124 412 127Q401 130 398 142Q395 130 384 127Q395 124 398 112Z"/>
+<path d="M376 270Q379 284 392 287Q379 290 376 304Q373 290 360 287Q373 284 376 270Z"/>
+</g>
+<g transform="translate(124 6) scale(0.7)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M204 132C210 146 230 146 236 132Z" fill="#FFFFFF"/>
+<path d="M240 140C260 126 266 100 262 74" fill="none"/>
+<circle cx="262" cy="68" r="8" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:40px;top:356px;width:380px;font-family:'Sriracha', 'Mali', cursive;font-size:32px;line-height:1.2;color:#222222;text-align:center">ผู้ชนะได้หมด!</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1660px;top:836px;width:84px;height:98px;transform:rotate(200deg)">
+<defs>
+<filter id="b-nlprule" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-nlprule" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-nlprule" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-nlprule" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-nlprule)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-nlprule)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-nlprule)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-nlprule)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-nlprule)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">5</p>
+<aside>input สร้างจากหน้าต่างที่เลื่อนไปบนข้อความ เช่นประโยค "แมวชอบกินปลาทู" หน้าต่างขนาด 5 คำ คำตรงกลาง "กิน" เป็นคำเป้าหมาย ส่วน "แมว ชอบ ปลา ทู" เป็นบริบท
+
+การเรียนรู้ไม่ใช้ backpropagation เลย ทุกหน้าต่างจะเลือกเซลล์ผู้ชนะหนึ่งตัว คือตัวที่ถูกกระตุ้นมากที่สุด แล้วดึงน้ำหนักของผู้ชนะเข้าหา input [ชี้ถ้วยรางวัล] ผู้ชนะได้หมด ตัวอื่นไม่ได้อะไรเลย เรียกว่า winner-take-all ตอนอัปเดตจะถ่วงด้วยหนึ่งส่วนความถี่ของคำ คำที่พบน้อยเลยมีน้ำหนักมากกว่าคำพื้นๆ อย่าง "ที่" หรือ "และ"
+
+พอเทรนเสร็จ ถ้าอยากได้รหัสของคำไหน ก็เปิดเฉพาะครึ่งคำเป้าหมาย แล้วเลือก top-k จุดเด่นคือเปลี่ยน k ได้ตอนใช้งานเลย ไม่ต้องเทรนใหม่</aside>
+</section>
+<section id="nlp-thai" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">การเตรียมข้อมูลภาษาไทย</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<ul style="font-size:30px;line-height:1.7">
+<li>ตัดคำด้วย PyThaiNLP (newmm)</li>
+<li>ตัดประโยคที่ขึ้นบรรทัดใหม่ และที่ช่องว่างซึ่งมีอักษรไทยทั้งสองข้าง</li>
+<li>ล้าง wiki markup, แปลงเลขไทยเป็นอารบิก, ลดอักษรซ้ำ ("มากกกก" → "มาก")</li>
+<li>คลังศัพท์ 20,000 คำ ใช้ชุดเดียวกันทุกโมเดล</li>
+</ul>
+<p style="font-size:30px;line-height:1.6">คลังข้อความ (Thai Wikipedia): 22,475 บทความ, 10.0 ล้านโทเคน, 1.67 ล้านประโยค, โทเคนนอกคลังศัพท์ 5.7%</p>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="แมลงวันถือกรรไกรตัดแถบกระดาษคำว่า แมลงวันอ่านภาษาไทย ออกเป็นคำ" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<path d="M18 66L442 56L446 136L22 146Z" fill="#FFFFFF" stroke="#222222" stroke-width="4" stroke-linejoin="round"/>
+<path d="M176 64L178 142M268 60L270 140M370 58L372 138" fill="none" stroke="#222222" stroke-width="3" stroke-dasharray="8 8"/>
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M288 200L280 218M296 200L306 218" fill="none" stroke-width="5"/>
+<ellipse cx="276" cy="236" rx="15" ry="20" fill="#FFFFFF"/>
+<ellipse cx="312" cy="236" rx="15" ry="20" fill="#FFFFFF"/>
+<ellipse cx="276" cy="236" rx="6" ry="10" fill="#FFFFFF" stroke-width="3"/>
+<ellipse cx="312" cy="236" rx="6" ry="10" fill="#FFFFFF" stroke-width="3"/>
+<path d="M284 200L256 130L296 190Z" fill="#FFFFFF"/>
+<path d="M290 188L304 128L300 200Z" fill="#FFFFFF"/>
+<path d="M266 152L282 180M298 146L298 176" fill="none" stroke-width="2"/>
+<circle cx="292" cy="196" r="5" fill="#222222"/>
+<path d="M238 150L226 140M236 166L220 166M244 182L232 192" fill="none" stroke-width="3"/>
+</g>
+<g transform="translate(40 200) scale(0.8)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M208 136C216 142 226 142 232 136" fill="none"/>
+<path d="M226 140C230 150 236 150 238 142Z" fill="#FFFFFF" stroke-width="3"/>
+<path d="M234 146C262 140 280 100 278 72" fill="none"/>
+<circle cx="278" cy="66" r="8" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:32px;top:76px;width:140px;font-family:'Sriracha', 'Mali', cursive;font-size:34px;line-height:1.3;color:#222222;text-align:center">แมลงวัน</p>
+<p style="position:absolute;left:186px;top:74px;width:80px;font-family:'Sriracha', 'Mali', cursive;font-size:34px;line-height:1.3;color:#222222;text-align:center">อ่าน</p>
+<p style="position:absolute;left:278px;top:72px;width:90px;font-family:'Sriracha', 'Mali', cursive;font-size:34px;line-height:1.3;color:#222222;text-align:center">ภาษา</p>
+<p style="position:absolute;left:378px;top:70px;width:66px;font-family:'Sriracha', 'Mali', cursive;font-size:34px;line-height:1.3;color:#222222;text-align:center">ไทย</p>
+<p style="position:absolute;left:300px;top:286px;width:150px;font-family:'Sriracha', 'Mali', cursive;font-size:30px;line-height:1.2;color:#222222;text-align:center">ตัดคำ<br>ฉับ ฉับ!</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1500px;top:118px;width:84px;height:98px;transform:rotate(10deg)">
+<defs>
+<filter id="b-nlpthai" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-nlpthai" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-nlpthai" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-nlpthai" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-nlpthai)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-nlpthai)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-nlpthai)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-nlpthai)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-nlpthai)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">6</p>
+<aside>ส่วนที่ภาษาไทยต้องทำเพิ่มคือการตัดคำ [ชี้กรรไกร] แมลงวันกำลังตัด "แมลงวันอ่านภาษาไทย" ออกเป็นคำๆ ใช้ PyThaiNLP ตัว newmm
+
+ภาษาไทยไม่มีจุดจบประโยคด้วย เลยตัดประโยคที่บรรทัดใหม่ กับที่ช่องว่างซึ่งมีอักษรไทยอยู่ทั้งสองข้าง วิธีนี้จะไม่ไปตัดคำอย่าง "พ.ศ. 2563" หรือวลีภาษาอังกฤษกลางประโยค นอกจากนี้ล้าง markup ของวิกิ แปลงเลขไทยเป็นอารบิก และลดตัวอักษรซ้ำ อย่าง "มากกกก" ให้เหลือ "มาก"
+
+คลังข้อความจริงประมวลเสร็จแล้ว ใช้ Thai Wikipedia 22,475 บทความ ได้ 10 ล้านโทเคน 1.67 ล้านประโยค มีโทเคนที่อยู่นอกคลังศัพท์ 20,000 คำแค่ 5.7%</aside>
+</section>
+<section id="tech-pipeline" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ขั้นตอนการทำงาน</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column">
+<ol style="font-size:30px;line-height:1.6">
+<li>เก็บข้อมูล: Thai Wikipedia, ชุดทดสอบ, wisesight</li>
+<li>ล้างข้อความ ตัดคำ สร้างคลังศัพท์</li>
+<li>สร้างหน้าต่างบริบท + คำเป้าหมาย (w = 5, 11, 15)</li>
+<li>เทรน FlyVec (NumPy, K = 400, 3 epoch)</li>
+<li>เทรน baseline: word2vec, fastText (gensim, 300 มิติ) และ word2vec ไบนารี</li>
+<li>ประเมินผล</li>
+<li>ทำตารางและกราฟ</li>
+<li>demo ด้วย Streamlit</li>
+</ol>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="แมลงวันใส่หมวกนิรภัยถือประแจ ข้างๆ มีเฟือง" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<circle cx="380" cy="100" r="44" fill="none" stroke="#222222" stroke-width="16" stroke-dasharray="11.5 11.54"/>
+<circle cx="380" cy="100" r="38" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<circle cx="380" cy="100" r="12" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<circle cx="304" cy="44" r="24" fill="none" stroke="#222222" stroke-width="10" stroke-dasharray="9.42 9.42"/>
+<circle cx="304" cy="44" r="20" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<circle cx="304" cy="44" r="6" fill="#FFFFFF" stroke="#222222" stroke-width="3"/>
+<g transform="translate(30 130) scale(1.1)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M206 134C213 143 226 143 233 134" fill="none"/>
+<path d="M170 80C170 38 258 36 258 78Z" fill="#FFD13F"/>
+<path d="M156 76H272C274 82 272 88 266 88H162C156 88 154 82 156 76Z" fill="#FFD13F"/>
+<path d="M214 40V76" fill="none" stroke-width="3.5"/>
+<path d="M282 136L304 72" fill="none" stroke-width="18"/>
+<path d="M282 136L304 72" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+<circle cx="308" cy="60" r="16" fill="#FFFFFF"/>
+<path d="M298 50L307 60L319 50" fill="#FFFFFF" stroke-width="3.5"/>
+<path d="M236 148C256 154 270 148 280 136" fill="none"/>
+<circle cx="282" cy="134" r="8" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:0px;top:24px;width:260px;font-family:'Sriracha', 'Mali', cursive;font-size:30px;line-height:1.2;color:#222222;text-align:center">ช่างแมลงวัน<br>กำลังประกอบ</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1120px;top:150px;width:84px;height:98px;transform:rotate(80deg)">
+<defs>
+<filter id="b-techpipe" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-techpipe" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-techpipe" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-techpipe" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-techpipe)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-techpipe)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-techpipe)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-techpipe)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-techpipe)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">7</p>
+<aside>ภาพรวมของงานมี 8 ขั้น [ช่างแมลงวันกำลังประกอบ] ขั้น 1 ถึง 4 คือส่วนของ FlyVec ตั้งแต่เก็บข้อมูล ตัดคำ สร้างหน้าต่าง จนถึงเทรน
+
+ขั้น 5 เทรนตัวเปรียบเทียบ คือ word2vec กับ fastText ขนาด 300 มิติ และ word2vec ที่แปลงเป็นไบนารี ขั้น 6 ถึง 8 คือประเมินผล ทำตารางกราฟ และทำ demo ด้วย Streamlit ที่พิมพ์คำแล้วดูคำใกล้เคียงได้
+
+ทุกขั้นเป็นสคริปต์แยกที่รันซ้ำได้ และโค้ดเขียนครบทุกขั้นแล้ว</aside>
+</section>
+<section id="tech-impl" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">การ implement</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column">
+<ul style="font-size:30px;line-height:1.7">
+<li>เขียนกฎการเรียนรู้ของ FlyVec เองด้วย NumPy</li>
+<li>เก็บหน้าต่างเป็นดัชนีคำ (n, w) แทนเวกเตอร์ 40,000 มิติ ผลเท่าเดิม ใช้หน่วยความจำน้อยกว่ามาก</li>
+<li>เทรนเป็น mini-batch ละ 1,024 หน้าต่าง, learning rate ลดเชิงเส้นจาก 0.3 ถึง 0</li>
+<li>ใช้ cosine กับทุกโมเดล (สำหรับรหัสไบนารี cosine = overlap / k)</li>
+<li>ขนาดตอนใช้งาน: FlyVec ≈ 1 MB, word2vec ≈ 23 MB (20,000 คำ)</li>
+<li>มีชุดเทสต์ (pytest) และ CI บน GitHub Actions</li>
+</ul>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="แมลงวันนั่งบนจอแล็ปท็อปที่มีโค้ดอยู่" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M92 140H368C374 140 378 144 378 150V306H82V150C82 144 86 140 92 140Z" fill="#FFFFFF"/>
+<path d="M64 306H396L432 346C434 350 432 354 426 354H34C28 354 26 350 28 346Z" fill="#FFFFFF"/>
+<path d="M80 316H380M70 324H160M300 324H390" fill="none" stroke-width="2"/>
+<path d="M196 332H264" fill="none" stroke-width="4"/>
+</g>
+<g stroke-width="6" stroke-linecap="round" fill="none" stroke-dasharray="14 9">
+<path d="M110 172H196" stroke="#222222"/>
+<path d="M110 198H250" stroke="#222222"/>
+<path d="M134 224H226" stroke="#222222"/>
+<path d="M134 250H306" stroke="#222222"/>
+<path d="M110 276H176" stroke="#222222"/>
+<path d="M196 266V286" stroke="#222222" stroke-dasharray="none"/>
+</g>
+<g transform="translate(150 0) scale(0.66)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M206 134C213 143 226 143 233 134" fill="none"/>
+<path d="M276 70C286 76 288 88 280 96C272 90 270 78 276 70Z" fill="#FFFFFF" stroke-width="3"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:30px;top:358px;width:400px;font-family:'Sriracha', 'Mali', cursive;font-size:30px;line-height:1.2;color:#222222;text-align:center">เขียนเองหมด ด้วย NumPy</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1680px;top:836px;width:84px;height:98px;transform:rotate(-140deg)">
+<defs>
+<filter id="b-techimpl" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-techimpl" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-techimpl" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-techimpl" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-techimpl)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-techimpl)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-techimpl)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-techimpl)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-techimpl)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">8</p>
+<aside>FlyVec ไม่ได้ใช้ไลบรารีสำเร็จรูป [ชี้แล็ปท็อป] เขียนกฎการเรียนรู้เองหมดด้วย NumPy เพื่อคุมการทดลองได้ทุกจุด
+
+มีเทคนิคหนึ่งที่ช่วยได้มาก: input จริงยาว 40,000 มิติ แต่มีเลข 1 ไม่เกิน 11 ตำแหน่ง เลยไม่สร้างเวกเตอร์เต็ม เก็บแค่ดัชนีของคำในหน้าต่าง ผลออกมาเท่าเดิมทุกอย่าง แต่ใช้หน่วยความจำน้อยลงหลายพันเท่า
+
+ส่วนการวัดความคล้ายใช้ cosine กับทุกโมเดล สำหรับรหัสไบนารี cosine ก็คือจำนวนบิตที่ซ้อนกันหารด้วย k อยู่แล้ว
+
+ขนาดตอนใช้งาน: FlyVec ทั้งคลังศัพท์ประมาณ 1 MB ส่วน word2vec ประมาณ 23 MB และมีชุดเทสต์ที่รันอัตโนมัติบน GitHub</aside>
+</section>
+<section id="tech-eval" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">การประเมินผล</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<table style="font-size:26px;color:#222222">
+<tr><th style="width:26%">ด้าน</th><th style="width:40%">ชุดข้อมูล</th><th style="width:34%">ตัวชี้วัด</th></tr>
+<tr><td>ความคล้ายของคำ</td><td>TH-WordSim-353, TH-SimLex-999</td><td>Spearman ρ, สัดส่วน OOV</td></tr>
+<tr><td>จำแนกความรู้สึก</td><td>wisesight (4 คลาส)</td><td>accuracy, macro-F1</td></tr>
+<tr><td>ทรัพยากร</td><td>คลังข้อความเดียวกัน</td><td>เวลาเทรน, ขนาดโมเดล</td></tr>
+</table>
+<ul style="font-size:28px;line-height:1.7">
+<li>w = 5, 11, 15 และ seed 0, 1, 2 (9 รอบต่อโมเดล), k = 4, 8, 16, 32, 64</li>
+<li>ทุกโมเดลใช้คลังข้อความ คลังศัพท์ หน้าต่าง และ epoch เดียวกัน</li>
+<li>มี word2vec ไบนารี (top-k = 1) ที่ k เดียวกัน เพื่อเทียบกับ FlyVec</li>
+</ul>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="แมลงวันส่องแว่นขยาย ดูว่าคำว่าแมวกับหมาคล้ายกันแค่ไหน" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M30 40H170C176 40 180 44 180 50V110C180 116 176 120 170 120H30C24 120 20 116 20 110V50C20 44 24 40 30 40Z" fill="#FFFFFF"/>
+<path d="M280 40H420C426 40 430 44 430 50V110C430 116 426 120 420 120H280C274 120 270 116 270 110V50C270 44 274 40 280 40Z" fill="#FFFFFF"/>
+<path d="M360 270L316 318" fill="none" stroke-width="20"/>
+<path d="M360 270L316 318" fill="none" stroke="#FFFFFF" stroke-width="12"/>
+<circle cx="390" cy="240" r="44" fill="#FFFFFF" stroke-width="6"/>
+<path d="M366 228C368 218 376 210 386 208M372 242C374 236 378 232 384 230" fill="none" stroke-width="3"/>
+</g>
+<g transform="translate(30 180) scale(0.9)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M210 136C216 138 224 138 230 134" fill="none"/>
+<path d="M238 146C262 160 296 164 316 158" fill="none"/>
+<circle cx="318" cy="157" r="8" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:20px;top:52px;width:160px;font-family:'Sriracha', 'Mali', cursive;font-size:40px;line-height:1.3;color:#222222;text-align:center">แมว</p>
+<p style="position:absolute;left:270px;top:52px;width:160px;font-family:'Sriracha', 'Mali', cursive;font-size:40px;line-height:1.3;color:#222222;text-align:center">หมา</p>
+<p style="position:absolute;left:180px;top:52px;width:90px;font-family:'Sriracha', 'Mali', cursive;font-size:40px;line-height:1.3;color:#222222;text-align:center">≈ ?</p>
+<p style="position:absolute;left:20px;top:132px;width:420px;font-family:'Sriracha', 'Mali', cursive;font-size:28px;line-height:1.2;color:#222222;text-align:center">ใกล้กันแค่ไหนนะ</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:620px;top:120px;width:84px;height:98px;transform:rotate(120deg)">
+<defs>
+<filter id="b-techeval" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-techeval" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-techeval" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-techeval" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-techeval)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-techeval)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-techeval)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-techeval)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-techeval)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">9</p>
+<aside>ประเมิน 3 ด้านตามคำถามวิจัย [ชี้แว่นขยาย] ด้านแรก ความคล้ายของคำ เช่นถามว่า "แมว" กับ "หมา" ใกล้กันแค่ไหน แล้วเทียบกับคะแนนที่คนให้ด้วย Spearman ρ ด้านที่สองคือจำแนกความรู้สึก wisesight 4 คลาส วัด accuracy และ macro-F1 ด้านที่สามคือเวลาเทรนกับขนาดโมเดล
+
+ทดลองหน้าต่าง 3 ขนาด คือ 5 11 และ 15 คำ แต่ละขนาดรัน 3 seed แล้วเปลี่ยน k 5 ค่า
+
+จุดที่อยากให้อาจารย์ช่วยดูคือ word2vec แบบไบนารี ใช้ k เท่ากันกับ FlyVec ถ้า FlyVec ชนะตัวนี้ แปลว่ากฎการเรียนรู้ของแมลงวันช่วยจริง ไม่ใช่ได้เปรียบแค่เพราะเป็นไบนารี</aside>
+</section>
+<section id="status" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">สรุปงานที่ทำ</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:32px;line-height:1.6;font-weight:600">เสร็จแล้ว</p>
+<ul style="font-size:30px;line-height:1.6">
+<li>โค้ดครบทั้ง 8 ขั้น พร้อมเทสต์</li>
+<li>ดาวน์โหลดและตัดคำคลังข้อความจริง 10 ล้านโทเคน</li>
+<li>รันการทดลองครบ 9 ชุด (w = 5, 11, 15 × 3 seed)</li>
+<li>ปรับ learning rate บนคลังจริง ได้ 0.3 แล้วรันการทดลองใหม่</li>
+<li>เทรน FlyVec เร็วขึ้นราว 5 เท่า (57 → 7 นาที ที่ w = 11)</li>
+<li>รายงานตอบคำถามวิจัย 3 ข้อ (docs/report.md)</li>
+</ul>
+<p style="font-size:32px;line-height:1.6;font-weight:600">ยังไม่ได้ทำ</p>
+<ul style="font-size:30px;line-height:1.6">
+<li>ลอง learning rate ที่ต่ำกว่า 0.3</li>
+<li>ขยายคลังข้อความ และเทรนด้วยหลายคอร์หรือ GPU</li>
+</ul>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="คลิปบอร์ดรายการงาน ติ๊กไปแล้ว 3 จาก 5 ข้อ มีแมลงวันเกาะที่ตัวหนีบ" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 92H354C364 92 372 100 372 110V376C372 386 364 394 354 394H126C116 394 108 386 108 376V110C108 100 116 92 126 92Z" fill="#FFFFFF"/>
+<path d="M112 146L126 132M112 162L126 148M112 178L126 164M112 194L126 180M112 210L126 196M112 226L126 212M112 242L126 228M112 258L126 244M112 274L126 260M112 290L126 276M112 306L126 292M112 322L126 308M112 338L126 324M112 354L126 340M112 370L126 356M112 386L126 372M352 146L366 132M352 162L366 148M352 178L366 164M352 194L366 180M352 210L366 196M352 226L366 212M352 242L366 228M352 258L366 244M352 274L366 260M352 290L366 276M352 306L366 292M352 322L366 308M352 338L366 324M352 354L366 340M352 370L366 356M352 386L366 372M118 392L132 378M134 392L148 378M150 392L164 378M166 392L180 378M182 392L196 378M198 392L212 378M214 392L228 378M230 392L244 378M246 392L260 378M262 392L276 378M278 392L292 378M294 392L308 378M310 392L324 378M326 392L340 378M342 392L356 378M358 392L372 378" fill="none" stroke="#222222" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M132 120H348V372H132Z" fill="#FFFFFF" stroke-width="4"/>
+<path d="M186 74H294V114C294 120 290 124 284 124H196C190 124 186 120 186 114Z" fill="#FFFFFF"/>
+<circle cx="240" cy="92" r="8" fill="#FFFFFF" stroke-width="4"/>
+</g>
+<g stroke="#222222" stroke-width="4" stroke-linejoin="round" fill="#FFFFFF">
+<path d="M152 152H180V180H152Z"/><path d="M152 196H180V224H152Z"/><path d="M152 240H180V268H152Z"/><path d="M152 284H180V312H152Z"/><path d="M152 328H180V356H152Z"/>
+</g>
+<g stroke="#222222" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="12 7">
+<path d="M198 166H318"/><path d="M198 210H300"/><path d="M198 254H326"/><path d="M198 298H290"/><path d="M198 342H310"/>
+</g>
+<g stroke="#222222" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M156 164L166 174L188 146"/><path d="M156 208L166 218L188 190"/><path d="M156 252L166 262L188 234"/><path d="M156 296L166 306L188 278"/>
+</g>
+<g transform="translate(250 0) scale(0.42)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M206 134C213 143 226 143 233 134" fill="none"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:0px;top:16px;width:230px;font-family:'Sriracha', 'Mali', cursive;font-size:30px;line-height:1.2;color:#222222;text-align:center">ครบแล้ว!</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1000px;top:560px;width:84px;height:98px;transform:rotate(-30deg)">
+<defs>
+<filter id="b-status" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-status" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-status" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-status" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-status)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-status)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-status)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-status)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-status)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">10</p>
+<aside>ก่อนดูผล ขอสรุปว่าทำอะไรไปแล้วบ้าง [ชี้คลิปบอร์ด] งานหลักครบแล้ว
+
+ที่เสร็จแล้ว: โค้ดครบ 8 ขั้นพร้อมเทสต์, ตัดคำคลังข้อความจริง 10 ล้านโทเคน, รันการทดลองครบ 9 ชุด คือหน้าต่าง 3 ขนาด คูณ 3 seed หลังรายงานความคืบหน้าครั้งก่อน ได้ปรับ learning rate บนคลังจริง ได้ค่า 0.3 แล้วรันการทดลองหลักใหม่ทั้งหมด และเปลี่ยนวิธีเก็บน้ำหนักจนเทรนเร็วขึ้นราว 5 เท่า จาก 57 นาทีเหลือประมาณ 7 นาทีที่หน้าต่าง 11 คำ สุดท้ายคือเขียนรายงานตอบคำถามวิจัยทั้ง 3 ข้อ
+
+ที่ยังไม่ได้ทำ: ลอง learning rate ที่ต่ำกว่า 0.3 ขยายคลังข้อความ และเทรนด้วยหลายคอร์หรือ GPU</aside>
+</section>
+<section id="pilot" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">การเลือก learning rate</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:30px;line-height:1.6">ทดลองบนคลังข้อความจริง w = 11, 3 seed (ρ เฉลี่ยทุก k ± SD)</p>
+<table style="font-size:28px;color:#222222">
+<tr><th style="width:30%">learning rate</th><th style="width:35%">ρ WordSim</th><th style="width:35%">ρ SimLex</th></tr>
+<tr><td>0.3</td><td>0.405 ± 0.015</td><td>0.360 ± 0.008</td></tr>
+<tr><td>1.0</td><td>0.357 ± 0.011</td><td>0.321 ± 0.020</td></tr>
+<tr><td>3.0</td><td>0.295 ± 0.023</td><td>0.282 ± 0.018</td></tr>
+</table>
+<ul style="font-size:28px;line-height:1.6">
+<li>ข้อมูลเล็ก (wisesight ~0.5 ล้านโทเคน) เคยชี้ว่า 1.0 ดีที่สุด แต่บนคลังจริง 0.3 ดีกว่าทุก seed</li>
+<li>ลองเพิ่มที่ 0.1 และ 0.03 (seed เดียว) แย่กว่า 0.3 ทั้งคู่ 0.3 จึงเป็นจุดที่ดีที่สุด</li>
+<li>macro-F1 ต่างกันไม่เกิน 0.002 งาน sentiment ไม่ไวต่อ learning rate</li>
+</ul>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="แมลงวันใส่แว่นกันลมดูขวดทดลองที่มีฟองผุดขึ้นมา" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M166 56H234V68H228V150L296 300C304 318 292 336 272 336H128C108 336 96 318 104 300L172 150V68H166Z" fill="#FFFFFF"/>
+<path d="M127 250C160 240 240 262 273 250L296 300C304 318 292 336 272 336H128C108 336 96 318 104 300Z" fill="#FFFFFF" stroke="none"/>
+<path d="M140 278C160 272 180 284 200 278C220 272 240 284 262 278M124 302C150 296 176 308 200 302C226 296 252 308 284 302M120 324C140 320 160 328 180 324" fill="none" stroke-width="2.2"/>
+<path d="M127 250C160 240 240 262 273 250" fill="none" stroke-width="4"/>
+<path d="M166 56H234V68H228V150L296 300C304 318 292 336 272 336H128C108 336 96 318 104 300L172 150V68H166Z" fill="none"/>
+<g fill="#FFFFFF" stroke-width="3"><circle cx="160" cy="300" r="8"/><circle cx="210" cy="284" r="6"/><circle cx="240" cy="312" r="10"/><circle cx="202" cy="38" r="9"/><circle cx="184" cy="16" r="6"/><circle cx="222" cy="12" r="5"/></g></g>
+<g transform="translate(462 200) scale(-0.62 0.62)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M210 132C214 142 226 142 230 132Z" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+<g fill="none" stroke="#222222" stroke-width="6"><circle cx="200" cy="98" r="27"/><circle cx="237" cy="100" r="25"/><path d="M174 96H160M262 100H268"/></g>
+<path d="M184 136L188 129M191 137L195 130M243 136L247 129M250 137L254 130" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:10px;top:362px;width:440px;font-family:'Sriracha', 'Mali', cursive;font-size:30px;line-height:1.2;color:#222222;text-align:center">lr = 0.3 กำลังดี!</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1690px;top:96px;width:84px;height:98px;transform:rotate(15deg)">
+<defs>
+<filter id="b-pilot" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-pilot" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-pilot" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-pilot" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-pilot)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-pilot)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-pilot)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-pilot)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-pilot)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">11</p>
+<aside>ค่าที่มีผลต่อ FlyVec มากที่สุดคือ learning rate [ชี้ขวดทดลอง] ตอนแรกก่อนมีคลังข้อความจริง ได้ลองกับข้อความ wisesight ประมาณครึ่งล้านโทเคน ได้ว่า 1.0 ดีที่สุด เลยใช้ค่านั้นในผลรอบแรกที่รายงานไปครั้งก่อน
+
+แต่พอลองใหม่บนคลังจริง 10 ล้านโทเคน ผลกลับกัน learning rate 0.3 ได้ ρ เฉลี่ย 0.405 บน WordSim และ 0.360 บน SimLex สูงกว่า 1.0 และ 3.0 ชัดเจน และดีกว่า 1.0 ทุก seed เลยรันการทดลองหลักใหม่ทั้งหมดที่ 0.3 ตัวเลขในหน้าถัดไปเป็นของค่านี้
+
+เพื่อดูว่าค่าที่ต่ำกว่านี้จะดีกว่าไหม ได้ลองเพิ่มที่ 0.1 และ 0.03 ด้วย seed เดียว ปรากฏว่าแย่กว่า 0.3 ทั้งคู่ โดยเฉพาะบน SimLex ที่คะแนนเฉลี่ยลดจาก 0.358 เหลือ 0.336 และ 0.316 สรุปคือ 0.3 เป็นจุดที่ดีที่สุด สูงกว่านี้หรือต่ำกว่านี้ก็แย่ลง แต่ผลของค่าที่ต่ำกว่านี้เป็นแค่ seed เดียว
+
+ข้อควรระวังคือ เลือกค่านี้ด้วยชุดทดสอบเดียวกับที่รายงานผล เพราะไม่มีชุด validation สำหรับความคล้ายของคำ ผลของ FlyVec จึงอาจสูงกว่าความเป็นจริงเล็กน้อย ส่วนงานจำแนกความรู้สึกแทบไม่เปลี่ยนตาม learning rate</aside>
+</section>
+<section id="results" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:24px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ผลการทดลองบนคลังข้อความจริง</h2>
+<table style="font-size:26px;color:#222222">
+<tr><th style="width:30%">โมเดล</th><th style="width:13%">ρ SimLex</th><th style="width:13%">ρ WordSim</th><th style="width:16%">F1 ความรู้สึก</th><th style="width:14%">ขนาดตอนใช้</th><th style="width:14%">เวลาเทรน</th></tr>
+<tr><td>FlyVec (k = 32)</td><td>0.361 ± 0.022</td><td>0.439 ± 0.017</td><td>0.422 ± 0.006</td><td>0.95 MB</td><td>6.8 นาที</td></tr>
+<tr><td>word2vec ไบนารี (k = 32)</td><td>0.455 ± 0.030</td><td>0.496 ± 0.010</td><td>0.412 ± 0.018</td><td>0.72 MB</td><td>2.1 นาที</td></tr>
+<tr><td>word2vec</td><td>0.513 ± 0.002</td><td>0.590 ± 0.005</td><td>0.425 ± 0.003</td><td>23.6 MB</td><td>2.1 นาที</td></tr>
+<tr><td>fastText</td><td>0.548 ± 0.001</td><td>0.652 ± 0.005</td><td>0.424 ± 0.003</td><td>252.5 MB</td><td>4.1 นาที</td></tr>
+</table>
+<p style="font-size:24px;line-height:1.4;color:#555555">w = 11, ค่าเฉลี่ย ± SD ของ 3 seed, lr = 0.3 · ρ คิดบนคู่คำที่ทุกโมเดลรู้จัก (SimLex 743 คู่, WordSim 212 คู่) · F1 = macro-F1 บน wisesight test</p>
+<div style="display:flex;gap:40px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column">
+<ul style="font-size:28px;line-height:1.6">
+<li>ความคล้ายของคำ: ρ ที่ดีที่สุดของ FlyVec คิดเป็นราว 74–76% ของ word2vec (84–86% ที่ w = 5)</li>
+<li>จำแนกความรู้สึก: สูสี macro-F1 ต่างจาก word2vec 0.003 ซึ่งน้อยกว่า SD</li>
+<li>รหัส FlyVec เล็กกว่า word2vec 24.8 เท่า แต่เทรนนานกว่า 1.7–4.6 เท่า (NumPy 1 คอร์ เทียบ gensim 4 คอร์)</li>
+</ul>
+</div>
+<div style="position:relative;width:380px;height:300px">
+<svg aria-label="กราฟแท่ง ρ ของ FlyVec word2vec fastText แมลงวันนั่งบนแท่งที่เตี้ยที่สุด เหงื่อตก พูดว่าสู้ต่อ" width="380" height="300" viewBox="0 0 380 300" style="width:380px;height:300px">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M36 16V262H364" fill="none"/>
+<path d="M66 262V156H126V262" fill="#FFFFFF"/>
+<path d="M166 262V120H226V262" fill="#FFFFFF"/>
+<path d="M266 262V105H326V262" fill="#FFFFFF"/>
+<path d="M66 170H126M66 182H126M66 194H126M66 208H126M66 222H126M66 236H126M66 250H126M166 134H226M166 148H226M166 162H226M166 176H226M166 190H226M166 204H226M166 218H226M166 232H226M166 246H226M266 119H326M266 133H326M266 147H326M266 161H326M266 175H326M266 189H326M266 203H326M266 217H326M266 231H326M266 245H326" fill="none" stroke-width="2.2"/>
+<path d="M44 30C50 10 120 6 150 18C172 28 170 56 150 64C134 70 108 70 96 68L86 78L86 64C60 58 38 48 44 30Z" fill="#FFFFFF"/>
+<path d="M150 98C156 110 160 116 154 122C148 126 142 120 146 112Z" fill="#FFFFFF" stroke-width="3"/>
+</g>
+<g transform="translate(48 69) scale(0.42)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="92" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="94" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M206 138C213 132 226 132 233 138" fill="none"/>
+<path d="M238 146C252 140 262 124 264 104" fill="none"/>
+<circle cx="264" cy="98" r="8" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="87" r="4"/><circle cx="236" cy="89" r="3.5"/></g>
+<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+</svg>
+<p style="position:absolute;left:46px;top:16px;width:120px;font-family:'Sriracha', 'Mali', cursive;font-size:32px;line-height:1.2;color:#222222;text-align:center">สู้ต่อ!</p>
+<p style="position:absolute;left:236px;top:20px;width:140px;font-size:24px;line-height:1.2;color:#555555;text-align:center">ρ WordSim</p>
+<p style="position:absolute;left:46px;top:268px;width:100px;font-size:24px;line-height:1.2;color:#222222;text-align:center">FlyVec</p>
+<p style="position:absolute;left:146px;top:268px;width:100px;font-size:24px;line-height:1.2;color:#222222;text-align:center">w2v</p>
+<p style="position:absolute;left:246px;top:268px;width:100px;font-size:24px;line-height:1.2;color:#222222;text-align:center">fastText</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1650px;top:112px;width:84px;height:98px;transform:rotate(60deg)">
+<defs>
+<filter id="b-results" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-results" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-results" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-results" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-results)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-results)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-results)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-results)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-results)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">12</p>
+<aside>มาถึงผลจริงบนคลังข้อความ 10 ล้านโทเคน รันครบ 9 ชุด ตัวเลขในตารางคือค่าเฉลี่ยของ 3 seed ที่หน้าต่าง 11 คำ บวกลบส่วนเบี่ยงเบนมาตรฐาน
+
+ด้านความคล้ายของคำ FlyVec ยังแพ้ ที่ k = 32 ได้ ρ บน WordSim 0.439 ขณะที่ word2vec ได้ 0.590 คิดเป็นราว 74% ส่วนบน SimLex ค่าที่ดีที่สุดคือ 0.392 ที่ k = 8 ราว 76% ของ word2vec ถ้าใช้หน้าต่างเล็ก 5 คำ จะขึ้นไปได้ถึง 84 ถึง 86% [ชี้แมลงวันบนแท่งเตี้ย] แมลงวันเลยต้องสู้ต่อ แต่คำใกล้เคียงสมเหตุสมผล เช่น ฟุตบอลใกล้กับ สโมสร ทีม ลีก
+
+ในงานจำแนกความรู้สึก FlyVec สูสี macro-F1 0.422 เทียบ word2vec 0.425 ต่างกันแค่ 0.003 ซึ่งน้อยกว่าส่วนเบี่ยงเบนมาตรฐาน แต่ต้องบอกด้วยว่างานนี้แยกความต่างระหว่างโมเดลได้น้อย เพราะใช้ค่าเฉลี่ยเวกเตอร์คำกับ logistic regression
+
+ด้านขนาด รหัส FlyVec ทั้งคลังศัพท์ใช้ 0.95 MB เล็กกว่า word2vec 24.8 เท่า ส่วนเวลาเทรนอยู่ที่ 6.8 นาที เทียบ 2.1 นาทีของ word2vec นานกว่า 1.7 ถึง 4.6 เท่าตามขนาดหน้าต่าง เพราะ FlyVec เขียนด้วย NumPy รันคอร์เดียว ส่วน gensim เขียนด้วย C และใช้ 4 คอร์ เลยยังเทียบเวลาตรงๆ ไม่ได้</aside>
+</section>
+<section id="results-k" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ความยาว hash k</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<ul style="font-size:30px;line-height:1.6">
+<li>รหัสสั้น (k ≤ 8): FlyVec ชนะ word2vec ไบนารี เช่น 0.392 เทียบ 0.352 ที่ k = 8</li>
+<li>รหัสยาว (k ≥ 16): word2vec ไบนารีดีกว่า และเพิ่มขึ้นตาม k</li>
+<li>FlyVec สูงสุดที่ k = 8–32 แล้วลดลงที่ k = 64</li>
+<li>macro-F1 เพิ่มจาก k = 4 ถึง 16 แล้วคงที่</li>
+</ul>
+<p style="font-size:32px;line-height:1.6;font-weight:600">ข้อเสนอแนะสำหรับภาษาไทย: k = 16–32</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;width:720px">
+<img src="results-k.png" alt="กราฟ Spearman ρ บน TH-SimLex-999 เทียบกับความยาว hash k ที่ w = 11: FlyVec สูงสุด 0.39 ที่ k = 8 แล้วลดลง ส่วน word2vec ไบนารีเพิ่มจาก 0.30 เป็น 0.49" style="width:720px;height:500px;object-fit:contain">
+<p style="font-size:24px;line-height:1.4;color:#555555">ρ บน TH-SimLex-999, w = 11, ค่าเฉลี่ย ± SD ของ 3 seed</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:760px;top:132px;width:84px;height:98px;transform:rotate(35deg)">
+<defs>
+<filter id="b-resk" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-resk" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-resk" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-resk" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-resk)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-resk)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-resk)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-resk)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-resk)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">13</p>
+<aside>หน้านี้ตอบคำถามวิจัยข้อ 3 ว่า k ควรเป็นเท่าไร และตอบด้วยว่ากฎการเรียนรู้แบบแมลงวันช่วยจริงไหม [ชี้กราฟ] เส้นสีน้ำเงินคือ FlyVec เส้นสีส้มคือ word2vec ที่แปลงเป็นไบนารีด้วย k เท่ากัน เส้นประด้านบนคือ word2vec กับ fastText แบบ 300 มิติ
+
+เมื่อรหัสสั้น คือ k ไม่เกิน 8 FlyVec ชนะ เช่นที่ k = 8 ได้ 0.392 เทียบ 0.352 แปลว่ากฎแบบแมลงวันเก็บความหมายลงในบิตจำนวนน้อยได้ดีกว่าการตัดเวกเตอร์ word2vec ให้เหลือไม่กี่บิต
+
+แต่พอรหัสยาวขึ้น ตั้งแต่ k = 16 word2vec ไบนารีดีกว่า และดีขึ้นเรื่อยๆ ตาม k ส่วน FlyVec ขึ้นสูงสุดที่ k ราว 8 ถึง 32 แล้วลดลงที่ 64 ข้อดีของ FlyVec ในการทดลองนี้จึงมีเฉพาะเมื่อรหัสสั้น
+
+ในงานจำแนกความรู้สึก macro-F1 เพิ่มจาก k = 4 ถึง 16 แล้วคงที่ เมื่อดูรวมทุกด้าน ข้อเสนอแนะสำหรับภาษาไทยคือ k = 16 ถึง 32 และเปลี่ยน k ได้โดยไม่ต้องเทรนใหม่</aside>
+</section>
+<section id="transformers" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ทดลองเพิ่ม: โมเดล Transformer สำเร็จรูป</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<table style="font-size:26px;color:#222222">
+<tr><th style="width:36%">โมเดล</th><th style="width:64%">ผล</th></tr>
+<tr><td>all-MiniLM-L6-v2</td><td>ใช้ได้ ประโยคเรื่องทำนา 2 ประโยค cosine 0.60, คู่อื่นต่ำกว่า 0.12</td></tr>
+<tr><td>WangchanBERTa base (fill-mask)</td><td>ใช้ไม่ได้ "…เมืองหลวงของประเทศ&lt;mask&gt;" ได้ "นม"</td></tr>
+<tr><td>WangchanBERTa finetuned wisesight</td><td>ถูก 5/6 ประโยค ความมั่นใจ 0.93–0.99</td></tr>
+</table>
+<ul style="font-size:26px;line-height:1.6">
+<li>WangchanBERTa base: ตรวจ checksum, น้ำหนัก, tokenizer, เวอร์ชันไลบรารีแล้ว ตรงหมด น่าจะเป็นที่ checkpoint</li>
+<li>ตัว finetuned พลาด "ร้านนี้เปิดกี่โมงครับ" (ควรเป็น question ได้ neutral)</li>
+<li>ตัว finetuned เทรนบน wisesight เอง จึงเทียบตรงกับ FlyVec ไม่ได้</li>
+</ul>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="หุ่นยนต์ตอบว่า นม แมลงวันงงถามว่า หา" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M150 30C160 10 250 6 290 22C318 34 316 72 290 84C262 96 214 96 192 90L166 116L172 84C150 76 142 50 150 30Z" fill="#FFFFFF"/>
+<path d="M330 128C338 108 410 104 436 118C454 128 452 156 434 164C418 172 384 172 368 168L350 190L354 164C334 156 324 144 330 128Z" fill="#FFFFFF" stroke-width="4"/>
+<path d="M100 118V90" fill="none"/>
+<circle cx="100" cy="82" r="9" fill="#FFD13F" stroke-width="4"/>
+<path d="M44 240C24 256 20 280 26 300M156 240C176 252 180 276 174 296" fill="none"/>
+<path d="M88 208V226H112V208" fill="#FFFFFF" stroke-width="4"/>
+<path d="M44 224H156V340H44Z" fill="#FFFFFF"/>
+<path d="M50 236L60 226M50 250L74 226M140 336L152 324M126 336L152 310" fill="none" stroke-width="2.2"/>
+<path d="M48 118H152C160 118 166 124 166 132V196C166 204 160 210 152 210H48C40 210 34 204 34 196V132C34 124 40 118 48 118Z" fill="#FFFFFF"/>
+<circle cx="74" cy="154" r="12" fill="#FFFFFF" stroke-width="4"/>
+<circle cx="126" cy="154" r="12" fill="#FFFFFF" stroke-width="4"/>
+<path d="M68 184H132M82 178V190M96 178V190M110 178V190M122 178V190" fill="none" stroke-width="3.5"/>
+<path d="M68 292H132M68 314H132" fill="none" stroke-width="4"/>
+</g>
+<g fill="#222222"><circle cx="79" cy="157" r="5"/><circle cx="121" cy="151" r="5"/></g>
+<g stroke="#222222" stroke-width="3"><circle cx="76" cy="258" r="8" fill="#FFD13F"/><circle cx="100" cy="258" r="8" fill="#FFFFFF"/><circle cx="124" cy="258" r="8" fill="#222222"/></g>
+<g transform="translate(462 196) scale(-0.66 0.66)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<ellipse cx="220" cy="138" rx="7" ry="8" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+</g>
+</svg>
+<p style="position:absolute;left:165px;top:22px;width:140px;font-family:'Sriracha', 'Mali', cursive;font-size:48px;line-height:1.2;color:#222222;text-align:center">นม!</p>
+<p style="position:absolute;left:334px;top:114px;width:110px;font-family:'Sriracha', 'Mali', cursive;font-size:38px;line-height:1.2;color:#222222;text-align:center">หา?</p>
+<p style="position:absolute;left:0px;top:352px;width:200px;font-size:24px;line-height:1.2;color:#555555;text-align:center">WangchanBERTa</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:150px;top:846px;width:84px;height:98px;transform:rotate(220deg)">
+<defs>
+<filter id="b-transformers" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-transformers" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-transformers" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-transformers" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-transformers)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-transformers)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-transformers)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-transformers)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-transformers)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">14</p>
+<aside>นอกจาก FlyVec ได้ลองโมเดล Transformer สำเร็จรูปจาก Hugging Face ไว้เป็นจุดอ้างอิงด้วย
+
+MiniLM ใช้ได้ดี ประโยคเรื่องทำนาสองประโยคได้ cosine 0.60 ส่วนคู่อื่นต่ำกว่า 0.12
+
+WangchanBERTa ตัวหลักเอามาเติมคำในช่องว่างไม่ได้ [ชี้หุ่นยนต์] ถามว่า "กรุงเทพเป็นเมืองหลวงของประเทศอะไร" มันตอบว่า "นม" ได้ไล่ตรวจแล้วทั้งไฟล์น้ำหนัก tokenizer และเวอร์ชันไลบรารี ตรงหมด เลยสรุปว่าน่าจะเป็นที่ตัวโมเดลที่เผยแพร่เอง
+
+ส่วนเวอร์ชันที่ fine-tune กับ wisesight มาแล้วใช้ได้ดี ถูก 5 จาก 6 ประโยค ความมั่นใจ 0.93 ถึง 0.99 แต่ตัวนี้เทรนบน wisesight มาโดยตรง เลยเทียบตรงๆ กับ FlyVec ที่ไม่ได้ใช้ป้ายกำกับเลยไม่ได้</aside>
+</section>
+<section id="issues" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ปัญหาที่พบ</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column">
+<ul style="font-size:30px;line-height:1.7">
+<li>download.pytorch.org ถูกบล็อก → ติดตั้ง torch จาก PyPI แทน รันบน CPU</li>
+<li>สคริปต์ตั้งค่า environment หา requirements.txt ไม่เจอ → ใส่ repo แล้ว ติดตั้งได้</li>
+<li>WangchanBERTa base ทาย mask ผิด → ใช้ตัว finetuned หรือลอง xlm-roberta-base</li>
+<li>learning rate ไวต่อข้อมูล → ปรับบนคลังจริง ได้ 0.3 แล้วรันใหม่</li>
+<li>fastText โมเดลใหญ่ ~2.4 GB ต่อรอบ → ลด n-gram bucket เหลือ 200,000</li>
+</ul>
+</div>
+<div style="position:relative;width:460px;height:400px">
+<svg aria-label="กระป๋องสเปรย์ฉีดแมลงเขียนว่า DEBUG แมลงวันตกใจเหงื่อตก" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
+<g fill="none" stroke="#222222" stroke-width="2.5"><circle cx="160" cy="92" r="6"/><circle cx="180" cy="80" r="8"/><circle cx="178" cy="106" r="5"/><circle cx="202" cy="94" r="9"/><circle cx="208" cy="70" r="6"/><circle cx="228" cy="88" r="7"/><circle cx="224" cy="114" r="5"/><circle cx="248" cy="76" r="5"/><circle cx="252" cy="102" r="8"/></g>
+<g stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M96 84H128V110H96Z" fill="#FFFFFF" stroke-width="4"/>
+<path d="M128 94H142" fill="none"/>
+<path d="M80 110H144V140H80Z" fill="#FFFFFF"/>
+<path d="M90 136L100 114M104 136L114 114M118 136L128 114M132 136L140 120" fill="none" stroke-width="2"/>
+<path d="M64 140H160C168 140 172 146 172 154V326C172 334 168 340 160 340H64C56 340 52 334 52 326V154C52 146 56 140 64 140Z" fill="#FFFFFF"/>
+<path d="M58 290L72 276M58 310L92 276M64 332L120 276M88 336L148 276M114 336L166 284M140 336L166 310M58 176L76 158M58 186L94 150M96 186L132 150M132 186L166 152" fill="none" stroke-width="2.2"/>
+<path d="M52 192H172V272H52Z" fill="#FFFFFF" stroke-width="4"/>
+</g>
+<g stroke="#222222" stroke-width="3" stroke-linejoin="round" fill="#FFFFFF">
+<path d="M290 184C296 196 300 202 294 208C288 212 282 206 286 198Z"/>
+<path d="M272 212C277 222 280 227 275 232C270 235 265 230 268 223Z"/>
+</g>
+<g transform="translate(462 170) scale(-0.72 0.72)">
+<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
+<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
+<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
+<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
+<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
+<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
+<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
+<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
+<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
+<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
+<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
+<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
+<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
+<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
+<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
+<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
+<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
+<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
+<path d="M204 136C210 130 216 140 222 134C228 128 234 138 238 132" fill="none"/>
+<path d="M240 144C258 140 266 124 266 108M238 150C258 158 274 154 282 142" fill="none"/>
+<circle cx="266" cy="102" r="8" fill="#FFFFFF"/>
+<circle cx="284" cy="138" r="8" fill="#FFFFFF"/>
+</g>
+<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
+</g>
+</svg>
+<p style="position:absolute;left:52px;top:212px;width:120px;font-size:28px;font-weight:700;line-height:1.2;color:#222222;text-align:center">DEBUG</p>
+<p style="position:absolute;left:380px;top:100px;width:80px;font-family:'Sriracha', 'Mali', cursive;font-size:56px;line-height:1.2;color:#222222;text-align:center">!!</p>
+<p style="position:absolute;left:10px;top:352px;width:440px;font-family:'Sriracha', 'Mali', cursive;font-size:28px;line-height:1.2;color:#222222;text-align:center">เดี๋ยวๆ ไม่ใช่ bug ตัวนั้น!</p>
+</div>
+</div>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1240px;top:130px;width:84px;height:98px;transform:rotate(-80deg)">
+<defs>
+<filter id="b-issues" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-issues" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-issues" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-issues" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-issues)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-issues)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-issues)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-issues)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-issues)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">15</p>
+<aside>ปัญหาที่เจอส่วนใหญ่เป็นเรื่อง environment [ชี้สเปรย์] ระหว่าง debug ก็ต้องระวังไม่ให้โดนแมลงวันของเราเอง
+
+เช่นเว็บดาวน์โหลด PyTorch ถูกบล็อก เลยติดตั้งจาก PyPI แทน สคริปต์ตั้งค่า environment หาไฟล์ไม่เจอเพราะ repo ไม่ได้ถูกใส่เข้าไป ตอนนี้แก้แล้ว ส่วน fastText โมเดลใหญ่เกินไป เลยลดขนาดตาราง n-gram ลง
+
+ส่วน learning rate ที่เคยค้างไว้ ปรับบนคลังจริงแล้ว ได้ 0.3 และรันการทดลองหลักใหม่ทั้งหมด</aside>
+</section>
+<section id="limits" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ข้อจำกัด</h2>
+<ol style="font-size:32px;line-height:1.8">
+<li>เลือก learning rate ด้วยชุดทดสอบเดียวกับที่รายงาน (ไม่มีชุด validation) และค่าที่ต่ำกว่า 0.3 ลองเพียง seed เดียว</li>
+<li>เวลาเทรนเทียบตรงไม่ได้: NumPy 1 คอร์ เทียบ gensim (C, 4 thread)</li>
+<li>ชุดทดสอบความคล้ายแปลจากภาษาอังกฤษ คู่คำ 26–40% อยู่นอกคลังศัพท์</li>
+<li>มีเพียง 3 seed และไม่ได้ทดสอบนัยสำคัญทางสถิติ</li>
+<li>ใช้คลังข้อความเดียว (Thai Wikipedia 10 ล้านโทเคน)</li>
+<li>งาน sentiment ใช้ค่าเฉลี่ยเวกเตอร์คำ ไม่ไวต่อคุณภาพของ embedding</li>
+</ol>
+<p style="font-size:32px;line-height:1.6;font-weight:600">ความต่างที่อยู่ภายใน SD จึงไม่ควรตีความว่าต่างกันจริง</p>
+<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1560px;top:560px;width:84px;height:98px;transform:rotate(140deg)">
+<defs>
+<filter id="b-limits" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+<radialGradient id="e-limits" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
+<radialGradient id="a-limits" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
+<radialGradient id="t-limits" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
+</defs>
+<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-limits)"/>
+<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
+<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-limits)"/>
+<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
+<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-limits)"/>
+<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
+<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
+<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
+<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
+<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-limits)"/>
+<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-limits)"/>
+<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
+<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
+<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
+</svg>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">16</p>
+<aside>ก่อนสรุป ขอบอกข้อจำกัดของงานนี้ตรงๆ 6 ข้อ
+
+ข้อแรก learning rate 0.3 เลือกด้วยชุดทดสอบเดียวกับที่รายงานผล และปรับเฉพาะที่หน้าต่าง 11 คำ ผลของ FlyVec จึงอาจสูงกว่าความเป็นจริงเล็กน้อย ส่วน baseline ไม่ได้ปรับแบบเดียวกัน นอกจากนี้ค่า 0.1 และ 0.03 ที่ลองเพิ่มทีหลังรันแค่ seed เดียว ผลที่ว่าแย่กว่า 0.3 จึงเป็นการยืนยันเบื้องต้น
+
+ข้อสอง เวลาเทรนเทียบกันตรงๆ ไม่ได้ FlyVec ใช้ NumPy คอร์เดียว ส่วน gensim เขียนด้วย C และใช้ 4 thread ตัวเลขเวลาจึงสะท้อนการ implement มากกว่าตัววิธี
+
+ข้อสาม ชุดทดสอบความคล้ายของคำแปลมาจากภาษาอังกฤษ และคู่คำ 26 ถึง 40% อยู่นอกคลังศัพท์ WordSim เหลือแค่ 212 คู่ คะแนนจึงแกว่ง
+
+ข้อสี่ มีแค่ 3 seed และไม่ได้ทดสอบนัยสำคัญทางสถิติ ข้อห้า ใช้คลังข้อความเดียว คือ Thai Wikipedia 10 ล้านโทเคน ซึ่งเล็กกว่างานต้นฉบับมาก และข้อหก งานจำแนกความรู้สึกใช้ค่าเฉลี่ยเวกเตอร์คำกับ logistic regression ซึ่งไม่ไวต่อคุณภาพของ embedding
+
+สรุปคือ ความต่างที่อยู่ภายในส่วนเบี่ยงเบนมาตรฐาน ไม่ควรตีความว่าต่างกันจริง</aside>
+</section>
+</div></div>
+<div id="notes" hidden></div>
+<nav id="bar" aria-label="เลื่อนสไลด์">
+<button type="button" id="prev" aria-label="สไลด์ก่อนหน้า">←</button>
+<span id="count"></span>
+<button type="button" id="next" aria-label="สไลด์ถัดไป">→</button>
+<button type="button" id="notesbtn" aria-pressed="false">โน้ตผู้พูด (N)</button>
+<button type="button" id="full">เต็มจอ (F)</button>
+</nav>
+<script>
+(function () {
+  const slides = [...document.querySelectorAll('#deck > section')], deck = document.getElementById('deck'), stage = document.getElementById('stage');
+  const notes = document.getElementById('notes'), nb = document.getElementById('notesbtn');
+  let i = 0;
+  function fit() { const r = stage.getBoundingClientRect(); deck.style.transform = 'scale(' + Math.min(r.width / 1920, r.height / 1080) + ')'; }
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, j) => s.classList.toggle('on', j === i));
+    document.getElementById('count').textContent = (i + 1) + ' / ' + slides.length;
+    const a = slides[i].querySelector('aside'); notes.textContent = a ? a.textContent.trim() : '(ไม่มีโน้ต)';
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+  function toggleNotes() { notes.hidden = !notes.hidden; nb.setAttribute('aria-pressed', !notes.hidden); stage.style.bottom = notes.hidden ? '56px' : (notes.offsetHeight + 56) + 'px'; fit(); }
+  function full() { if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {}); else document.exitFullscreen?.(); }
+  document.getElementById('prev').onclick = () => show(i - 1);
+  document.getElementById('next').onclick = () => show(i + 1);
+  nb.onclick = toggleNotes; document.getElementById('full').onclick = full;
+  stage.addEventListener('click', e => { if (!e.target.closest('a')) show(e.clientX < innerWidth / 3 ? i - 1 : i + 1); });
+  addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0); else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') toggleNotes(); else if (e.key === 'f' || e.key === 'F') full();
+  });
+  let x0 = null; stage.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', e => { if (x0 == null) return; const d = e.changedTouches[0].clientX - x0; if (Math.abs(d) > 40) show(d < 0 ? i + 1 : i - 1); x0 = null; });
+  addEventListener('resize', fit); addEventListener('hashchange', () => show((parseInt(location.hash.slice(1)) || 1) - 1));
+  fit(); show((parseInt(location.hash.slice(1)) || 1) - 1);
+})();
+</script>
+</body>
+</html>
