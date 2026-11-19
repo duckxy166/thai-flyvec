@@ -98,7 +98,7 @@ const DATA = {"words":["ใน","ที่","และ","ของ","เป็�
       const ids = [], sc = [];
       for (const [n, p] of cand) {
         let s;
-        if (n === B) { if (sent.length < 7 || b < STOP) continue; s = Math.log(p) + (sent.length > 12 ? 0.5 : 0); }
+        if (n === B) { if (sent.length < 2 || b < STOP) continue; s = Math.log(p); }      // what it has read decides when to stop
         else s = Math.log(p) + LAM * rel[n] + (cells.has(n) && !sent.includes(n) ? BONUS : 0) - (n >= STOP && sent.slice(-8).includes(n) ? 2.5 : 0) - (n === b ? 4 : 0);
         ids.push(n); sc.push(s);
       }
@@ -110,7 +110,7 @@ const DATA = {"words":["ใน","ที่","และ","ของ","เป็�
     }
     let topic = 0, nc = 0, hits = 0; for (const n of sent) if (n >= STOP) { topic += rel[n]; nc++; }
     for (const c of cells) if (sent.includes(c)) hits++;
-    return { sent, natural, score: (natural ? 1 : 0) + (nc ? topic / nc : 0) + (sent.length >= 8 && sent.length <= 18 ? 0.3 : 0) + 0.5 * hits };
+    return { sent, natural, score: (natural ? 1 : 0) + (nc ? topic / nc : 0) + 0.5 * hits };
   }
   function speak(content, cellWordsList) {   // start from each content word in turn; keep the sentence that ends properly, stays on topic and uses the cells' words
     const rel = relevance(content), cells = new Set(cellWordsList || []), starts = [...new Set(content)].slice(0, 4); let best = null;
