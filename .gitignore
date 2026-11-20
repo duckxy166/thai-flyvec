@@ -13,3 +13,5 @@ models/*
 # per-setting outputs of parallel runs, merged into results/raw_results.csv
 results/runs/
 *.egg-info/
+# built from docs/report-short.md by scripts/build_report.py (the PDF is kept)
+docs/report-short.html
