@@ -37,7 +37,8 @@ th, td { border: 1px solid #999; padding: 1.5pt 5pt }
 th { background: #eee }
 td { text-align: left }  /* numeric columns get `---:` in the Markdown */
 figure { margin: 5pt 0; text-align: center; break-inside: avoid }
-figure img { max-width: 100% }
+figure p { text-align: center }  /* markdown wraps the <img> in a justified <p> */
+figure img { display: block; margin: 0 auto; max-width: 100% }
 figcaption, .caption { font-size: 9pt; color: #333; text-align: center }
 code { font-family: Consolas, monospace; font-size: 9pt }
 a { color: #1a4f9c; text-decoration: none }
