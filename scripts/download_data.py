@@ -1,7 +1,7 @@
 """Download every dataset the project uses into data/.
 
     python scripts/download_data.py                 # everything
-    python scripts/download_data.py --only eval     # one part: wiki, eval, sentiment
+    python scripts/download_data.py --only eval     # one part: wiki, eval, sentiment, topic
 
 - Thai Wikipedia: `wikimedia/wikipedia` (config `20231101.th`) through `datasets`.
   Articles are shuffled with a fixed seed and kept until `--wiki-max-chars`
@@ -11,6 +11,7 @@
   `data/raw/thwiki_articles.txt`.
 - TH-WordSim-353, TH-SimLex-999 -> `data/eval/`.
 - wisesight_sentiment -> `data/raw/wisesight/{train,validation,test}.jsonl`.
+- prachathai-67k (news topics, issue #58 H3) -> `data/raw/prachathai/{train,validation,test}.jsonl`.
 
 A part whose files already exist is skipped; pass `--force` to fetch it again.
 """
@@ -34,6 +35,12 @@ SENTIMENT_DATASET = "pythainlp/wisesight_sentiment"
 SENTIMENT_PARQUET = (
     "hf://datasets/pythainlp/wisesight_sentiment@refs/convert/parquet/wisesight_sentiment/{}/*.parquet"
 )
+# The repo only has a loading script, which newer `datasets` refuse, so read the parquet export
+TOPIC_PARQUET = "hf://datasets/pythainlp/prachathai67k@refs/convert/parquet/prachathai67k/{}/*.parquet"
+TOPIC_FIELDS = (
+    "title", "body_text", "politics", "human_rights", "quality_of_life", "international", "social",
+    "environment", "economics", "culture", "labor", "national_security", "ict", "education",
+)  # fmt: skip
 
 
 @contextlib.contextmanager
@@ -119,10 +126,30 @@ def download_sentiment(data_dir: Path, force: bool) -> None:
         print(f"sentiment: {len(dataset[split]):,} {split} -> {path}")
 
 
+def download_topic(data_dir: Path, force: bool) -> None:
+    from datasets import load_dataset
+
+    out_dir = data_dir / "raw" / "prachathai"
+    splits = ("train", "validation", "test")
+    if all((out_dir / f"{s}.jsonl").exists() for s in splits) and not force:
+        print(f"skip topic: {out_dir} exists")
+        return
+    dataset = load_dataset("parquet", data_files={s: TOPIC_PARQUET.format(s) for s in splits})
+    out_dir.mkdir(parents=True, exist_ok=True)
+    paths = [out_dir / f"{split}.jsonl" for split in splits]
+    with atomic_paths(*paths) as parts:  # all three splits or none
+        for split, part in zip(splits, parts):
+            with open(part, "w", encoding="utf-8") as f:
+                for row in dataset[split]:
+                    f.write(json.dumps({k: row[k] for k in TOPIC_FIELDS}, ensure_ascii=False) + "\n")
+    for split, path in zip(splits, paths):
+        print(f"topic: {len(dataset[split]):,} {split} -> {path}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
-    parser.add_argument("--only", choices=("wiki", "eval", "sentiment"), action="append")
+    parser.add_argument("--only", choices=("wiki", "eval", "sentiment", "topic"), action="append")
     parser.add_argument(
         "--wiki-max-chars",
         type=int,
@@ -133,13 +160,15 @@ def main() -> None:
     parser.add_argument("--force", action="store_true", help="download again even if the files exist")
     args = parser.parse_args()
 
-    parts = args.only or ["wiki", "eval", "sentiment"]
+    parts = args.only or ["wiki", "eval", "sentiment", "topic"]
     if "wiki" in parts:
         download_wiki(args.data_dir, args.wiki_max_chars, args.seed, args.force)
     if "eval" in parts:
         download_eval(args.data_dir, args.force)
     if "sentiment" in parts:
         download_sentiment(args.data_dir, args.force)
+    if "topic" in parts:
+        download_topic(args.data_dir, args.force)
 
 
 if __name__ == "__main__":
