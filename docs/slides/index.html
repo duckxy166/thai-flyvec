@@ -123,6 +123,13 @@ html, body { margin: 0; height: 100%; background: #1d1c19; overflow: hidden; fon
 ถาม: สรุปสั้นๆ ผลเป็นยังไง
 ตอบ: ได้ราว 3 ใน 4 ของ word2vec ในข้อสอบความหมาย งานจำแนกความรู้สึกได้เท่ากัน และไฟล์เล็กกว่า 25 เท่า</aside>
 </section>
+<section id="part-intro" style="background:#FFD13F;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 160px;display:flex;flex-direction:column;justify-content:center;gap:28px">
+<p style="font-size:44px;font-weight:600;color:#222222">ส่วนที่ 1</p>
+<h2 style="font-size:120px;font-weight:700;line-height:1.15;color:#222222">Introduction</h2>
+<p style="font-size:40px;line-height:1.5;color:#333333">ที่มา (pain point) และคำถามวิจัย</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">2</p>
+<aside>ขอแบ่งการนำเสนอเป็น 4 ส่วนตามหัวข้อของรายงานครับ เริ่มจากที่มาของโครงงานและคำถามวิจัย</aside>
+</section>
 <section id="why" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ที่มาของโครงงาน</h2>
 <div style="display:flex;gap:48px;align-items:start">
@@ -208,7 +215,7 @@ html, body { margin: 0; height: 100%; background: #1d1c19; overflow: hidden; fon
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">2</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">3</p>
 <aside>ลองนึกภาพว่าคอมพิวเตอร์ครับ ต้องจำความหมายคำ 20,000 คำ
 
 word2vec ครับ จำแต่ละคำด้วยตัวเลขทศนิยม 300 ตัว อย่างลังไม้อันเนี้ยครับ [ชี้ลังไม้] หนักจนทับแมลงวันอีกตัวไปแล้ว
@@ -233,10 +240,11 @@ word2vec ครับ จำแต่ละคำด้วยตัวเลข�
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">คำถามวิจัย</h2>
 <div style="display:flex;gap:48px;align-items:start">
 <div style="flex:1;display:flex;flex-direction:column">
-<ol style="font-size:30px;line-height:1.7">
+<ol style="font-size:30px;line-height:1.6">
 <li>FlyVec ได้ Spearman ρ บน TH-WordSim-353 และ TH-SimLex-999 ใกล้ word2vec / fastText แค่ไหน</li>
 <li>เมื่อใช้จำแนกความรู้สึก (wisesight) ความแม่นยำลดลงเท่าไร เทียบกับหน่วยความจำและเวลาเทรนที่ประหยัดได้</li>
 <li>ความยาว hash k เท่าไร (4, 8, 16, 32, 64) เหมาะกับภาษาไทย</li>
+<li>FlyVec เก่งและอ่อนกับข้อมูลและงานแบบไหน (คำถามจากการรีวิว)</li>
 </ol>
 </div>
 <div style="position:relative;width:460px;height:400px">
@@ -301,7 +309,7 @@ word2vec ครับ จำแต่ละคำด้วยตัวเลข�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">3</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">4</p>
 <aside>[ชี้แมลงวันงง] แต่พอคิดจะลองครับ ผมก็สงสัยอยู่ 3 เรื่อง
 
 เรื่องแรก มันเข้าใจความหมายของคำไทยได้จริงไหม ถ้าเทียบกับ word2vec ที่เป็นมาตรฐานครับ มันจะได้กี่คะแนน
@@ -310,7 +318,9 @@ word2vec ครับ จำแต่ละคำด้วยตัวเลข�
 
 เรื่องที่ 3 ครับ แมลงวันควรเปิดหลอดไฟกี่ดวงต่อคำ 4 ดวง หรือ 64 ดวง ถึงจะดีที่สุด
 
-เก็บ 3 ข้อนี้ไว้นะครับ เดี๋ยวตอนท้ายจะกลับมาตอบ
+และหลังนำเสนอรอบก่อน อาจารย์ถามเพิ่มว่าแมลงวันเก่งอะไร ผมเลยเพิ่มเป็นข้อ 4
+
+เก็บ 4 ข้อนี้ไว้นะครับ เดี๋ยวตอนท้ายจะกลับมาตอบ
 
 ——— ถ้าอาจารย์ถาม ———
 ถาม: ทำไมเลือก sentiment เป็นงานทดสอบ
@@ -318,6 +328,13 @@ word2vec ครับ จำแต่ละคำด้วยตัวเลข�
 
 ถาม: วัดคำว่า 'คุ้ม' ยังไง
 ตอบ: ดูคู่กันสามอย่าง: คะแนนที่เสีย, ขนาดไฟล์ที่ลด, เวลาเทรน ไม่ได้รวมเป็นตัวเลขเดียว</aside>
+</section>
+<section id="part-method" style="background:#FFD13F;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 160px;display:flex;flex-direction:column;justify-content:center;gap:28px">
+<p style="font-size:44px;font-weight:600;color:#222222">ส่วนที่ 2</p>
+<h2 style="font-size:120px;font-weight:700;line-height:1.15;color:#222222">Method</h2>
+<p style="font-size:40px;line-height:1.5;color:#333333">แมลงวันทำงานยังไง และเราเปลี่ยนอะไรจากงานต้นฉบับ</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">5</p>
+<aside>ส่วนที่ 2 วิธีการครับ ว่าแมลงวันทำงานยังไง และผมเปลี่ยนอะไรจากงานต้นฉบับบ้าง</aside>
 </section>
 <section id="nlp-fly" style="display:flex; flex-direction:column; gap:36px; padding:120px 140px 160px; background:#ffffff">
   <h2 style="font-family:Mali, Tahoma, sans-serif; font-size:60px; font-weight:700; line-height:1.25; color:#222222">FlyVec ทำงานอย่างไร</h2>
@@ -401,7 +418,7 @@ word2vec ครับ จำแต่ละคำด้วยตัวเลข�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-  <p style="position:absolute; right:140px; bottom:64px; width:120px; font-family:Mali, Tahoma, sans-serif; font-size:24px; text-align:right; color:#777777">4</p>
+  <p style="position:absolute; right:140px; bottom:64px; width:120px; font-family:Mali, Tahoma, sans-serif; font-size:24px; text-align:right; color:#777777">6</p>
   <aside>แล้วแมลงวันดมกลิ่นยังไง
 
 พอได้กลิ่นครับ สัญญาณจะวิ่งไปหาเซลล์ชื่อว่า Kenyon cell จำนวนมาก ทุกเซลล์ครับอยากตอบ แต่มีเซลล์คุมชื่อ APL คอยกดไว้ ให้เฉพาะตัวที่ตื่นเต้นที่สุดไม่กี่ตัวเนี่ยได้ติดไฟ [ชี้สมอง] เหมือนในภาพ หลอดเยอะครับ แต่มีไม่กี่ดวงที่ไฟติด
@@ -508,7 +525,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">5</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">7</p>
 <aside>แล้วแมลงวันเรียนยังไง
 
 มันอ่านทีละหน้าต่างครับ เช่น "แมว ชอบ กิน ปลา ทู" แล้วถามเซลล์ทั้ง 400 ตัวครับว่าใครรู้สึกกับประโยคนี้มากที่สุด
@@ -621,7 +638,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">6</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">8</p>
 <aside>ปัญหาแรกของภาษาไทย คือแมลงวันอ่านเป็นคำ แต่ภาษาไทยเขียนติดกันหมด [ชี้กรรไกร] เราก็เลยต้องตัดคำก่อนครับ ด้วย PyThaiNLP
 
 หั่นแล้ว "สวัสดีครับ" จะเป็น "สวัสดี" กับ "ครับ" แมลงวันเห็น "สวัสดี" เป็นคำเดียวครับ ไม่ใช่ "สวัส" กับ "ดี"
@@ -639,6 +656,38 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 
 ถาม: ทำไมคลังศัพท์ 20,000 คำ
 ตอบ: ตามงานต้นฉบับ และครอบคลุมโทเคนได้ 94.3% (นอกคลังศัพท์ 5.7%)</aside>
+</section>
+<section id="workflow" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:110px 140px 150px;display:flex;flex-direction:column;gap:30px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">งานเดิม vs งานของเรา</h2>
+<div style="display:flex;gap:48px;align-items:center">
+<img src="../images/workflow-compare.png" alt="แผนภาพเทียบขั้นตอนของ FlyVec ต้นฉบับกับงานนี้ทีละขั้น: คลังข้อความ, ตัดคำ, คลังศัพท์และโมเดล, การเทรน, การประเมิน และคู่เทียบ กล่องสีเหลืองคือขั้นที่ปรับสำหรับภาษาไทย" style="width:900px;height:745px;object-fit:contain">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<ul style="font-size:30px;line-height:1.55">
+<li>คลังข้อความเล็กลง 600 เท่า: Wikipedia ไทย 10 ล้านโทเคน</li>
+<li>ภาษาไทยไม่เว้นวรรคระหว่างคำ: ตัดคำด้วย PyThaiNLP และตัดประโยคที่ช่องว่าง</li>
+<li>โมเดลเหมือนเดิม: 20,000 คำ, 400 เซลล์, w = 11</li>
+<li>เทรน 3 epoch ด้วย NumPy บน CPU</li>
+<li>ข้อสอบภาษาไทยทั้งหมด + งานจัดหมวดข่าว</li>
+</ul>
+</div>
+</div>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">9</p>
+<aside>[ชี้ภาพ] หน้านี้เทียบงานต้นฉบับกับงานผมทีละขั้นครับ ฝั่งซ้ายคืองานต้นฉบับภาษาอังกฤษ ฝั่งขวาคืองานผม กล่องสีเหลืองคือขั้นที่ผมต้องเปลี่ยน
+
+ขั้นแรกคลังข้อความ ต้นฉบับอ่าน OpenWebText ราว 6,000 ล้านคำ ผมใช้ Wikipedia ไทย 10 ล้านคำ เล็กกว่า 600 เท่า เพราะต้องเทรนบน CPU ให้ทัน
+
+ขั้นที่ 2 คือหัวใจของภาษาไทยครับ ภาษาไทยไม่เว้นวรรคระหว่างคำ ผมต้องตัดคำเองด้วย PyThaiNLP และใช้ช่องว่างเป็นตัวตัดประโยค
+
+ส่วนตัวโมเดลผมคงไว้เหมือนเดิมทุกอย่าง 20,000 คำ 400 เซลล์ หน้าต่าง 11 คำ จะได้เทียบกับต้นฉบับได้
+
+การเทรนลดเหลือ 3 รอบ เขียนเองด้วย NumPy และข้อสอบเปลี่ยนเป็นชุดภาษาไทยทั้งหมด รวมถึงงานจัดหมวดข่าวที่เพิ่มทีหลัง
+
+——— ถ้าอาจารย์ถาม ———
+ถาม: ทำไมไม่แปล OpenWebText เป็นภาษาไทย
+ตอบ: ภาษาแปลไม่เป็นธรรมชาติ ความถี่คำและคำที่อยู่ใกล้กันเพี้ยน และข้อสอบความคล้ายก็แปลมาจากอังกฤษอยู่แล้ว จะได้อคติการแปลซ้ำสองชั้น
+
+ถาม: ทำไมเทรนแค่ 3 epoch
+ตอบ: ต้องเทรน 9 ชุดบน CPU ให้ทันเวลา และใช้จำนวน epoch เท่ากันทุกโมเดล การเทียบจึงยุติธรรม</aside>
 </section>
 <section id="tech-pipeline" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ขั้นตอนการทำงาน</h2>
@@ -726,7 +775,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">7</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">10</p>
 <aside>ภาพรวมการทำงาน เหมือนสายพานโรงงานครับ [ชี้ช่างแมลงวัน]
 
 ต้นทางคือข้อความดิบจาก Wikipedia ผ่านการล้าง ตัดคำ แล้วหั่นมาให้แมลงวันอ่าน
@@ -829,7 +878,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">8</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">11</p>
 <aside>ตัวแมลงวันครับ ผมเขียนร่วมกับ Claude ด้วย NumPy [ชี้แล็ปท็อป] ไม่ได้ใช้ไลบรารี FlyVec สำเร็จรูป จะได้ดูได้ว่าข้างในเกิดอะไรขึ้นทุกจุด และเทรนบนเครื่อง cloud ของ Claude Code ใช้แค่ CPU
 
 มีเรื่องหนึ่งที่ภูมิใจ input ของแมลงวันยาว 40,000 ช่อง แต่หน้าต่างหนึ่งมีคำแค่ 11 คำ ถ้าเก็บทั้งหมดก็เปลืองมาก เลยเก็บแค่ว่าคำไหนอยู่ในหน้าต่าง ผลเหมือนเดิมทุกอย่างครับ แต่ประหยัดหน่วยความจำหลายพันเท่า
@@ -883,7 +932,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">9</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">12</p>
 <aside>หัวใจของโค้ดจริงๆ มีแค่ไม่กี่บรรทัดครับ ผมย่อมาให้ดู
 
 ข้อ 1 คือที่เล่าไปตอนแมลงวันเรียน [ชี้บรรทัด act] เอาหน้าต่างคำมาคูณกับน้ำหนัก ได้ว่าเซลล์ทั้ง 400 ตัวตอบสนองแค่ไหน [ชี้ argmax] เลือกตัวที่แรงที่สุดเป็นผู้ชนะ [ชี้ v / p] หารด้วยความถี่ คำอย่าง "ที่" "และ" เลยมีน้ำหนักน้อย [ชี้บรรทัดสุดท้าย] แล้วขยับน้ำหนักของผู้ชนะเข้าหาประโยคนี้ ไม่มี backpropagation ไม่มีเฉลย มีแค่นี้จริงๆ ครับ
@@ -990,7 +1039,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">10</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">13</p>
 <aside>แล้วเราจะรู้ได้ยังไงครับว่าแมลงวันเข้าใจจริง เราก็ต้องสอบครับ [ชี้แว่นขยาย]
 
 ข้อสอบแรกครับ มีคนไทยให้คะแนนคู่คำไว้แล้ว ว่าแมวกับหมาคล้ายกันแค่ไหน เราก็เอาคำตอบของแมลงวันมาเทียบกับของคน ดูว่าแมลงวันเรียงลำดับได้ตรงแค่ไหน ใช้ค่า Spearman ครับ ยิ่งใกล้ 1 ก็ยิ่งตรง
@@ -1011,110 +1060,12 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 ถาม: ทำไมใช้ macro-F1
 ตอบ: ข้อมูลไม่สมดุล คลาสใหญ่ๆ จะกลบคลาสเล็ก macro-F1 ให้น้ำหนักทุกคลาสเท่ากัน</aside>
 </section>
-<section id="status" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
-<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">สรุปงานที่ทำ</h2>
-<div style="display:flex;gap:48px;align-items:start">
-<div style="flex:1;display:flex;flex-direction:column;gap:16px">
-<p style="font-size:32px;line-height:1.6;font-weight:600">เสร็จแล้ว</p>
-<ul style="font-size:30px;line-height:1.6">
-<li>โค้ดครบทั้ง 8 ขั้น พร้อมเทสต์</li>
-<li>ดาวน์โหลดและตัดคำคลังข้อความจริง 10 ล้านโทเคน</li>
-<li>รันการทดลองครบ 9 ชุด (w = 5, 11, 15 × 3 seed)</li>
-<li>ปรับ learning rate บนคลังจริง ได้ 0.3 แล้วรันการทดลองใหม่</li>
-<li>เทรน FlyVec เร็วขึ้นราว 5 เท่า (57 → 7 นาที ที่ w = 11)</li>
-<li>รายงานตอบคำถามวิจัย 3 ข้อ (docs/report.md)</li>
-</ul>
-<p style="font-size:32px;line-height:1.6;font-weight:600">ยังไม่ได้ทำ</p>
-<ul style="font-size:30px;line-height:1.6">
-<li>ลอง learning rate ที่ต่ำกว่า 0.3</li>
-<li>ขยายคลังข้อความ และเทรนด้วยหลายคอร์หรือ GPU</li>
-</ul>
-</div>
-<div style="position:relative;width:460px;height:400px">
-<svg aria-label="คลิปบอร์ดรายการงาน ติ๊กไปแล้ว 3 จาก 5 ข้อ มีแมลงวันเกาะที่ตัวหนีบ" width="460" height="400" viewBox="0 0 460 400" style="width:460px;height:400px">
-<g stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-<path d="M126 92H354C364 92 372 100 372 110V376C372 386 364 394 354 394H126C116 394 108 386 108 376V110C108 100 116 92 126 92Z" fill="#FFFFFF"/>
-<path d="M112 146L126 132M112 162L126 148M112 178L126 164M112 194L126 180M112 210L126 196M112 226L126 212M112 242L126 228M112 258L126 244M112 274L126 260M112 290L126 276M112 306L126 292M112 322L126 308M112 338L126 324M112 354L126 340M112 370L126 356M112 386L126 372M352 146L366 132M352 162L366 148M352 178L366 164M352 194L366 180M352 210L366 196M352 226L366 212M352 242L366 228M352 258L366 244M352 274L366 260M352 290L366 276M352 306L366 292M352 322L366 308M352 338L366 324M352 354L366 340M352 370L366 356M352 386L366 372M118 392L132 378M134 392L148 378M150 392L164 378M166 392L180 378M182 392L196 378M198 392L212 378M214 392L228 378M230 392L244 378M246 392L260 378M262 392L276 378M278 392L292 378M294 392L308 378M310 392L324 378M326 392L340 378M342 392L356 378M358 392L372 378" fill="none" stroke="#222222" stroke-width="2.2" stroke-linecap="round"/>
-<path d="M132 120H348V372H132Z" fill="#FFFFFF" stroke-width="4"/>
-<path d="M186 74H294V114C294 120 290 124 284 124H196C190 124 186 120 186 114Z" fill="#FFFFFF"/>
-<circle cx="240" cy="92" r="8" fill="#FFFFFF" stroke-width="4"/>
-</g>
-<g stroke="#222222" stroke-width="4" stroke-linejoin="round" fill="#FFFFFF">
-<path d="M152 152H180V180H152Z"/><path d="M152 196H180V224H152Z"/><path d="M152 240H180V268H152Z"/><path d="M152 284H180V312H152Z"/><path d="M152 328H180V356H152Z"/>
-</g>
-<g stroke="#222222" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="12 7">
-<path d="M198 166H318"/><path d="M198 210H300"/><path d="M198 254H326"/><path d="M198 298H290"/><path d="M198 342H310"/>
-</g>
-<g stroke="#222222" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
-<path d="M156 164L166 174L188 146"/><path d="M156 208L166 218L188 190"/><path d="M156 252L166 262L188 234"/><path d="M156 296L166 306L188 278"/>
-</g>
-<g transform="translate(250 0) scale(0.42)">
-<g stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="#FFFFFF"/>
-<path d="M126 96C104 52 54 22 34 40C16 58 52 94 126 96Z" fill="none" stroke-width="1.5" transform="translate(-4 3)"/>
-<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="#FFFFFF"/>
-<path d="M142 90C136 44 168 8 196 16C224 26 202 72 142 90Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
-<path d="M120 92C98 70 70 52 44 44M108 92C90 80 72 72 52 68M84 62L76 50M146 84C154 58 170 36 192 24M156 86C172 72 190 58 208 46M176 44L188 46" fill="none" stroke-width="2.5"/>
-<path d="M86 160C78 176 70 186 58 196L48 196M116 168C114 184 110 196 104 206L94 208M162 146C172 164 180 178 192 190L202 190" fill="none"/>
-<path d="M76 180L68 176M66 190L60 184M112 188L104 186M108 200L101 197M174 170L180 164M184 182L190 176" fill="none" stroke-width="2.5"/>
-<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="#FFFFFF"/>
-<path d="M150 124C152 158 122 176 88 172C56 168 38 146 42 122C46 98 76 86 108 88C134 90 148 102 150 124Z" fill="none" stroke-width="1.5" transform="translate(3 -3)"/>
-<path d="M100 90C90 112 90 148 100 170M74 94C64 114 64 146 74 166" fill="none" stroke-width="3.5"/>
-<path d="M50 112L58 104M47 128L62 113M47 144L64 127M52 156L65 143M58 164L66 156" fill="none" stroke-width="2.2"/>
-<path d="M80 104V106M88 118V120M80 132V134M88 146V148M80 158V160" fill="none" stroke-width="3.5"/>
-<circle cx="170" cy="122" r="30" fill="#FFFFFF"/>
-<path d="M156 104V106M164 98V100M152 118V120M160 112V114M150 132V134M158 128V130" fill="none" stroke-width="3.5"/>
-<circle cx="214" cy="108" r="40" fill="#FFFFFF"/>
-<circle cx="217" cy="105" r="40" fill="none" stroke-width="1.5"/>
-<ellipse cx="200" cy="98" rx="21" ry="24" fill="#FFFFFF"/>
-<ellipse cx="236" cy="100" rx="19" ry="22" fill="#FFFFFF"/>
-<circle cx="205" cy="102" r="11" fill="#222222" stroke="none"/>
-<circle cx="240" cy="104" r="10" fill="#222222" stroke="none"/>
-<path d="M202 70C196 54 186 46 174 46M226 70C232 54 242 46 254 48" fill="none"/>
-<path d="M206 134C213 143 226 143 233 134" fill="none"/>
-</g>
-<g fill="#FFFFFF"><circle cx="201" cy="97" r="4"/><circle cx="236" cy="99" r="3.5"/><circle cx="209" cy="107" r="1.8"/><circle cx="244" cy="108" r="1.6"/></g>
-<path d="M184 130L188 123M191 131L195 124M243 130L247 123M250 131L254 124" fill="none" stroke="#222222" stroke-width="2.5" stroke-linecap="round"/>
-</g>
-</svg>
-<p style="position:absolute;left:0px;top:16px;width:230px;font-family:'Sriracha', 'Mali', cursive;font-size:30px;line-height:1.2;color:#222222;text-align:center">ครบแล้ว!</p>
-</div>
-</div>
-<svg aria-label="แมลงวันเกาะอยู่บนสไลด์" width="120" height="140" viewBox="0 0 120 140" style="position:absolute;left:1000px;top:560px;width:84px;height:98px;transform:rotate(-30deg)">
-<defs>
-<filter id="b-status" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
-<radialGradient id="e-status" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient>
-<radialGradient id="a-status" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient>
-<radialGradient id="t-status" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient>
-</defs>
-<ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#b-status)"/>
-<g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g>
-<ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#a-status)"/>
-<path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/>
-<ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#t-status)"/>
-<path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/>
-<path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
-<path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/>
-<path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/>
-<ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/>
-<ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#e-status)"/>
-<ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#e-status)"/>
-<path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/>
-<circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
-<path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
-</svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">11</p>
-<aside>ก่อนดูผล ขอเช็กงานก่อนครับ [ชี้คลิปบอร์ด]
-
-งานหลักครบแล้ว โค้ดครบทุกขั้น ให้แมลงวันอ่าน Wikipedia จริง รันทดลอง 9 ชุด และเขียนรายงานแล้ว
-
-ระหว่างทางมีเรื่องดีๆ 2 เรื่องครับ 1 เจอว่า learning rate ที่เคยใช้เนี่ยมันไม่ดี เลยปรับแล้วรันใหม่ทั้งหมด 2 ครับ เปลี่ยนวิธีเก็บข้อมูล จากเทรนรอบละ 57 นาที เหลือราว 7 นาที
-
-ส่วนที่เขียนว่ายังไม่ได้ทำ หลังทำสไลด์นี้ผมแอบไปทำ 2 ข้อแล้ว คือลอง learning rate ที่ต่ำกว่า ซึ่งอยู่หน้าถัดไปครับ กับให้แมลงวันอ่านบทความมากกว่าเดิม 7 เท่า ซึ่งจะโชว์ตอนท้าย
-
-——— ถ้าอาจารย์ถาม ———
-ถาม: ทำไมสไลด์เขียนว่ายังไม่ได้ทำ แต่บอกว่าทำแล้ว
-ตอบ: สไลด์ทำก่อน แล้วผมทดลองเพิ่มทีหลัง ทั้งสองข้อรันแค่ seed เดียว จึงยังไม่ได้อยู่ในรายงานหลัก</aside>
+<section id="part-results" style="background:#FFD13F;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 160px;display:flex;flex-direction:column;justify-content:center;gap:28px">
+<p style="font-size:44px;font-weight:600;color:#222222">ส่วนที่ 3</p>
+<h2 style="font-size:120px;font-weight:700;line-height:1.15;color:#222222">Results</h2>
+<p style="font-size:40px;line-height:1.5;color:#333333">ความคล้ายของคำ, ความยาว hash และแมลงวันเก่งอะไร</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">14</p>
+<aside>ส่วนที่ 3 ผลการทดลองครับ</aside>
 </section>
 <section id="pilot" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">การเลือก learning rate</h2>
@@ -1198,7 +1149,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">12</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">15</p>
 <aside>learning rate คือแมลงวันปรับตัวแรงแค่ไหนต่อ 1 ประโยค [ชี้ขวดทดลอง] ตั้งแรงไปก็ลืมของเก่าครับ ตั้งเบาไปก็เรียนช้า
 
 ตอนแรกผมลองกับข้อมูลชุดเล็ก ได้ว่า 1.0 ดีที่สุด แต่พอลองกับ Wikipedia จริง ผลกลับกัน 0.3 ดีกว่าทุกรอบ เราก็เลยใช้ค่านี้กันครับ
@@ -1304,7 +1255,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">13</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">16</p>
 <aside>มาถึงผลจริงครับ [ชี้แมลงวันบนแท่งเตี้ย] ขอเริ่มจากข่าวไม่ดีก่อน
 
 ข้อสอบความหมายของคำเนี่ย แมลงวันได้ประมาณ 3 ใน 4 ของ word2vec ยังแพ้อยู่ครับ แมลงวันเลยต้องสู้ต่อ แต่ไม่ได้มั่วนะครับ คำใกล้เคียงของมันสมเหตุสมผล เช่นฟุตบอลใกล้กับ สโมสร ทีม ลีก
@@ -1367,7 +1318,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">14</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">17</p>
 <aside>แล้วเปิดหลอดไฟกี่ดวงดี [ชี้กราฟ] เส้นสีน้ำเงินคือแมลงวัน เส้นสีส้มคือ word2vec ครับ ที่บีบให้เปิดหลอดเท่ากัน
 
 ฝั่งซ้ายครับ ตอนเปิดแค่ 4 กับ 8 ดวงเนี่ย แมลงวันชนะ แปลว่าวิธีเรียนแบบแมลงวันช่วยได้จริงครับ แต่ช่วยเฉพาะตอนรหัสสั้น
@@ -1382,6 +1333,65 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 
 ถาม: ทำไมแนะนำ 16–32 ทั้งที่ SimLex สูงสุดที่ 8
 ตอบ: ดูรวมทุกข้อสอบ: WordSim ดีสุดที่ 32, macro-F1 คงที่ตั้งแต่ 16 และขนาดไฟล์ไม่เปลี่ยนตาม k</aside>
+</section>
+<section id="rq4-topic" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:110px 140px 150px;display:flex;flex-direction:column;gap:30px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">FlyVec เก่งงานจัดหมวดหัวข้อ</h2>
+<div style="display:flex;gap:40px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<ul style="font-size:32px;line-height:1.7">
+<li>prachathai-67k: ข่าว 67,889 ชิ้น 12 หมวด (ข่าวหนึ่งมีได้หลายหมวด)</li>
+<li>FlyVec k = 32: macro-F1 0.484 เท่ากับ fastText (0.483) สูงกว่า word2vec (0.480)</li>
+<li>ชนะ word2vec ไบนารีทุก k</li>
+<li>ใช้พื้นที่ 0.95 MB เทียบ 23.6-252.5 MB</li>
+</ul>
+<p style="font-size:28px;line-height:1.5;color:#555555">ตรงกับงานต้นฉบับ: FlyVec เก่ง 20 Newsgroups แต่อ่อน sentiment</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;width:960px">
+<img src="rq4-topic.png" alt="macro-F1 ของงานจัดหมวดข่าว prachathai-67k: FlyVec k = 32 ได้ 0.484 ใกล้ fastText 0.483 และสูงกว่า word2vec 0.480 ส่วน word2vec ไบนารีได้ 0.454 ถึง 0.475" style="width:960px;height:480px;object-fit:contain">
+<p style="font-size:22px;line-height:1.4;color:#555555">macro-F1 บน test, w = 11, ค่าเฉลี่ย ± SD ของ 3 seed</p>
+</div>
+</div>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">18</p>
+<aside>หลังนำเสนอรอบก่อน อาจารย์ถามว่าแมลงวันเก่งอะไรกันแน่ ผมเลยทดลองเพิ่มครับ
+
+ผมให้แมลงวันจัดหมวดข่าวจากประชาไท 67,000 ข่าว 12 หมวด เช่น การเมือง แรงงาน สิ่งแวดล้อม [ชี้กราฟ] จุดสีส้มคือแมลงวัน ยิ่งไปทางขวายิ่งดี
+
+แมลงวันที่เปิด 32 ดวงได้ 0.484 เท่ากับ fastText และสูงกว่า word2vec นิดหน่อย ทั้งที่เล็กกว่า 25 ถึง 265 เท่า และชนะ word2vec ไบนารีทุกค่า k
+
+ทำไมถึงเก่งงานนี้ครับ เพราะเซลล์ของแมลงวันแต่ละตัวถนัดหัวข้อเฉพาะ อย่างเคมี หรือวันที่ พอเอาคำทั้งข่าวมารวมกัน มันเลยบอกได้ว่าข่าวนี้เรื่องอะไร ซึ่งตรงกับงานต้นฉบับที่แมลงวันเก่ง 20 Newsgroups
+
+——— ถ้าอาจารย์ถาม ———
+ถาม: ต่างจาก fastText แค่ 0.001 มีความหมายไหม
+ตอบ: ไม่ต่างครับ อยู่ใน SD ข้อสรุปคือทำได้เท่ากันในพื้นที่ที่เล็กกว่ามาก ส่วนที่ชนะ word2vec ไบนารีนั้นเกิน SD ทุก k
+
+ถาม: ใช้ข้อความส่วนไหนของข่าว
+ตอบ: หัวข้อกับเนื้อข่าว ตามแบบมาตรฐานของชุดข้อมูล ข่าวหนึ่งมีได้หลายหมวด จึงใช้ logistic regression แยกทีละหมวด เลือกค่า C บน validation แล้ววัดบน test ครั้งเดียว</aside>
+</section>
+<section id="rq4-rare" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:110px 140px 150px;display:flex;flex-direction:column;gap:30px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">แต่อ่อนกับคำหายาก</h2>
+<div style="display:flex;flex-direction:column;gap:16px;align-items:center">
+<img src="rq4-frequency.png" alt="Spearman ρ แยกตามความถี่ของคำ: บน TH-SimLex-999 FlyVec k = 16 ได้ 0.30, 0.28, 0.57 ในกลุ่มคำหายาก กลาง และพบบ่อย เทียบ word2vec 0.43, 0.56, 0.62 บน TH-WordSim-353 เส้นแกว่งมากเพราะกลุ่มละ 70 คู่" style="width:1320px;height:480px;object-fit:contain">
+</div>
+<ul style="font-size:30px;line-height:1.55">
+<li>คำพบบ่อย: FlyVec ได้ 92% ของ word2vec แต่คำหายากและคำกลางเหลือ 50-70% (TH-SimLex-999)</li>
+<li>fastText เก่งคำหายากที่สุดเพราะมี subword</li>
+<li>ข้อความที่มีคำนอกคลังศัพท์มาก (wisesight): FlyVec ไม่ได้อ่อนลงเป็นพิเศษ</li>
+</ul>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">19</p>
+<aside>แต่แมลงวันก็มีจุดอ่อนครับ [ชี้กราฟซ้าย] ผมแบ่งคู่คำในข้อสอบเป็น 3 กลุ่ม ตามว่าคำนั้นเจอบ่อยแค่ไหนใน Wikipedia
+
+กลุ่มคำพบบ่อยทางขวา แมลงวันได้ 92% ของ word2vec เกือบเท่ากัน แต่กลุ่มคำหายากกับคำกลาง เหลือแค่ครึ่งถึง 70%
+
+เหตุผลคือแมลงวันปรับเฉพาะเซลล์ที่ชนะ คำที่เจอน้อยก็ได้เรียนน้อยครั้ง ส่วน fastText เก่งคำหายากที่สุด เพราะมันดูชิ้นส่วนของคำได้
+
+ส่วนข้อความที่มีคำแปลกๆ เยอะ อย่างภาษาโซเชียล แมลงวันไม่ได้แย่ลงเป็นพิเศษครับ ชิ้นส่วนคำของ fastText ช่วยได้ตอนคำแปลกมีไม่เกิน 20% แต่ถ้าเยอะกว่านั้นกลับแย่ลง
+
+——— ถ้าอาจารย์ถาม ———
+ถาม: กราฟ WordSim ทำไมแกว่ง
+ตอบ: แต่ละกลุ่มมีแค่ 70 คู่ SD สูงจนสรุปไม่ได้ จึงสรุปจาก SimLex ที่มีกลุ่มละราว 248 คู่
+
+ถาม: แก้จุดอ่อนนี้ยังไง
+ตอบ: ให้อ่านข้อมูลมากขึ้น ตอนอ่าน 71 ล้านคำ คำที่มีเซลล์ตอบรับไม่ถึง 32 เซลล์ลดจาก 7,783 เหลือ 932 คำ หรือเพิ่มชิ้นส่วนคำเข้าไปใน input แบบ fastText ซึ่งเป็นงานต่อไป</aside>
 </section>
 <section id="transformers" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ทดลองเพิ่ม: โมเดล Transformer สำเร็จรูป</h2>
@@ -1474,7 +1484,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">15</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">20</p>
 <aside>ระหว่างทางผมแอบไปลองโมเดลรุ่นใหญ่อย่าง Transformer มาเป็นจุดอ้างอิงด้วย
 
 MiniLM ครับใช้ได้ดี ประโยคเรื่องทำนา 2 ประโยค มันรู้ว่าคล้ายกัน
@@ -1491,6 +1501,13 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 
 ถาม: ถ้าเทียบกับ Transformer แมลงวันแพ้ไหม
 ตอบ: แพ้ในความแม่น แต่โมเดลพวกนั้นใหญ่ระดับร้อยเมกะไบต์ขึ้นไปและต้องใช้การคำนวณมากกว่ามาก คนละรุ่นกัน หน้านี้มีไว้เป็นจุดอ้างอิง ไม่ใช่การแข่งตรงๆ</aside>
+</section>
+<section id="part-conclusion" style="background:#FFD13F;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 160px;display:flex;flex-direction:column;justify-content:center;gap:28px">
+<p style="font-size:44px;font-weight:600;color:#222222">ส่วนที่ 4</p>
+<h2 style="font-size:120px;font-weight:700;line-height:1.15;color:#222222">Conclusion and Discussion</h2>
+<p style="font-size:40px;line-height:1.5;color:#333333">สรุปคำตอบ อภิปราย ข้อจำกัด และงานต่อไป</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">21</p>
+<aside>ส่วนสุดท้ายครับ ปัญหาที่เจอ ข้อจำกัด แล้วก็สรุปคำตอบของคำถามวิจัย</aside>
 </section>
 <section id="issues" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ปัญหาที่พบ</h2>
@@ -1579,7 +1596,7 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">16</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">22</p>
 <aside>ทำโปรเจกต์เรื่องแมลง ก็ต้องเจอบั๊กครับ [ชี้สเปรย์] แต่ต้องระวังฉีดผิดตัว
 
 ส่วนใหญ่เป็นเรื่องเครื่องมือ เช่น ดาวน์โหลด PyTorch ไม่ได้ เลยหาทางติดตั้งจากที่อื่น fastText ใหญ่จนเครื่องแทบไม่ไหว เลยต้องลดขนาดลง
@@ -1624,8 +1641,8 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 <circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/>
 <path d="M49 47L46 44M71 47L74 44M48 59H44M72 59H76M51 70L48 73M69 70L72 73" stroke="#121110" stroke-width="1" stroke-linecap="round"/>
 </svg>
-<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">17</p>
-<aside>ก่อนจบ ขอพูดตรงๆ ว่างานนี้มีข้อจำกัดอะไร ตัวเลขทั้งหมดที่เล่ามา ควรอ่านคู่กับหน้านี้
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">23</p>
+<aside>ก่อนสรุป ขอพูดตรงๆ ว่างานนี้มีข้อจำกัดอะไร ตัวเลขทั้งหมดที่เล่ามา ควรอ่านคู่กับหน้านี้
 
 หนึ่ง learning rate เลือกด้วยข้อสอบชุดเดียวกับที่รายงาน แมลงวันอาจได้คะแนนสูงเกินจริงนิดหน่อย
 สอง เวลาเทรนเทียบตรงไม่ได้ เพราะคนละภาษาโปรแกรม
@@ -1633,10 +1650,6 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 สี่ รันแค่ 3 รอบ ห้า อ่านแค่ 10 ล้านคำ หก ข้อสอบอ่านอารมณ์แยกโมเดลไม่ค่อยออก
 
 ข้อห้าน่าสนใจ ผมเลยลองให้แมลงวันอ่าน Wikipedia ไทยทั้งหมด 71 ล้านคำ คะแนนดีขึ้นชัด ได้ผลกว่าการเทรนนานขึ้นหรือปรับ learning rate อีก แต่อันนี้รันรอบเดียว
-
-กลับมาที่คำถาม แมลงวันอ่านภาษาไทยได้ไหม ได้ครับ ได้ราว 3 ใน 4 ของ word2vec ใช้งานจริงได้พอๆ กัน ในพื้นที่เล็กกว่า 25 เท่า
-
-ตอนต้นผมบอกว่าอยากคุยกับสัตว์ [เปิด demo] นี่คือแมลงวันที่อ่าน Wikipedia ไทยมา 71 ล้านคำ มันอ่านแต่บทความ ไม่เคยอ่านบทสนทนา เลยยังตอบไม่เป็นประโยคคุยกันเท่าไหร่ แต่มันรู้ว่าคำไหนอยู่เรื่องเดียวกัน ลองคุยกับมันดูครับ ขอบคุณครับ
 
 ——— ถ้าอาจารย์ถาม ———
 ถาม: แมลงวันอ่านภาษาไทยแย่กว่าอังกฤษไหม
@@ -1653,6 +1666,33 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 
 ถาม: ถ้าข้อมูลเป็นบทความ แล้วจะคุยรู้เรื่องได้ยังไง
 ตอบ: ต้องให้อ่านบทสนทนาจริงเพิ่ม แต่ FlyVec ทำได้แค่บอกว่าคำไหนเกี่ยวกัน การแต่งประโยคในเดโมใช้การนับว่าคำไหนตามคำไหนบ่อยใน Wikipedia ไม่ใช่ตัวแมลงวันเอง</aside>
+</section>
+<section id="conclusion" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:110px 140px 150px;display:flex;flex-direction:column;gap:30px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">สรุปและอภิปราย</h2>
+<ol style="font-size:38px;line-height:1.7;display:flex;flex-direction:column;gap:18px">
+<li><b>RQ1</b> แมลงวันอ่านภาษาไทยได้ ได้ ρ ราว 74-76% ของ word2vec และชนะ word2vec ไบนารีเมื่อรหัสสั้น (k ≤ 8)</li>
+<li><b>RQ2</b> ใช้งานจริงได้พอๆ กัน ทั้งอ่านอารมณ์และจัดหมวดข่าว ในพื้นที่เล็กกว่า 25 เท่า</li>
+<li><b>RQ3</b> k = 16-32 ดีที่สุดโดยรวม</li>
+<li><b>RQ4</b> เก่งแยกหัวข้อ อ่อนคำหายาก: เหมาะกับข้อความภาษาเขียนที่หัวข้อชัด เช่น ข่าว บนอุปกรณ์หน่วยความจำน้อย</li>
+</ol>
+<p style="font-size:32px;line-height:1.6;color:#555555;margin-top:12px">งานต่อไป: อ่านข้อมูลมากขึ้น, เพิ่มชิ้นส่วนคำ (subword) ใน input, วัดความเร็วค้นหาด้วยรหัสสั้น, เทรนด้วยหลายคอร์หรือ GPU</p>
+<p style="font-size:34px;line-height:1.5;font-weight:600">ลองคุยกับแมลงวัน: duckxy166.github.io/thai-flyvec</p>
+<p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">24</p>
+<aside>กลับมาที่คำถามตอนต้นครับ [ชี้ทีละข้อ]
+
+ข้อ 1 แมลงวันอ่านภาษาไทยได้ครับ ได้ราว 3 ใน 4 ของ word2vec และชนะ word2vec ไบนารีตอนรหัสสั้น
+
+ข้อ 2 ใช้งานจริงได้พอๆ กัน ทั้งอ่านอารมณ์และจัดหมวดข่าว ในพื้นที่เล็กกว่า 25 เท่า
+
+ข้อ 3 เปิดหลอด 16 ถึง 32 ดวงดีที่สุด
+
+ข้อ 4 ที่อาจารย์ถาม แมลงวันเก่งแยกหัวข้อ แต่อ่อนคำหายาก เลยเหมาะกับข้อความภาษาเขียนที่หัวข้อชัด อย่างข่าว บนอุปกรณ์ที่หน่วยความจำน้อย
+
+ตอนต้นผมบอกว่าอยากคุยกับสัตว์ [เปิด demo] นี่คือแมลงวันที่อ่าน Wikipedia ไทยมา 71 ล้านคำ มันอ่านแต่บทความ ไม่เคยอ่านบทสนทนา เลยยังตอบไม่เป็นประโยคคุยกันเท่าไหร่ แต่มันรู้ว่าคำไหนอยู่เรื่องเดียวกัน ลองคุยกับมันดูครับ ขอบคุณครับ
+
+——— ถ้าอาจารย์ถาม ———
+ถาม: เอาไปใช้ทำอะไรได้
+ตอบ: ทางที่ผลรองรับที่สุดคืองานจัดหมวดข้อความบนอุปกรณ์เล็ก เช่น มือถือ ทำงานออฟไลน์ได้ เพราะเล็กกว่า 25 เท่าแต่จัดหมวดข่าวได้เท่ากัน แต่ยังไม่ได้ทดลองบนอุปกรณ์จริง</aside>
 </section>
 </div></div>
 <div id="notes" hidden></div>
