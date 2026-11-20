@@ -189,13 +189,14 @@ def sentence_vectors(embed, token_lists: Iterable[list[str]]) -> tuple[np.ndarra
     return np.stack(rows), n_empty, n_tokens, n_oov
 
 
-def sentiment(embed, splits=None, Cs=SENTIMENT_C, seed: int = 0):
+def sentiment(embed, splits=None, Cs=SENTIMENT_C, seed: int = 0, return_predictions: bool = False):
     """Accuracy and macro-F1 with logistic regression on wisesight_sentiment sentence vectors.
 
     `splits` is `{"train" | "validation" | "test": (token_lists, labels)}` from
     `load_wisesight`. C is picked by macro-F1 on validation, then the model
     is scored once on test. Also returns the chosen C, the number of texts with
     no known word (`n_empty`, all splits) and the OOV token ratio on test.
+    With `return_predictions` the test predictions are added as `test_pred`.
     """
     from sklearn.linear_model import LogisticRegression
     from sklearn.metrics import accuracy_score, f1_score
@@ -226,12 +227,166 @@ def sentiment(embed, splits=None, Cs=SENTIMENT_C, seed: int = 0):
     _, C, clf = best
     X_test, y_test = features["test"]
     predicted = clf.predict(X_test)
-    return {
+    result = {
         "accuracy": float(accuracy_score(y_test, predicted)),
         "macro_f1": float(f1_score(y_test, predicted, average="macro")),
         "C": C,
         "n_empty": n_empty,
         "oov_token_ratio": oov_ratio,
+    }
+    if return_predictions:
+        result["test_pred"] = predicted
+    return result
+
+
+# --- what FlyVec is good at (issue #58, D11) -----------------------------------------
+
+
+def quantile_bins(values, n_bins: int = 3) -> tuple[np.ndarray, np.ndarray]:
+    """Split values into `n_bins` groups of about equal size (H1).
+
+    Returns `(bin index per value, edges)`; ties at an edge go to the lower bin,
+    so groups can be uneven when many values are equal.
+    """
+    values = np.asarray(values, dtype=np.float64)
+    edges = np.quantile(values, np.linspace(0, 1, n_bins + 1))
+    bins = np.searchsorted(edges[1:-1], values, side="left")
+    return bins, edges
+
+
+def pair_frequency(pairs, counts: dict[str, int]) -> np.ndarray:
+    """Corpus count of the rarer word in each `(word1, word2, score)` pair (0 if unseen)."""
+    return np.array([min(counts.get(w1, 0), counts.get(w2, 0)) for w1, w2, _ in pairs])
+
+
+def similarity_by_frequency(embed, pairs, bins) -> list[dict]:
+    """`word_similarity` separately for every frequency bin of `pairs` (H1)."""
+    bins = np.asarray(bins)
+    return [
+        {"bin": int(b)} | word_similarity(embed, [p for p, pb in zip(pairs, bins) if pb == b])
+        for b in sorted(set(bins.tolist()))
+    ]
+
+
+def oov_ratios(token_lists: Iterable[list[str]], vocab) -> np.ndarray:
+    """Share of tokens outside `vocab` in each text; NaN for a text with no tokens (H2)."""
+    return np.array(
+        [sum(t not in vocab for t in tokens) / len(tokens) if tokens else np.nan for tokens in token_lists]
+    )
+
+
+def macro_f1_by_group(y_true, y_pred, groups) -> list[dict]:
+    """Macro-F1 and size of every group of texts (H2); labels absent from a group are ignored."""
+    from sklearn.metrics import f1_score
+
+    y_true, y_pred, groups = np.asarray(y_true), np.asarray(y_pred), np.asarray(groups)
+    rows = []
+    for g in sorted(set(groups.tolist())):
+        mask = groups == g
+        labels = np.unique(y_true[mask])
+        rows.append(
+            {
+                "group": g,
+                "n_texts": int(mask.sum()),
+                "macro_f1": float(f1_score(y_true[mask], y_pred[mask], labels=labels, average="macro")),
+            }
+        )
+    return rows
+
+
+PRACHATHAI_TOPICS = (
+    "politics", "human_rights", "quality_of_life", "international", "social", "environment",
+    "economics", "culture", "labor", "national_security", "ict", "education",
+)  # fmt: skip
+PRACHATHAI_SPLITS = ("train", "validation", "test")
+
+
+def _tokenize_news(text: str) -> list[str]:
+    from .preprocess import clean_wiki_text, tokenize
+
+    return [word for sentence in tokenize(clean_wiki_text(text)) for word in sentence]
+
+
+def load_prachathai(raw_dir: str | Path, cache: str | Path | None = None, workers: int = 1) -> dict:
+    """Tokenized prachathai-67k splits: `{split: (token_lists, label_rows)}` (H3).
+
+    Reads the `{split}.jsonl` files written by `scripts/download_data.py`
+    (fields `title`, `body_text` and one 0/1 field per topic). The title and
+    the body are joined, cleaned and tokenized like wisesight (D8, D11).
+    `label_rows` holds one 0/1 list per article in `PRACHATHAI_TOPICS` order.
+    The result is cached as JSON in `cache`.
+    """
+    if cache is not None and Path(cache).exists():
+        data = json.loads(Path(cache).read_text(encoding="utf-8"))
+        return {split: (tokens, labels) for split, (tokens, labels) in data.items()}
+
+    from multiprocessing import Pool
+
+    splits = {}
+    pool = Pool(workers) if workers > 1 else None
+    try:
+        for split in PRACHATHAI_SPLITS:
+            texts, labels = [], []
+            with open(Path(raw_dir) / f"{split}.jsonl", encoding="utf-8") as f:
+                for line in f:
+                    row = json.loads(line)
+                    texts.append(f"{row['title']}\n{row['body_text']}")
+                    labels.append([int(row[topic]) for topic in PRACHATHAI_TOPICS])
+            if pool is None:
+                tokens = [_tokenize_news(text) for text in texts]
+            else:
+                tokens = pool.map(_tokenize_news, texts, chunksize=64)
+            splits[split] = (tokens, labels)
+            print(f"prachathai {split}: {len(tokens):,} articles tokenized", flush=True)
+    finally:
+        if pool is not None:
+            pool.close()
+    if cache is not None:
+        Path(cache).parent.mkdir(parents=True, exist_ok=True)
+        Path(cache).write_text(json.dumps(splits, ensure_ascii=False), encoding="utf-8")
+    return splits
+
+
+def topic_classification(embed, splits, Cs=SENTIMENT_C, seed: int = 0, n_jobs: int = 1):
+    """Multi-label topic classification on prachathai-67k sentence vectors (H3).
+
+    Same features as `sentiment` (mean word vector, D8) with one logistic
+    regression per topic (one-vs-rest). C is picked by macro-F1 on validation,
+    then the model is scored once on test. Returns macro-F1, micro-F1, the
+    chosen C and the number of articles with no known word (`n_empty`).
+    """
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import f1_score
+    from sklearn.multiclass import OneVsRestClassifier
+    from sklearn.pipeline import make_pipeline
+    from sklearn.preprocessing import StandardScaler
+
+    features, n_empty = {}, 0
+    for split in PRACHATHAI_SPLITS:
+        tokens, labels = splits[split]
+        X, empty, _, _ = sentence_vectors(embed, tokens)
+        features[split] = (X, np.asarray(labels))
+        n_empty += empty
+
+    best = None
+    for C in Cs:
+        clf = make_pipeline(
+            StandardScaler(),
+            OneVsRestClassifier(LogisticRegression(C=C, max_iter=2000, random_state=seed), n_jobs=n_jobs),
+        )
+        clf.fit(*features["train"])
+        X_val, y_val = features["validation"]
+        f1 = f1_score(y_val, clf.predict(X_val), average="macro", zero_division=0)
+        if best is None or f1 > best[0]:
+            best = (f1, C, clf)
+    _, C, clf = best
+    X_test, y_test = features["test"]
+    predicted = clf.predict(X_test)
+    return {
+        "macro_f1": float(f1_score(y_test, predicted, average="macro", zero_division=0)),
+        "micro_f1": float(f1_score(y_test, predicted, average="micro", zero_division=0)),
+        "C": C,
+        "n_empty": n_empty,
     }
 
 
