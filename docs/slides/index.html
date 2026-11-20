@@ -12,7 +12,7 @@ html, body { margin: 0; height: 100%; background: #1d1c19; overflow: hidden; fon
 #stage { position: absolute; inset: 0 0 56px 0; display: flex; align-items: center; justify-content: center }
 #deck { position: relative; width: 1920px; height: 1080px; transform-origin: center center; flex: none }
 #deck > section { position: absolute; inset: 0; width: 1920px; height: 1080px; box-sizing: border-box; overflow: hidden }
-#deck > section:not(.on) { display: none !important }
+@media screen { #deck > section:not(.on) { display: none !important } }
 #deck section h1, #deck section h2, #deck section h3, #deck section p, #deck section ul, #deck section ol { margin: 0 }
 #deck section ul, #deck section ol { padding-left: 1.3em }
 #deck section aside { display: none }
@@ -24,6 +24,14 @@ html, body { margin: 0; height: 100%; background: #1d1c19; overflow: hidden; fon
 #count { min-width: 64px; text-align: center; font-variant-numeric: tabular-nums }
 #notes { position: absolute; left: 0; right: 0; bottom: 56px; max-height: 38%; overflow: auto; background: #f6f4ee; color: #222; padding: 16px 24px; font-size: 18px; line-height: 1.7; white-space: pre-wrap; box-shadow: 0 -4px 16px rgba(0,0,0,.3) }
 #notes[hidden] { display: none }
+@page { size: 1920px 1080px; margin: 0 }
+@media print {
+  html, body { height: auto; overflow: visible; background: #FFFFFF; -webkit-print-color-adjust: exact; print-color-adjust: exact }
+  #stage { position: static; display: block }
+  #deck { transform: none !important; width: 1920px; height: auto }
+  #deck > section { position: relative; break-after: page; page-break-after: always }
+  #bar, #notes { display: none !important }
+}
 </style>
 </head>
 <body>
