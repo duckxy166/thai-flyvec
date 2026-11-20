@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1324" viewBox="0 0 1600 1324" role="img" aria-labelledby="t d">
+<title id="t">เทียบขั้นตอนการทำงานของ FlyVec ต้นฉบับกับ FlyVec ภาษาไทย</title>
+<desc id="d">สองเลนขนานกัน ซ้ายคือ FlyVec ต้นฉบับของ Liang et al. (2021) บนภาษาอังกฤษ ขวาคือ pipeline ภาษาไทยของโครงงานนี้ แถวสีเหลืองคือขั้นตอนที่ปรับสำหรับภาษาไทย แถวสีเทาคือขั้นตอนที่เหมือนงานต้นฉบับ</desc>
+<style><![CDATA[@import url("https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Noto+Sans+Thai:wght@400;600;700&family=Sriracha&display=swap");text{font-family:'Mali','Noto Sans Thai',Tahoma,sans-serif}]]></style>
+<rect width="1600" height="1324" fill="#FFFFFF"/>
+<defs><filter id="wf-b" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter><radialGradient id="wf-e" cx="0.35" cy="0.3" r="0.75"><stop offset="0" stop-color="#C45A3C"/><stop offset="0.55" stop-color="#7D2416"/><stop offset="1" stop-color="#3B0F08"/></radialGradient><radialGradient id="wf-a" cx="0.4" cy="0.35" r="0.7"><stop offset="0" stop-color="#8C826F"/><stop offset="0.6" stop-color="#4B4337"/><stop offset="1" stop-color="#1F1B16"/></radialGradient><radialGradient id="wf-t" cx="0.45" cy="0.35" r="0.7"><stop offset="0" stop-color="#77756E"/><stop offset="1" stop-color="#272623"/></radialGradient></defs>
+<g transform="translate(1500 4) rotate(62 42 50) scale(0.72)"><ellipse cx="65" cy="80" rx="28" ry="44" fill="#000000" opacity="0.2" filter="url(#wf-b)"/><g fill="none" stroke="#1A1714" stroke-linecap="round" stroke-linejoin="round"><path d="M53 46L40 36M67 46L80 36M51 56L34 54M69 56L86 54M53 66L40 82M67 66L80 82" stroke-width="2.6"/><path d="M40 36L34 22M80 36L86 22M34 54L20 64M86 54L100 64M40 82L33 100M80 82L87 100" stroke-width="1.9"/><path d="M34 22L31 12M86 22L89 12M20 64L11 70M100 64L109 70M33 100L30 114M87 100L90 114" stroke-width="1.3"/></g><ellipse cx="60" cy="92" rx="17" ry="23" fill="url(#wf-a)"/><path d="M46 86Q60 80 74 86M45 97Q60 91 75 97M48 107Q60 102 72 107" fill="none" stroke="#17130F" stroke-width="2" opacity="0.6"/><ellipse cx="60" cy="55" rx="16" ry="16" fill="url(#wf-t)"/><path d="M54 43V67M58.5 41V69M61.5 41V69M66 43V67" stroke="#121110" stroke-width="1.6" opacity="0.75"/><path d="M56 60C42 70 32 98 37 120C40 132 51 129 54 117C57 100 59 80 58 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/><path d="M64 60C78 70 88 98 83 120C80 132 69 129 66 117C63 100 61 80 62 62Z" fill="#C9D3DC" fill-opacity="0.4" stroke="#3C3F44" stroke-opacity="0.55" stroke-width="1"/><path d="M54 68C47 84 43 102 42 120M57 74C55 92 53 106 51 122M66 68C73 84 77 102 78 120M63 74C65 92 67 106 69 122" fill="none" stroke="#3C3F44" stroke-opacity="0.4" stroke-width="0.8"/><ellipse cx="60" cy="34" rx="17" ry="10" fill="#2E2A27"/><ellipse cx="50" cy="33" rx="9.5" ry="9" fill="url(#wf-e)"/><ellipse cx="70" cy="33" rx="9.5" ry="9" fill="url(#wf-e)"/><path d="M60 27V38" stroke="#B9B2A3" stroke-width="3" stroke-linecap="round"/><circle cx="47" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/><circle cx="67" cy="29" r="1.6" fill="#FFFFFF" opacity="0.7"/></g>
+<text x="28" y="78" font-size="44" font-weight="700" fill="#222222" text-anchor="start">ขั้นตอนการทำงาน: FlyVec ต้นฉบับ เทียบกับงานนี้</text>
+<rect x="242" y="116" width="626" height="96" rx="20" fill="#FFFFFF" stroke="#222222" stroke-width="5"/>
+<rect x="246" y="112" width="626" height="96" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="555.0" y="160" font-size="34" font-weight="700" fill="#222222" text-anchor="middle">FlyVec ต้นฉบับ</text>
+<text x="555.0" y="196" font-size="24" font-weight="400" fill="#7A6F5C" text-anchor="middle">Liang et al. (2021), ภาษาอังกฤษ</text>
+<rect x="934" y="116" width="626" height="96" rx="20" fill="#FFFFFF" stroke="#222222" stroke-width="5"/>
+<rect x="938" y="112" width="626" height="96" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="1247.0" y="160" font-size="34" font-weight="700" fill="#222222" text-anchor="middle">FlyVec ภาษาไทย (งานนี้)</text>
+<text x="1247.0" y="196" font-size="24" font-weight="400" fill="#7A6F5C" text-anchor="middle">Thai Wikipedia, ภาษาไทย</text>
+<text x="119.0" y="182" font-size="30" font-weight="700" fill="#7A6F5C" text-anchor="middle">ขั้นตอน</text>
+<path d="M555.0 218C558.0 231.0 552.0 231.0 555.0 244" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M546.0 234L555.0 245L564.0 234" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1247.0 218C1250.0 231.0 1244.0 231.0 1247.0 244" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M1238.0 234L1247.0 245L1256.0 234" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="242" y="250" width="626" height="108" rx="20" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<rect x="246" y="246" width="626" height="108" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<rect x="934" y="250" width="626" height="108" rx="20" fill="#FFE89A" stroke="#222222" stroke-width="4"/>
+<rect x="938" y="246" width="626" height="108" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="268" y="294.0" font-size="28" font-weight="700" fill="#222222" text-anchor="start">OpenWebText (ภาษาอังกฤษ)</text>
+<text x="268" y="331.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">32 GB ราว 6,000 ล้านโทเคน</text>
+<text x="960" y="294.0" font-size="28" font-weight="700" fill="#222222" text-anchor="start">Thai Wikipedia</text>
+<text x="960" y="331.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">ราว 10 ล้านโทเคน (22,475 บทความ)</text>
+<path d="M880 306.0C898 298.0 904 310.0 924 304.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M910 292.0L925 304.0L910 316.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="48" cy="304.0" r="20" fill="#FFD13F" stroke="#222222" stroke-width="4"/>
+<text x="48" y="313.0" font-size="26" font-weight="700" fill="#222222" text-anchor="middle">1</text>
+<text x="76" y="313.0" font-size="26" font-weight="700" fill="#222222" text-anchor="start">คลังข้อความ</text>
+<path d="M555.0 364C558.0 377.0 552.0 377.0 555.0 390" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M546.0 380L555.0 391L564.0 380" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1247.0 364C1250.0 377.0 1244.0 377.0 1247.0 390" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M1238.0 380L1247.0 391L1256.0 380" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="242" y="396" width="626" height="108" rx="20" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<rect x="246" y="392" width="626" height="108" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<rect x="934" y="396" width="626" height="108" rx="20" fill="#FFE89A" stroke="#222222" stroke-width="4"/>
+<rect x="938" y="392" width="626" height="108" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="268" y="440.0" font-size="28" font-weight="700" fill="#222222" text-anchor="start">ใช้ช่องว่างระหว่างคำ</text>
+<text x="268" y="477.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">ภาษาอังกฤษเว้นวรรคระหว่างคำอยู่แล้ว</text>
+<text x="960" y="440.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">ตัดประโยคที่ช่องว่างระหว่างอักษรไทย</text>
+<text x="960" y="477.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">ตัดคำด้วย PyThaiNLP (newmm)</text>
+<path d="M880 452.0C898 444.0 904 456.0 924 450.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M910 438.0L925 450.0L910 462.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="48" cy="432.0" r="20" fill="#FFD13F" stroke="#222222" stroke-width="4"/>
+<text x="48" y="441.0" font-size="26" font-weight="700" fill="#222222" text-anchor="middle">2</text>
+<text x="76" y="441.0" font-size="26" font-weight="700" fill="#222222" text-anchor="start">ตัดประโยค</text>
+<text x="76" y="477.0" font-size="26" font-weight="700" fill="#222222" text-anchor="start">และตัดคำ</text>
+<path d="M555.0 510C558.0 523.0 552.0 523.0 555.0 536" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M546.0 526L555.0 537L564.0 526" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1247.0 510C1250.0 523.0 1244.0 523.0 1247.0 536" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M1238.0 526L1247.0 537L1256.0 526" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="242" y="542" width="626" height="145" rx="20" fill="#ECE9E2" stroke="#222222" stroke-width="4"/>
+<rect x="246" y="538" width="626" height="145" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<rect x="934" y="542" width="626" height="145" rx="20" fill="#ECE9E2" stroke="#222222" stroke-width="4"/>
+<rect x="938" y="538" width="626" height="145" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="268" y="604.5" font-size="28" font-weight="400" fill="#222222" text-anchor="start">คลังศัพท์ 20,000 คำ</text>
+<text x="268" y="641.5" font-size="28" font-weight="400" fill="#222222" text-anchor="start">K = 400 Kenyon cells, w = 11</text>
+<text x="960" y="586.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">คลังศัพท์ 20,000 คำ</text>
+<text x="960" y="623.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">K = 400 Kenyon cells, w = 11</text>
+<text x="960" y="660.0" font-size="24" font-weight="400" fill="#7A6F5C" text-anchor="start">(ทดลอง w = 5 และ 15 เพิ่ม)</text>
+<path d="M890 606.5L916 606.5" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M890 622.5L916 622.5" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<circle cx="48" cy="596.5" r="20" fill="#ECE9E2" stroke="#222222" stroke-width="4"/>
+<text x="48" y="605.5" font-size="26" font-weight="700" fill="#222222" text-anchor="middle">3</text>
+<text x="76" y="605.5" font-size="26" font-weight="700" fill="#222222" text-anchor="start">คลังศัพท์</text>
+<text x="76" y="641.5" font-size="26" font-weight="700" fill="#222222" text-anchor="start">และโมเดล</text>
+<path d="M555.0 693C558.0 706.0 552.0 706.0 555.0 719" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M546.0 709L555.0 720L564.0 709" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1247.0 693C1250.0 706.0 1244.0 706.0 1247.0 719" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M1238.0 709L1247.0 720L1256.0 709" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="242" y="725" width="626" height="108" rx="20" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<rect x="246" y="721" width="626" height="108" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<rect x="934" y="725" width="626" height="108" rx="20" fill="#FFE89A" stroke="#222222" stroke-width="4"/>
+<rect x="938" y="721" width="626" height="108" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="268" y="787.5" font-size="28" font-weight="700" fill="#222222" text-anchor="start">15 epoch</text>
+<text x="960" y="769.0" font-size="28" font-weight="700" fill="#222222" text-anchor="start">3 epoch, learning rate 0.3</text>
+<text x="960" y="806.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">NumPy บน CPU คอร์เดียว</text>
+<path d="M880 781.0C898 773.0 904 785.0 924 779.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M910 767.0L925 779.0L910 791.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="48" cy="779.0" r="20" fill="#FFD13F" stroke="#222222" stroke-width="4"/>
+<text x="48" y="788.0" font-size="26" font-weight="700" fill="#222222" text-anchor="middle">4</text>
+<text x="76" y="788.0" font-size="26" font-weight="700" fill="#222222" text-anchor="start">เทรน</text>
+<path d="M555.0 839C558.0 852.0 552.0 852.0 555.0 865" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M546.0 855L555.0 866L564.0 855" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1247.0 839C1250.0 852.0 1244.0 852.0 1247.0 865" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M1238.0 855L1247.0 866L1256.0 855" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="242" y="871" width="626" height="219" rx="20" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<rect x="246" y="867" width="626" height="219" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<rect x="934" y="871" width="626" height="219" rx="20" fill="#FFE89A" stroke="#222222" stroke-width="4"/>
+<rect x="938" y="867" width="626" height="219" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="268" y="933.5" font-size="24" font-weight="700" fill="#7A6F5C" text-anchor="start">ความคล้ายของคำ</text>
+<text x="268" y="970.5" font-size="28" font-weight="400" fill="#222222" text-anchor="start">WS353, SimLex-999, MEN, RW ฯลฯ</text>
+<text x="268" y="1007.5" font-size="24" font-weight="700" fill="#7A6F5C" text-anchor="start">จำแนกเอกสาร</text>
+<text x="268" y="1044.5" font-size="28" font-weight="400" fill="#222222" text-anchor="start">20 Newsgroups, SST-2 ฯลฯ</text>
+<text x="960" y="915.0" font-size="24" font-weight="700" fill="#7A6F5C" text-anchor="start">ความคล้ายของคำ</text>
+<text x="960" y="952.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">TH-WordSim-353, TH-SimLex-999</text>
+<text x="960" y="989.0" font-size="24" font-weight="700" fill="#7A6F5C" text-anchor="start">จำแนกข้อความ</text>
+<text x="960" y="1026.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">wisesight sentiment (ความรู้สึก)</text>
+<text x="960" y="1063.0" font-size="28" font-weight="400" fill="#222222" text-anchor="start">prachathai-67k (หมวดข่าว)</text>
+<path d="M880 982.5C898 974.5 904 986.5 924 980.5" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M910 968.5L925 980.5L910 992.5" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="48" cy="980.5" r="20" fill="#FFD13F" stroke="#222222" stroke-width="4"/>
+<text x="48" y="989.5" font-size="26" font-weight="700" fill="#222222" text-anchor="middle">5</text>
+<text x="76" y="989.5" font-size="26" font-weight="700" fill="#222222" text-anchor="start">ประเมินผล</text>
+<path d="M555.0 1096C558.0 1109.0 552.0 1109.0 555.0 1122" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M546.0 1112L555.0 1123L564.0 1112" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1247.0 1096C1250.0 1109.0 1244.0 1109.0 1247.0 1122" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<path d="M1238.0 1112L1247.0 1123L1256.0 1112" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="242" y="1128" width="626" height="96" rx="20" fill="#FFFFFF" stroke="#222222" stroke-width="4"/>
+<rect x="246" y="1124" width="626" height="96" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<rect x="934" y="1128" width="626" height="96" rx="20" fill="#FFE89A" stroke="#222222" stroke-width="4"/>
+<rect x="938" y="1124" width="626" height="96" rx="20" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="268" y="1184.5" font-size="28" font-weight="400" fill="#222222" text-anchor="start">word2vec, GloVe, BERT</text>
+<text x="960" y="1184.5" font-size="28" font-weight="400" fill="#222222" text-anchor="start">word2vec, fastText, word2vec ไบนารี</text>
+<path d="M880 1178.0C898 1170.0 904 1182.0 924 1176.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M910 1164.0L925 1176.0L910 1188.0" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="48" cy="1176.0" r="20" fill="#FFD13F" stroke="#222222" stroke-width="4"/>
+<text x="48" y="1185.0" font-size="26" font-weight="700" fill="#222222" text-anchor="middle">6</text>
+<text x="76" y="1185.0" font-size="26" font-weight="700" fill="#222222" text-anchor="start">คู่เทียบ</text>
+<rect x="242" y="1262" width="54" height="38" rx="10" fill="#FFE89A" stroke="#222222" stroke-width="3"/>
+<rect x="246" y="1258" width="54" height="38" rx="10" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="316" y="1292" font-size="28" font-weight="400" fill="#222222" text-anchor="start">ปรับสำหรับภาษาไทย</text>
+<rect x="622" y="1262" width="54" height="38" rx="10" fill="#ECE9E2" stroke="#222222" stroke-width="3"/>
+<rect x="626" y="1258" width="54" height="38" rx="10" fill="none" stroke="#222222" stroke-width="1.5"/>
+<text x="696" y="1292" font-size="28" font-weight="400" fill="#222222" text-anchor="start">เหมือนงานต้นฉบับ</text>
+<path d="M1000 1283C1018 1275 1038 1287 1058 1281" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M1044 1269L1059 1281L1044 1293" fill="none" stroke="#222222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1082" y="1292" font-size="28" font-weight="400" fill="#222222" text-anchor="start">เปลี่ยน</text>
+<path d="M1210 1273L1250 1273" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<path d="M1210 1289L1250 1289" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+<text x="1270" y="1292" font-size="28" font-weight="400" fill="#222222" text-anchor="start">เหมือนเดิม</text>
+</svg>
