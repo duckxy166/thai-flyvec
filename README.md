@@ -14,6 +14,15 @@ Thai FlyVec เป็นโครงงานโอเพนซอร์สท�
 
 จัดทำเป็นโครงงานรายวิชา คพ.374 การประมวลภาษาธรรมชาติ (CS374) ภาคการศึกษาที่ 1/2569
 
+## ไฟล์ส่งงาน CS374
+
+| ไฟล์ | เนื้อหา |
+|---|---|
+| [รายงานฉบับย่อ (PDF, 4 หน้า)](docs/report-short.pdf) | ชื่อหัวข้อ, สมาชิก, Introduction, Method (workflow เทียบงานเดิม), Results, Conclusion and Discussion สร้างจาก [`docs/report-short.md`](docs/report-short.md) ด้วย `python scripts/build_report.py` |
+| [สไลด์ (PDF)](docs/slides/slides.pdf) | สไลด์นำเสนอฉบับพิมพ์ สร้างด้วย `python scripts/export_pdf.py docs/slides/index.html docs/slides/slides.pdf` |
+| [รายงานฉบับเต็ม](docs/report.md) | รายละเอียดการทดลองทั้งหมด |
+| [ผลวิเคราะห์ว่า FlyVec เก่งอะไร](results/analysis/summary.md) | คำหายาก, ข้อความที่มีคำนอกคลังศัพท์ และการจัดหมวดข่าว prachathai-67k (D11) |
+
 ## ลองเล่นบนเว็บ
 
 เปิดในเบราว์เซอร์ได้ทันที ไม่ต้องติดตั้งอะไร (คำนวณในเบราว์เซอร์จากโมเดลที่เทรนแล้ว)
