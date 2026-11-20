@@ -259,8 +259,11 @@ def _plot_topic(plt, df, order, path):
         means.append(s.mean())
         stds.append(s.std())
     colors = ["#d95f02" if lab.startswith("FlyVec") else "#7570b3" if "binary" in lab else "#1b9e77" for lab in labels]
-    ax.barh(labels[::-1], means[::-1], xerr=stds[::-1], color=colors[::-1], capsize=3)
-    ax.set_xlabel("prachathai-67k macro-F1 (test)")
+    y = np.arange(len(labels))[::-1]  # dots, not bars: the differences are ~0.01 on a 0.45-0.49 range
+    for yi, m, s, c in zip(y, means, stds, colors):
+        ax.errorbar(m, yi, xerr=s, fmt="o", color=c, capsize=3, markersize=7)
+    ax.set_yticks(y, labels)
+    ax.set_xlabel("prachathai-67k macro-F1 (test, mean ± std over seeds)")
     ax.grid(axis="x", alpha=0.3)
     fig.tight_layout()
     fig.savefig(path, dpi=150)

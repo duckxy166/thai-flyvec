@@ -2,6 +2,13 @@
 
 บันทึกผลทดลองระหว่างทาง ทั้งที่ยังไม่ใช่ผลหลักของรายงาน เพื่อไม่ให้หายไปกับ environment ชั่วคราว
 
+## 2569-11-21 วิเคราะห์ว่า FlyVec เก่งอะไร (issue #58)
+
+รัน `python scripts/run_analysis.py --workers 12` บนเครื่อง Windows (28 คอร์, Python 3.13, ติดตั้งตาม `requirements-lock.txt`) ใช้โมเดลใน `models/lr0.3/` ไม่เทรนใหม่ ตัดคำ prachathai-67k (67,889 ข่าว) ใช้ 3.1 นาทีด้วย 24 process ทั้ง 3 seed ใช้เวลารวมราว 35 นาที `pytest` ผ่าน 80 ข้อ
+
+- ตรวจไปป์ไลน์: macro-F1 wisesight รวมของ seed 0 ตรงกับ `results/runs/lr0.3/raw_results.csv` ทุกแถว (ต่างกัน 0.0)
+- ผลสรุปและเหตุผลของการออกแบบอยู่ใน D11 ตารางเต็มอยู่ใน `results/analysis/summary.md` กราฟอยู่ใน `results/figures/analysis_*.png`
+
 ## 2569-11-17 รันการทดลองหลักใหม่ที่ lr 0.3
 
 รัน w = 5, 11, 15 × seed 0, 1, 2 (9 การตั้งค่า) ด้วย lr 0.3 ซึ่งเป็นค่าเริ่มต้นใหม่ของโค้ด บน `main` หลัง #42 ใน environment บนคลาวด์ (Linux, 4 คอร์, Python 3.13, NumPy 2.5.3, gensim 4.4.0) คลังข้อความที่สร้างใหม่ตรงกับเดิม (22,475 บทความ) และ `pytest` ผ่าน 72 ข้อ
