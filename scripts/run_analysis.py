@@ -53,6 +53,8 @@ SIMILARITY_SETS = {"th-wordsim-353": "th-wordsim-353.csv", "th-simlex-999": "th-
 K_VALUES = (8, 16, 32)
 OOV_GROUPS = ((0.0, 0.0, "0%"), (0.0, 0.1, "0-10%"), (0.1, 0.2, "10-20%"), (0.2, 1.0, ">20%"))
 FREQ_LABELS = ("rare", "mid", "frequent")
+ANALYSIS_MODEL_LABELS = dict(MODEL_LABELS) | {"glove": "GloVe"}
+ANALYSIS_ORDER = ("flyvec", "word2vec_binary", "word2vec", "glove", "fasttext", "fasttext_subword")
 
 
 def embeddings(corpus, models_dir, w, seed, k_values):
@@ -66,6 +68,9 @@ def embeddings(corpus, models_dir, w, seed, k_values):
     for k in k_values:
         yield "word2vec_binary", k, pipeline.binary_embedding(w2v, words, k)
     yield "word2vec", None, pipeline.keyed_embedding(w2v, words, "word2vec")
+    if pipeline.model_path(models_dir, "glove", w, seed).exists():
+        glove = pipeline.load_glove(models_dir, w, seed)
+        yield "glove", None, pipeline.glove_embedding(glove, words)
     yield "fasttext", None, pipeline.keyed_embedding(ft, words, "fasttext")
     yield "fasttext_subword", None, pipeline.keyed_embedding(ft, words, "fasttext + subword", subword_oov=True)
 
@@ -139,7 +144,7 @@ def topic_rows(embeds, prachathai, seed, base, n_jobs) -> list[dict]:
 
 
 def _label(model, k) -> str:
-    name = MODEL_LABELS.get(model, model).replace(" (all pairs)", "")
+    name = ANALYSIS_MODEL_LABELS.get(model, model).replace(" (all pairs)", "")
     return f"{name} k = {int(k)}" if pd.notna(k) else name
 
 
@@ -159,8 +164,8 @@ def _pivot(g, columns, order) -> pd.DataFrame:
 
 def _order(df):
     keys = df[["model", "k"]].drop_duplicates()
-    rank = {m: i for i, m in enumerate(MODEL_LABELS)}
-    keys = keys.assign(r=keys["model"].map(rank), kk=keys["k"].fillna(0)).sort_values(["r", "kk"])
+    rank = {m: i for i, m in enumerate(ANALYSIS_ORDER)}
+    keys = keys.assign(r=keys["model"].map(rank).fillna(len(rank)), kk=keys["k"].fillna(0)).sort_values(["r", "kk"])
     return list(zip(keys["model"], keys["k"]))
 
 
@@ -170,8 +175,14 @@ def summarize(out_dir: Path, fig_dir: Path) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    parts = ["# What FlyVec is good at (issue #58)", "",
-             "Mean ± std over seeds, w = 11. Written by `scripts/run_analysis.py`.", ""]  # fmt: skip
+    has_glove = any(
+        (out_dir / f).exists() and "glove" in set(pd.read_csv(out_dir / f)["model"])
+        for f in ("frequency.csv", "oov.csv", "topic.csv")
+    )
+    subtitle = "Mean ± std over seeds, w = 11. Written by `scripts/run_analysis.py`."
+    if has_glove:
+        subtitle += " Includes GloVe (300d, 50 iterations, w = 11) via `scripts/run_glove.py`."
+    parts = ["# What FlyVec is good at (issue #58)", "", subtitle, ""]
     fig_dir.mkdir(parents=True, exist_ok=True)
 
     path = out_dir / "frequency.csv"
@@ -228,7 +239,14 @@ def _plot_groups(plt, df, value, groups, panel_col, ylabel, path):
     panels = sorted(df[panel_col].unique())
     fig, axes = plt.subplots(1, len(panels), figsize=(5.5 * len(panels), 4), squeeze=False)
     x = np.arange(len(groups))
-    styles = {"flyvec": "-", "word2vec_binary": "--", "word2vec": "-", "fasttext": "-", "fasttext_subword": ":"}
+    styles = {
+        "flyvec": "-",
+        "word2vec_binary": "--",
+        "word2vec": "-",
+        "glove": "-.",
+        "fasttext": "-",
+        "fasttext_subword": ":",
+    }
     for ax, panel in zip(axes[0], panels):
         d = df[df[panel_col] == panel]
         for model, k in _order(d):

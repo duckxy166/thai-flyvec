@@ -15,6 +15,7 @@ import numpy as np
 from . import baselines
 from .evaluate import Embedding, resources
 from .flyvec import K_CELLS, FlyVec
+from .glove import GloVe, cooccurrence_matrix
 from .inputs import windows_from_corpus
 
 KINDS = ("flyvec", "word2vec", "fasttext")
@@ -33,7 +34,7 @@ TEST_WORDS = (
 
 
 def model_path(models_dir: str | Path, kind: str, w: int, seed: int) -> Path:
-    suffix = ".npz" if kind == "flyvec" else ".kv"
+    suffix = ".npz" if kind in ("flyvec", "glove") else ".kv"
     return Path(models_dir) / f"{kind}_w{w}_s{seed}{suffix}"
 
 
@@ -138,3 +139,53 @@ def keyed_embedding(kv, words: list[str], name: str, subword_oov: bool = False) 
 
 def binary_embedding(kv, words: list[str], k: int, name: str = "word2vec binary") -> Embedding:
     return Embedding(words, baselines.binarize(baselines.vocab_matrix(kv, words), k), name=f"{name} k={k}")
+
+
+def train_glove(
+    corpus,
+    models_dir,
+    w: int = 11,
+    seed: int = 0,
+    epochs: int = 50,
+    dim: int = baselines.DIM,
+    lr: float = 0.05,
+    x_max: float = 100.0,
+    alpha: float = 0.75,
+    workers: int = 4,
+) -> dict:
+    """Build the co-occurrence matrix, train GloVe on `corpus`, and save it."""
+    path = model_path(models_dir, "glove", w, seed)
+
+    def train():
+        cooc = cooccurrence_matrix(corpus, window=w)
+        return GloVe(len(corpus.words), dim=dim, seed=seed).fit(
+            cooc, epochs=epochs, lr=lr, x_max=x_max, alpha=alpha, workers=workers
+        )
+
+    result = resources(train, lambda model: model.save(path))
+    model = result.pop("model")
+    return _write_meta(
+        path,
+        result
+        | {
+            "kind": "glove",
+            "w": w,
+            "seed": seed,
+            "epochs": epochs,
+            "dim": dim,
+            "lr": lr,
+            "x_max": x_max,
+            "alpha": alpha,
+            "loss": [h["loss"] for h in model.history],
+        },
+    )
+
+
+def load_glove(models_dir, w: int = 11, seed: int = 0) -> GloVe:
+    return GloVe.load(model_path(models_dir, "glove", w, seed))
+
+
+def glove_embedding(model: GloVe, words: list[str], name: str = "GloVe") -> Embedding:
+    if model.vectors is None:
+        raise RuntimeError("GloVe model is not trained")
+    return Embedding(words, model.vectors, name=name)

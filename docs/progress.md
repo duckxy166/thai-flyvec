@@ -2,6 +2,14 @@
 
 บันทึกผลทดลองระหว่างทาง ทั้งที่ยังไม่ใช่ผลหลักของรายงาน เพื่อไม่ให้หายไปกับ environment ชั่วคราว
 
+## 2569-11-21 เพิ่ม baseline GloVe (w = 11, 3 seed)
+
+รัน `python scripts/run_glove.py --models-dir models/lr0.3 --w 11 --seeds 0 1 2 --epochs 50 --workers 8` บนเครื่อง Windows (28 คอร์, Python 3.13.14, NumPy 2.5.4, `results/analysis/glove_machine.json`) เทรน GloVe 300 มิติ (`x_max = 100`, `alpha = 0.75`, AdaGrad `lr = 0.05`, 50 รอบ) บนคลังข้อความและคลังศัพท์ 20,000 คำชุดเดียวกัน (`w = 11` ได้คู่การเกิดร่วม 10,569,983 คู่) `pytest` ผ่าน 86 ข้อ และเก็บผลแยกใน `results/analysis/` โดยไม่เขียนทับ `results/raw_results.csv`
+
+- ทรัพยากร: เทรนเฉลี่ย 2.03 ± 0.03 นาทีต่อ seed (2.06 / 2.01 / 2.03 นาที, เคอร์เนล C/OpenMP 8 thread), ไฟล์โมเดล `.npz` ขนาด 22.89 MB
+- ผลหลักบนชุดคู่คำและ test เดียวกัน (ค่าเฉลี่ย ± SD ของ 3 seed): TH-WordSim-353 ρ = 0.496 ± 0.009, TH-SimLex-999 ρ = 0.442 ± 0.003, wisesight accuracy = 0.620 ± 0.003, wisesight macro-F1 = 0.413 ± 0.005 (`results/analysis/glove_summary.md`)
+- ผลวิเคราะห์ #58 (`results/analysis/summary.md`): H1 SimLex 0.330 ± 0.003 (คำหายาก) / 0.455 ± 0.006 (คำกลาง) / 0.576 ± 0.002 (คำพบบ่อย), H2 wisesight macro-F1 0.417 / 0.379 / 0.363 / 0.458 ตามกลุ่ม OOV, H3 prachathai-67k macro-F1 0.462 ± 0.002 และ micro-F1 0.587 ± 0.001
+
 ## 2569-11-21 วิเคราะห์ว่า FlyVec เก่งอะไร (issue #58)
 
 รัน `python scripts/run_analysis.py --workers 12` บนเครื่อง Windows (28 คอร์, Python 3.13, ติดตั้งตาม `requirements-lock.txt`) ใช้โมเดลใน `models/lr0.3/` ไม่เทรนใหม่ ตัดคำ prachathai-67k (67,889 ข่าว) ใช้ 3.1 นาทีด้วย 24 process ทั้ง 3 seed ใช้เวลารวมราว 35 นาที `pytest` ผ่าน 80 ข้อ

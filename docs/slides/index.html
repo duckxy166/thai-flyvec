@@ -234,7 +234,7 @@ word2vec ครับ จำแต่ละคำด้วยตัวเลข�
 ตอบ: 400 บิต หาร 8 = 50 ไบต์ต่อคำ ส่วน word2vec คือ 300 ตัวเลข × 4 ไบต์ = 1,200 ไบต์
 
 ถาม: ทำไมไม่ใช้ BERT หรือ LLM
-ตอบ: เป้าหมายคือดูว่าวิธีเล็กๆ ที่เรียนแบบสมองจริงใช้กับภาษาไทยได้ไหม จึงเทียบกับ word2vec ที่เป็นรุ่นและขนาดใกล้กัน ไม่ได้แข่งว่าใครเก่งที่สุด</aside>
+ตอบ: เป้าหมายคือดูว่าวิธีเล็กๆ ที่เรียนแบบสมองจริงใช้กับภาษาไทยได้ไหม จึงเทียบกับ static embedding อย่าง word2vec, GloVe และ fastText ที่เรียนจากคลังเดียวกัน ไม่ได้แข่งว่าใครเก่งที่สุด</aside>
 </section>
 <section id="questions" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:36px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">คำถามวิจัย</h2>
@@ -698,7 +698,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <li>ล้างข้อความ ตัดคำ สร้างคลังศัพท์</li>
 <li>สร้างหน้าต่างบริบท + คำเป้าหมาย (w = 5, 11, 15)</li>
 <li>เทรน FlyVec (NumPy, K = 400, 3 epoch)</li>
-<li>เทรน baseline: word2vec, fastText (gensim, 300 มิติ) และ word2vec ไบนารี</li>
+<li>เทรน baseline: word2vec, GloVe, fastText (300 มิติ) และ word2vec ไบนารี</li>
 <li>ประเมินผล</li>
 <li>ทำตารางและกราฟ</li>
 <li>demo ด้วย Streamlit</li>
@@ -780,7 +780,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 
 ต้นทางคือข้อความดิบจาก Wikipedia ผ่านการล้าง ตัดคำ แล้วหั่นมาให้แมลงวันอ่าน
 
-จากนั้นเทรนแมลงวัน และเทรนคู่แข่งอีก 3 ตัวครับ คือ word2vec, fastText แล้วก็ word2vec ที่บีบให้เป็น 0 กับ 1 เหมือนกับแมลงวัน
+จากนั้นเทรนแมลงวัน และเทรนคู่แข่งอีก 4 ตัวครับ คือ word2vec, GloVe, fastText แล้วก็ word2vec ที่บีบให้เป็น 0 กับ 1 เหมือนกับแมลงวัน
 
 ปลายทางคือสอบทุกตัวครับ ด้วยข้อสอบชุดเดียวกัน แล้วทำตารางกราฟเทียบกัน
 
@@ -1165,22 +1165,23 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 ถาม: learning rate ลดลงระหว่างเทรนไหม
 ตอบ: ลดแบบเส้นตรงจาก 0.3 จนเป็น 0 ตอนจบ ตามโค้ดของ Krotov &amp; Hopfield</aside>
 </section>
-<section id="results" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 140px 160px;display:flex;flex-direction:column;gap:24px">
+<section id="results" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:100px 140px 140px;display:flex;flex-direction:column;gap:20px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">ผลการทดลองบนคลังข้อความจริง</h2>
-<table style="font-size:26px;color:#222222">
+<table style="font-size:24px;color:#222222">
 <tr><th style="width:30%">โมเดล</th><th style="width:13%">ρ SimLex</th><th style="width:13%">ρ WordSim</th><th style="width:16%">F1 ความรู้สึก</th><th style="width:14%">ขนาดตอนใช้</th><th style="width:14%">เวลาเทรน</th></tr>
 <tr><td>FlyVec (k = 32)</td><td>0.361 ± 0.022</td><td>0.439 ± 0.017</td><td>0.422 ± 0.006</td><td>0.95 MB</td><td>6.8 นาที</td></tr>
 <tr><td>word2vec ไบนารี (k = 32)</td><td>0.455 ± 0.030</td><td>0.496 ± 0.010</td><td>0.412 ± 0.018</td><td>0.72 MB</td><td>2.1 นาที</td></tr>
 <tr><td>word2vec</td><td>0.513 ± 0.002</td><td>0.590 ± 0.005</td><td>0.425 ± 0.003</td><td>23.6 MB</td><td>2.1 นาที</td></tr>
+<tr><td>GloVe</td><td>0.442 ± 0.003</td><td>0.496 ± 0.009</td><td>0.413 ± 0.005</td><td>22.9 MB</td><td>2.0 นาที*</td></tr>
 <tr><td>fastText</td><td>0.548 ± 0.001</td><td>0.652 ± 0.005</td><td>0.424 ± 0.003</td><td>252.5 MB</td><td>4.1 นาที</td></tr>
 </table>
-<p style="font-size:24px;line-height:1.4;color:#555555">w = 11, ค่าเฉลี่ย ± SD ของ 3 seed, lr = 0.3 · ρ คิดบนคู่คำที่ทุกโมเดลรู้จัก (SimLex 743 คู่, WordSim 212 คู่) · F1 = macro-F1 บน wisesight test</p>
+<p style="font-size:22px;line-height:1.4;color:#555555">w = 11, ค่าเฉลี่ย ± SD ของ 3 seed, lr = 0.3, ρ คิดบนคู่คำที่ทุกโมเดลรู้จัก (SimLex 743 คู่, WordSim 212 คู่), F1 = macro-F1 บน wisesight test (*GloVe 50 รอบบนเครื่อง 28 คอร์)</p>
 <div style="display:flex;gap:40px;align-items:start">
 <div style="flex:1;display:flex;flex-direction:column">
 <ul style="font-size:28px;line-height:1.6">
-<li>ความคล้ายของคำ: ρ ที่ดีที่สุดของ FlyVec คิดเป็นราว 74–76% ของ word2vec (84–86% ที่ w = 5)</li>
-<li>จำแนกความรู้สึก: สูสี macro-F1 ต่างจาก word2vec 0.003 ซึ่งน้อยกว่า SD</li>
-<li>รหัส FlyVec เล็กกว่า word2vec 24.8 เท่า แต่เทรนนานกว่า 1.7–4.6 เท่า (NumPy 1 คอร์ เทียบ gensim 4 คอร์)</li>
+<li>ความคล้ายของคำ: ρ ที่ดีที่สุดของ FlyVec คิดเป็นราว 74–76% ของ word2vec และราว 89% ของ GloVe</li>
+<li>จำแนกความรู้สึก: สูสี word2vec (ต่าง 0.003) และสูงกว่าหรือเท่ากับ GloVe (0.413)</li>
+<li>รหัส FlyVec เล็กกว่า word2vec และ GloVe ราว 24–25 เท่า</li>
 </ul>
 </div>
 <div style="position:relative;width:380px;height:300px">
@@ -1258,19 +1259,19 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">16</p>
 <aside>มาถึงผลจริงครับ [ชี้แมลงวันบนแท่งเตี้ย] ขอเริ่มจากข่าวไม่ดีก่อน
 
-ข้อสอบความหมายของคำเนี่ย แมลงวันได้ประมาณ 3 ใน 4 ของ word2vec ยังแพ้อยู่ครับ แมลงวันเลยต้องสู้ต่อ แต่ไม่ได้มั่วนะครับ คำใกล้เคียงของมันสมเหตุสมผล เช่นฟุตบอลใกล้กับ สโมสร ทีม ลีก
+ข้อสอบความหมายของคำเนี่ย แมลงวันได้ประมาณ 3 ใน 4 ของ word2vec หรือเกือบ 90% ของ GloVe ยังแพ้อยู่ครับ แมลงวันเลยต้องสู้ต่อ แต่ไม่ได้มั่วนะครับ คำใกล้เคียงของมันสมเหตุสมผล เช่นฟุตบอลใกล้กับ สโมสร ทีม ลีก
 
-ข่าวดีคืองานจริง อย่างการอ่านอารมณ์ แมลงวันได้ 0.422 ครับ word2vec ได้ 0.425 ต่างกันน้อยกว่าผลที่แกว่งเองจากการสุ่มด้วยซ้ำครับ ถือว่าเสมอ แต่ต้องบอกว่าข้อสอบนี้แยกโมเดลได้ไม่ค่อยดี
+ข่าวดีคืองานจริง อย่างการอ่านอารมณ์ แมลงวันได้ 0.422 ครับ word2vec ได้ 0.425 และ GloVe ได้ 0.413 ต่างกันไม่มากครับ ถือว่าสูสี แต่ต้องบอกว่าข้อสอบนี้แยกโมเดลได้ไม่ค่อยดี
 
-ขนาด แมลงวันเล็กกว่า word2vec ราว 25 เท่า
+ขนาด แมลงวันเล็กกว่า word2vec กับ GloVe ราว 24 ถึง 25 เท่า
 
-เวลาเทรน แมลงวันช้ากว่า แต่เทียบตรงๆ ไม่ได้ครับ เพราะของเราเขียนด้วย Python รันคอร์เดียว ของเขาเขียนด้วย C แล้วก็เทรนบน 4 คอร์
+เวลาเทรน แมลงวันช้ากว่า แต่เทียบตรงๆ ไม่ได้ครับ เพราะของเราเขียนด้วย Python รันคอร์เดียว ของเขาเขียนด้วย C และใช้หลาย thread
 
 แล้วบอกตรงๆ ครับว่า word2vec ไบนารีเล็กกว่าแมลงวันนิดนึง และที่ k = 32 ได้คะแนนดีกว่า แมลงวันไม่ใช่ตัวที่เล็กที่สุด
 
 ——— ถ้าอาจารย์ถาม ———
 ถาม: 74% คิดยังไง
-ตอบ: เอาค่า ρ ที่ดีที่สุดของแมลงวันหารด้วยของ word2vec เช่น WordSim 0.439 / 0.590 ≈ 74%, SimLex 0.392 / 0.513 ≈ 76%
+ตอบ: เอาค่า ρ ที่ดีที่สุดของแมลงวันหารด้วยของ word2vec เช่น WordSim 0.439 / 0.590 ≈ 74%, SimLex 0.392 / 0.513 ≈ 76% ส่วนเทียบ GloVe คือ 0.392 / 0.442 ≈ 89%
 
 ถาม: ทำไม fastText ใหญ่ 252 MB
 ตอบ: fastText เก็บเวกเตอร์ของชิ้นส่วนตัวอักษร (n-gram) ด้วย นอกจากเวกเตอร์ของคำ
@@ -1340,14 +1341,14 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <div style="flex:1;display:flex;flex-direction:column;gap:20px">
 <ul style="font-size:32px;line-height:1.7">
 <li>prachathai-67k: ข่าว 67,889 ชิ้น 12 หมวด (ข่าวหนึ่งมีได้หลายหมวด)</li>
-<li>FlyVec k = 32: macro-F1 0.484 เท่ากับ fastText (0.483) สูงกว่า word2vec (0.480)</li>
+<li>FlyVec k = 32: macro-F1 0.484 เท่ากับ fastText (0.483) สูงกว่า word2vec (0.480) และ GloVe (0.462)</li>
 <li>ชนะ word2vec ไบนารีทุก k</li>
-<li>ใช้พื้นที่ 0.95 MB เทียบ 23.6-252.5 MB</li>
+<li>ใช้พื้นที่ 0.95 MB เทียบ 22.9-252.5 MB</li>
 </ul>
 <p style="font-size:28px;line-height:1.5;color:#555555">ตรงกับงานต้นฉบับ: FlyVec เก่ง 20 Newsgroups แต่อ่อน sentiment</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:10px;width:960px">
-<img src="rq4-topic.png" alt="macro-F1 ของงานจัดหมวดข่าว prachathai-67k: FlyVec k = 32 ได้ 0.484 ใกล้ fastText 0.483 และสูงกว่า word2vec 0.480 ส่วน word2vec ไบนารีได้ 0.454 ถึง 0.475" style="width:960px;height:480px;object-fit:contain">
+<img src="rq4-topic.png" alt="macro-F1 ของงานจัดหมวดข่าว prachathai-67k: FlyVec k = 32 ได้ 0.484 ใกล้ fastText 0.483 และสูงกว่า word2vec 0.480 กับ GloVe 0.462 ส่วน word2vec ไบนารีได้ 0.454 ถึง 0.475" style="width:960px;height:480px;object-fit:contain">
 <p style="font-size:22px;line-height:1.4;color:#555555">macro-F1 บน test, w = 11, ค่าเฉลี่ย ± SD ของ 3 seed</p>
 </div>
 </div>
@@ -1356,7 +1357,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 
 ผมให้แมลงวันจัดหมวดข่าวจากประชาไท 67,000 ข่าว 12 หมวด เช่น การเมือง แรงงาน สิ่งแวดล้อม [ชี้กราฟ] จุดสีส้มคือแมลงวัน ยิ่งไปทางขวายิ่งดี
 
-แมลงวันที่เปิด 32 ดวงได้ 0.484 เท่ากับ fastText และสูงกว่า word2vec นิดหน่อย ทั้งที่เล็กกว่า 25 ถึง 265 เท่า และชนะ word2vec ไบนารีทุกค่า k
+แมลงวันที่เปิด 32 ดวงได้ 0.484 เท่ากับ fastText สูงกว่า word2vec นิดหน่อย และชนะ GloVe ที่ 0.462 ทั้งที่เล็กกว่า 24 ถึง 265 เท่า และชนะ word2vec ไบนารีทุกค่า k
 
 ทำไมถึงเก่งงานนี้ครับ เพราะเซลล์ของแมลงวันแต่ละตัวถนัดหัวข้อเฉพาะ อย่างเคมี หรือวันที่ พอเอาคำทั้งข่าวมารวมกัน มันเลยบอกได้ว่าข่าวนี้เรื่องอะไร ซึ่งตรงกับงานต้นฉบับที่แมลงวันเก่ง 20 Newsgroups
 
@@ -1370,17 +1371,17 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <section id="rq4-rare" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:110px 140px 150px;display:flex;flex-direction:column;gap:30px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">แต่อ่อนกับคำหายาก</h2>
 <div style="display:flex;flex-direction:column;gap:16px;align-items:center">
-<img src="rq4-frequency.png" alt="Spearman ρ แยกตามความถี่ของคำ: บน TH-SimLex-999 FlyVec k = 16 ได้ 0.30, 0.28, 0.57 ในกลุ่มคำหายาก กลาง และพบบ่อย เทียบ word2vec 0.43, 0.56, 0.62 บน TH-WordSim-353 เส้นแกว่งมากเพราะกลุ่มละ 70 คู่" style="width:1320px;height:480px;object-fit:contain">
+<img src="rq4-frequency.png" alt="Spearman ρ แยกตามความถี่ของคำ: บน TH-SimLex-999 FlyVec k = 16 ได้ 0.30, 0.28, 0.57 ในกลุ่มคำหายาก กลาง และพบบ่อย เทียบ word2vec 0.43, 0.56, 0.62 และ GloVe 0.33, 0.46, 0.58 บน TH-WordSim-353 เส้นแกว่งมากเพราะกลุ่มละ 70 คู่" style="width:1320px;height:480px;object-fit:contain">
 </div>
 <ul style="font-size:30px;line-height:1.55">
-<li>คำพบบ่อย: FlyVec ได้ 92% ของ word2vec แต่คำหายากและคำกลางเหลือ 50-70% (TH-SimLex-999)</li>
+<li>คำพบบ่อย: FlyVec ได้ 92% ของ word2vec (ใกล้ GloVe 0.576) แต่คำหายากเหลือ 50-70% ของ word2vec</li>
 <li>fastText เก่งคำหายากที่สุดเพราะมี subword</li>
 <li>ข้อความที่มีคำนอกคลังศัพท์มาก (wisesight): FlyVec ไม่ได้อ่อนลงเป็นพิเศษ</li>
 </ul>
 <p style="position:absolute;right:140px;bottom:64px;width:120px;font-size:24px;color:#777777;text-align:right">19</p>
 <aside>แต่แมลงวันก็มีจุดอ่อนครับ [ชี้กราฟซ้าย] ผมแบ่งคู่คำในข้อสอบเป็น 3 กลุ่ม ตามว่าคำนั้นเจอบ่อยแค่ไหนใน Wikipedia
 
-กลุ่มคำพบบ่อยทางขวา แมลงวันได้ 92% ของ word2vec เกือบเท่ากัน แต่กลุ่มคำหายากกับคำกลาง เหลือแค่ครึ่งถึง 70%
+กลุ่มคำพบบ่อยทางขวา แมลงวันได้ 92% ของ word2vec เกือบเท่า GloVe เลยครับ แต่กลุ่มคำหายากกับคำกลาง เหลือแค่ครึ่งถึง 70% ของ word2vec
 
 เหตุผลคือแมลงวันปรับเฉพาะเซลล์ที่ชนะ คำที่เจอน้อยก็ได้เรียนน้อยครั้ง ส่วน fastText เก่งคำหายากที่สุด เพราะมันดูชิ้นส่วนของคำได้
 
@@ -1406,7 +1407,7 @@ FlyVec แค่เปลี่ยนจากกลิ่นเป็นคำ�
 <ul style="font-size:26px;line-height:1.6">
 <li>WangchanBERTa base: ตรวจ checksum, น้ำหนัก, tokenizer, เวอร์ชันไลบรารีแล้ว ตรงหมด น่าจะเป็นที่ checkpoint</li>
 <li>ตัว finetuned พลาด "ร้านนี้เปิดกี่โมงครับ" (ควรเป็น question ได้ neutral)</li>
-<li>ตัว finetuned เทรนบน wisesight เอง จึงเทียบตรงกับ FlyVec ไม่ได้</li>
+<li>ไม่ใช่คู่เทียบตรง: ตัว finetuned เรียนจาก wisesight เอง และโมเดลกลุ่มนี้ pretrain จากคลังอื่นขนาดใหญ่ ไม่ใช่คลัง 10 ล้านโทเคนชุดเดียวกัน</li>
 </ul>
 </div>
 <div style="position:relative;width:460px;height:400px">
@@ -1500,7 +1501,10 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 ตอบ: ยังไม่ได้ลอง เป็นทางเลือกที่จดไว้
 
 ถาม: ถ้าเทียบกับ Transformer แมลงวันแพ้ไหม
-ตอบ: แพ้ในความแม่น แต่โมเดลพวกนั้นใหญ่ระดับร้อยเมกะไบต์ขึ้นไปและต้องใช้การคำนวณมากกว่ามาก คนละรุ่นกัน หน้านี้มีไว้เป็นจุดอ้างอิง ไม่ใช่การแข่งตรงๆ</aside>
+ตอบ: แพ้ในความแม่น แต่โมเดลพวกนั้นใหญ่ระดับร้อยเมกะไบต์ขึ้นไปและใช้การคำนวณมากกว่ามาก คนละรุ่นกัน หน้านี้มีไว้เป็นจุดอ้างอิง ไม่ใช่การแข่งตรงๆ
+
+ถาม: ทำไมไม่ใช้ BERT เป็น baseline ในตารางหลัก
+ตอบ: BERT เป็น contextual embedding ที่มีพารามิเตอร์หลายร้อยล้านตัวและ pretrain จากคลังข้อมูลภายนอกขนาดใหญ่ ไม่ใช่ static embedding ที่เทรนแบบไม่มีผู้สอนจากคลัง 10 ล้านโทเคนชุดเดียวกัน จึงเทียบกับ FlyVec โดยตรงไม่ได้</aside>
 </section>
 <section id="part-conclusion" style="background:#FFD13F;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:120px 160px;display:flex;flex-direction:column;justify-content:center;gap:28px">
 <p style="font-size:44px;font-weight:600;color:#222222">ส่วนที่ 4</p>
@@ -1670,8 +1674,8 @@ MiniLM ครับใช้ได้ดี ประโยคเรื่อง
 <section id="conclusion" style="background:#FFFFFF;color:#222222;font-family:'Mali', 'Noto Sans Thai', Tahoma, sans-serif;padding:110px 140px 150px;display:flex;flex-direction:column;gap:30px">
 <h2 style="font-size:60px;font-weight:700;line-height:1.25;color:#222222">สรุปและอภิปราย</h2>
 <ol style="font-size:38px;line-height:1.7;display:flex;flex-direction:column;gap:18px">
-<li><b>RQ1</b> แมลงวันอ่านภาษาไทยได้ ได้ ρ ราว 74-76% ของ word2vec และชนะ word2vec ไบนารีเมื่อรหัสสั้น (k ≤ 8)</li>
-<li><b>RQ2</b> ใช้งานจริงได้พอๆ กัน ทั้งอ่านอารมณ์และจัดหมวดข่าว ในพื้นที่เล็กกว่า 25 เท่า</li>
+<li><b>RQ1</b> แมลงวันอ่านภาษาไทยได้ ได้ ρ ราว 74-76% ของ word2vec (89% ของ GloVe) และชนะ word2vec ไบนารีเมื่อรหัสสั้น (k ≤ 8)</li>
+<li><b>RQ2</b> ใช้งานจริงได้พอๆ กัน ทั้งอ่านอารมณ์และจัดหมวดข่าว (ชนะ GloVe) ในพื้นที่เล็กกว่า 24-25 เท่า</li>
 <li><b>RQ3</b> k = 16-32 ดีที่สุดโดยรวม</li>
 <li><b>RQ4</b> เก่งแยกหัวข้อ อ่อนคำหายาก: เหมาะกับข้อความภาษาเขียนที่หัวข้อชัด เช่น ข่าว บนอุปกรณ์หน่วยความจำน้อย</li>
 </ol>

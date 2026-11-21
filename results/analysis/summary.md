@@ -1,6 +1,6 @@
 # What FlyVec is good at (issue #58)
 
-Mean ± std over seeds, w = 11. Written by `scripts/run_analysis.py`.
+Mean ± std over seeds, w = 11. Written by `scripts/run_analysis.py`. Includes GloVe (300d, 50 iterations, w = 11) via `scripts/run_glove.py`.
 
 ## H1 rare words: th-wordsim-353 ρ by frequency of the rarer word
 
@@ -15,6 +15,7 @@ rare 71 pairs (count 28-191), mid 70 pairs (count 191-446), frequent 71 pairs (c
 | word2vec binary k = 16 | 0.299 ± 0.095 | 0.419 ± 0.071 | 0.387 ± 0.088 |  |
 | word2vec binary k = 32 | 0.393 ± 0.138 | 0.510 ± 0.035 | 0.485 ± 0.070 |  |
 | word2vec | 0.507 ± 0.004 | 0.578 ± 0.011 | 0.716 ± 0.020 |  |
+| GloVe | 0.397 ± 0.015 | 0.538 ± 0.006 | 0.577 ± 0.015 |  |
 | fastText | 0.645 ± 0.012 | 0.596 ± 0.009 | 0.723 ± 0.007 |  |
 | fastText + subword OOV | 0.645 ± 0.012 | 0.596 ± 0.009 | 0.723 ± 0.007 | 0.512 ± 0.006 |
 
@@ -31,6 +32,7 @@ rare 248 pairs (count 27-129), mid 249 pairs (count 129-417), frequent 246 pairs
 | word2vec binary k = 16 | 0.391 ± 0.012 | 0.419 ± 0.049 | 0.478 ± 0.036 |  |
 | word2vec binary k = 32 | 0.408 ± 0.014 | 0.469 ± 0.015 | 0.542 ± 0.040 |  |
 | word2vec | 0.425 ± 0.003 | 0.555 ± 0.003 | 0.623 ± 0.004 |  |
+| GloVe | 0.330 ± 0.003 | 0.455 ± 0.006 | 0.576 ± 0.002 |  |
 | fastText | 0.481 ± 0.002 | 0.574 ± 0.005 | 0.631 ± 0.002 |  |
 | fastText + subword OOV | 0.481 ± 0.002 | 0.574 ± 0.005 | 0.631 ± 0.002 | 0.505 ± 0.007 |
 
@@ -47,6 +49,7 @@ rare 248 pairs (count 27-129), mid 249 pairs (count 129-417), frequent 246 pairs
 | word2vec binary k = 16 | 0.421 ± 0.029 | 0.335 ± 0.011 | 0.375 ± 0.017 | 0.461 ± 0.033 | 0.411 ± 0.018 |
 | word2vec binary k = 32 | 0.423 ± 0.005 | 0.346 ± 0.020 | 0.377 ± 0.028 | 0.489 ± 0.018 | 0.421 ± 0.010 |
 | word2vec | 0.435 ± 0.014 | 0.376 ± 0.006 | 0.381 ± 0.004 | 0.481 ± 0.004 | 0.426 ± 0.005 |
+| GloVe | 0.417 ± 0.005 | 0.379 ± 0.034 | 0.363 ± 0.013 | 0.458 ± 0.015 | 0.413 ± 0.005 |
 | fastText | 0.437 ± 0.010 | 0.360 ± 0.012 | 0.377 ± 0.002 | 0.484 ± 0.008 | 0.423 ± 0.007 |
 | fastText + subword OOV | 0.429 ± 0.010 | 0.389 ± 0.006 | 0.397 ± 0.015 | 0.438 ± 0.012 | 0.423 ± 0.007 |
 
@@ -61,4 +64,5 @@ rare 248 pairs (count 27-129), mid 249 pairs (count 129-417), frequent 246 pairs
 | word2vec binary k = 16 | 0.469 ± 0.005 | 0.587 ± 0.002 |
 | word2vec binary k = 32 | 0.475 ± 0.004 | 0.590 ± 0.002 |
 | word2vec | 0.480 ± 0.000 | 0.594 ± 0.001 |
+| GloVe | 0.462 ± 0.002 | 0.587 ± 0.001 |
 | fastText | 0.483 ± 0.002 | 0.596 ± 0.001 |
