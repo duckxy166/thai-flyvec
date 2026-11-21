@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="548" viewBox="0 0 960 548" role="img" aria-labelledby="t d">
+<title id="t">เปรียบเทียบขั้นตอนของ FlyVec ต้นฉบับกับงานนี้</title>
+<desc id="d">ผัง 2 สายขนาน ซ้ายคือ FlyVec ต้นฉบับภาษาอังกฤษ ขวาคืองานนี้ภาษาไทย 4 ขั้นตอนต่อฝั่ง กล่องขาวขอบดำและกรอบสีแดงล้อมขั้นตอนที่ปรับสำหรับภาษาไทย</desc>
+<style><![CDATA[@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600&family=Sarabun:wght@400;600&display=swap");
+text{font-family:'Sarabun','Noto Sans Thai',Tahoma,Arial,sans-serif;font-size:16.5px;fill:#1a1a1a}
+.sub{font-size:14px;fill:#555555}
+.redlbl{font-size:14px;fill:#8A1C1C}]]></style>
+<rect width="960" height="548" fill="#ffffff"/>
+<defs>
+<marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,1 L8,4 L0,7 Z" fill="#1a1a1a"/></marker>
+</defs>
+
+<!-- Start ovals -->
+<rect x="95" y="16" width="280" height="40" rx="20" fill="#ffffff" stroke="#111111" stroke-width="2.2"/>
+<text x="235" y="41" text-anchor="middle">FlyVec ต้นฉบับ (ภาษาอังกฤษ)</text>
+<path d="M235,56 V100" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+
+<rect x="585" y="16" width="260" height="40" rx="20" fill="#ffffff" stroke="#111111" stroke-width="2.2"/>
+<text x="715" y="41" text-anchor="middle">งานนี้ (ภาษาไทย)</text>
+<path d="M715,56 V100" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+
+<!-- Red Frame 1 -->
+<rect x="512" y="86" width="406" height="90" rx="12" fill="none" stroke="#A82424" stroke-width="2.3"/>
+<text class="redlbl" x="520" y="78">ปรับสำหรับภาษาไทย</text>
+
+<!-- Step 1: Corpus & preprocessing -->
+<rect x="50" y="100" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="235" y="125" text-anchor="middle">OpenWebText (~6,000M คำ)</text>
+<text class="sub" x="235" y="147" text-anchor="middle">แบ่งคำด้วยช่องว่าง</text>
+
+<rect x="530" y="100" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="715" y="125" text-anchor="middle">Thai Wikipedia (10M คำ)</text>
+<text class="sub" x="715" y="147" text-anchor="middle">ตัดประโยคและตัดคำ (PyThaiNLP)</text>
+
+<path d="M235,162 V202" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+<path d="M715,162 V202" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+
+<!-- Step 2: Shared model architecture -->
+<rect x="50" y="202" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="235" y="227" text-anchor="middle">โมเดล FlyVec (20k คำ, 400 เซลล์)</text>
+<text class="sub" x="235" y="249" text-anchor="middle">หน้าต่าง w = 11, เทรน 15 epoch</text>
+
+<rect x="530" y="202" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="715" y="227" text-anchor="middle">โมเดล FlyVec (20k คำ, 400 เซลล์)</text>
+<text class="sub" x="715" y="249" text-anchor="middle">หน้าต่าง w = 5, 11, 15, เทรน 3 epoch (NumPy)</text>
+
+<path d="M235,264 V312" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+<path d="M715,264 V312" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+
+<!-- Red Frame 2 -->
+<rect x="512" y="296" width="406" height="198" rx="12" fill="none" stroke="#A82424" stroke-width="2.3"/>
+<text class="redlbl" x="520" y="288">คู่เทียบและข้อสอบภาษาไทย</text>
+
+<!-- Step 3: Baselines -->
+<rect x="50" y="312" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="235" y="337" text-anchor="middle">คู่เทียบ: word2vec, GloVe, BERT</text>
+<text class="sub" x="235" y="359" text-anchor="middle">เทียบกับโมเดลภาษาอังกฤษ</text>
+
+<rect x="530" y="312" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="715" y="337" text-anchor="middle">คู่เทียบ: word2vec, GloVe, fastText</text>
+<text class="sub" x="715" y="359" text-anchor="middle">และ word2vec ไบนารี (คลังศัพท์เดียวกัน)</text>
+
+<path d="M235,374 V416" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+<path d="M715,374 V416" fill="none" stroke="#1a1a1a" stroke-width="1.3" marker-end="url(#ah)"/>
+
+<!-- Step 4: Evaluation -->
+<rect x="50" y="416" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="235" y="441" text-anchor="middle">ประเมินความคล้ายคำ + จำแนกเอกสาร</text>
+<text class="sub" x="235" y="463" text-anchor="middle">WS353, SimLex-999, 20 Newsgroups ฯลฯ</text>
+
+<rect x="530" y="416" width="370" height="62" rx="6" fill="#ffffff" stroke="#222222" stroke-width="1.3"/>
+<text x="715" y="441" text-anchor="middle">ประเมินความคล้ายคำ + จำแนกข้อความ</text>
+<text class="sub" x="715" y="463" text-anchor="middle">TH-WordSim, TH-SimLex, wisesight, prachathai</text>
+
+<!-- Bottom notes -->
+<rect x="50" y="516" width="18" height="12" rx="2" fill="none" stroke="#A82424" stroke-width="2"/>
+<text class="sub" x="76" y="527">กรอบแดง = ส่วนที่ปรับสำหรับภาษาไทย</text>
+<text class="sub" x="918" y="527" text-anchor="end">*ไม่เทียบตรงกับ BERT เพราะเป็น contextual ที่ pretrain จากคลังอื่น</text>
+</svg>

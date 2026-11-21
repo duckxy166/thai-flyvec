@@ -10,7 +10,7 @@
 
 Thai FlyVec เป็นโครงงานโอเพนซอร์สที่นำ FlyVec (Liang et al., ICLR 2021) มาเทรนกับภาษาไทยเป็นครั้งแรก FlyVec แทนแต่ละคำด้วยรหัสไบนารีขนาด 400 บิต ซึ่งมีบิตที่เป็น 1 เพียง k บิต แทนเวกเตอร์ทศนิยม 300 มิติแบบ word2vec จึงใช้หน่วยความจำน้อยกว่ามาก และวัดความคล้ายของคำได้ด้วยการนับบิตที่ซ้อนกัน
 
-โครงงานนี้เปรียบเทียบ FlyVec กับ word2vec และ fastText โดยใช้คลังข้อความ ผลการตัดคำ คลังศัพท์ และชุดทดสอบชุดเดียวกันทั้งหมด เพื่อให้การเปรียบเทียบเป็นธรรม
+โครงงานนี้เปรียบเทียบ FlyVec กับ word2vec, GloVe และ fastText โดยใช้คลังข้อความ ผลการตัดคำ คลังศัพท์ และชุดทดสอบชุดเดียวกันทั้งหมด เพื่อให้การเปรียบเทียบเป็นธรรม
 
 จัดทำเป็นโครงงานรายวิชา คพ.374 การประมวลภาษาธรรมชาติ (CS374) ภาคการศึกษาที่ 1/2569
 
@@ -20,7 +20,6 @@ Thai FlyVec เป็นโครงงานโอเพนซอร์สท�
 |---|---|
 | [รายงานฉบับย่อ (PDF, 4 หน้า)](docs/report-short.pdf) | ชื่อหัวข้อ, สมาชิก, Introduction, Method (workflow เทียบงานเดิม), Results, Conclusion and Discussion สร้างจาก [`docs/report-short.md`](docs/report-short.md) ด้วย `python scripts/build_report.py` |
 | [สไลด์ (PDF)](docs/slides/slides.pdf) | สไลด์นำเสนอฉบับพิมพ์ สร้างด้วย `python scripts/export_pdf.py docs/slides/index.html docs/slides/slides.pdf` |
-| [รายงานฉบับเต็ม](docs/report.md) | รายละเอียดการทดลองทั้งหมด |
 | [ผลวิเคราะห์ว่า FlyVec เก่งอะไร](results/analysis/summary.md) | คำหายาก, ข้อความที่มีคำนอกคลังศัพท์ และการจัดหมวดข่าว prachathai-67k (D11) |
 
 ## ลองเล่นบนเว็บ
@@ -132,7 +131,7 @@ streamlit run app/streamlit_app.py       # demo: พิมพ์คำ แล้
 | 2 | ตัดคำ (PyThaiNLP newmm), ตัดประโยค, คลังศัพท์ 20,000 คำ | `scripts/preprocess_corpus.py`, `src/thai_flyvec/preprocess.py` |
 | 3 | สร้าง input แบบบริบท + คำเป้าหมาย (หน้าต่าง w คำ) | `src/thai_flyvec/inputs.py` |
 | 4 | เทรน FlyVec ด้วย NumPy (K = 400, k = 4, 8, 16, 32, 64) | `scripts/train_flyvec.py`, `src/thai_flyvec/flyvec.py` |
-| 5 | Baseline: word2vec, fastText (gensim, 300 มิติ) และ word2vec แบบไบนารี | `scripts/train_baselines.py`, `src/thai_flyvec/baselines.py` |
+| 5 | Baseline: word2vec, fastText (gensim, 300 มิติ), GloVe และ word2vec แบบไบนารี | `scripts/train_baselines.py`, `src/thai_flyvec/baselines.py`, `scripts/run_glove.py`, `src/thai_flyvec/glove.py` |
 | 6 | ประเมินผล | `scripts/run_experiments.py`, `src/thai_flyvec/evaluate.py` |
 | 7 | ตารางและกราฟผลลัพธ์ | `scripts/summarize_results.py`, `src/thai_flyvec/report.py`, `notebooks/results.ipynb` |
 | 8 | Demo Streamlit | `app/streamlit_app.py` |
